@@ -1,0 +1,43 @@
+from django.shortcuts import render
+
+def Home(request):
+    return render(request,'Home.html')
+def Restaurants(request):
+    return render(request,"Restaurants.html")
+def Cart(request):
+    return render(request,"Cart.html")
+def Profile(request):
+    return render(request,"Profile.html")
+def Menu(request):
+    return render(request,"Menu.html")
+def ShoppingInfo(request):
+    return render(request,"Shopping-Info.html")
+def Address(request):
+    return render(request,"Address.html")
+def PaymentNoCard(request):
+    return render(request,"Payment-no-card.html")
+def AddAddress(request):
+    return render(request,"Add-address.html")
+def AddCard(request):
+    return render(request,"Add-card.html")
+def PaymentCard(request):
+    return render(request,"Payment-have-card.html")
+def PaymentSuccess(request):
+    return render(request,"Payment-success.html")
+def Delivery(request):
+    return render(request,"Delivery.html")
+def MyAddresses(request):
+    return render(request,"My-address.html")
+def Favourites(request):
+    return render(request,"Favourite.html")
+def OrderHistory(request):
+    return render(request,"My-order-history.html")
+def Notifications(request):
+    return render(request,"Notification.html")
+def Payment(request):
+    return render(request,"Payment.html")
+def Settings(request):
+    return render(request,"Settings.html")
+def Logout(request):
+    return render(request,"Logout.html")
+# Create your views here.

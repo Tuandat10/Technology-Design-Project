@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <title>
+            Restaurants Menu
+        </title>
+            <script src="https://cdn.tailwindcss.com"></script>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+            <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
+        <style>
+        body {
+                    background-color: #fff;
+                }
+        </style>
+    </head>
+
+    <body>
+    <!-- Header -->
+    {% extends 'base.html' %}
+    {% block content %}
+    {% load static %}   
+    <!-- Main Content -->
+    <main class="my-10">
+    <div class="bg-white p-6 rounded-lg">
+        <div class="grid grid-cols-3 gap-4">
+            <div class="col-span-1">
+                <img alt="Crunchwrap Supreme Meal Image" height="500" class="rounded-lg" src="{% static 'img/menu1.png' %}" width="700"/>
+            </div>
+        <div class="col-span-2">
+        <h1 class="text-2xl font-bold text-gray-900">
+            Crunchwrap Supreme Meal
+        </h1>
+        <p class="text-sm text-gray-600">
+            Mexican - Fast food - Healthy - Tacos
+        </p>
+        <div class="text-green-600 font-bold my-2">
+            open now
+        </div>
+        <div class="text-gray-900 my-1">
+            11:00 am - 9:30 pm Everyday
+        </div>
+        <div class="flex items-center my-2 border-2 w-12 rounded-full">
+            <i class="fas fa-star text-orange-600"></i>
+            <span class="text-gray-600">
+            4.9
+            </span>
+        </div>
+        <button class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">
+            Add Review
+        </button>
+        <button class="text-gray-600 px-4 py-2 ml-2">
+            <i class="far fa-heart">
+            </i>
+        </button>
+        </div>
+    </div>
+
+    <!-- Type of food -->
+    <div class="mt-6">
+    <ul class="flex space-x-4 border-b-2 border-orange-500">
+        <li>
+            <a class="text-orange-500 border-b-2 border-orange-500 pb-2" href="#">
+            Featured items
+            </a>
+        </li>
+        <li>
+            <a class="text-gray-600 hover:text-orange-500 pb-2" href="#">
+            Recommended
+            </a>
+        </li>
+        <li>
+            <a class="text-gray-600 hover:text-orange-500 pb-2" href="#">
+            Boxed Meals
+            </a>
+        </li>
+        <li>
+            <a class="text-gray-600 hover:text-orange-500 pb-2" href="#">
+            Group Meals
+            </a>
+        </li>
+        <li>
+            <a class="text-gray-600 hover:text-orange-500 pb-2" href="#">
+            Crunchwraps
+            </a>
+        </li>
+        <li>
+            <a class="text-gray-600 hover:text-orange-500 pb-2" href="#">
+            Burritos
+            </a>
+        </li>
+        <li>
+            <a class="text-gray-600 hover:text-orange-500 pb-2" href="#">
+            Tacos
+            </a>
+        </li>
+        <li>
+            <a class="text-gray-600 hover:text-orange-500 pb-2" href="#">
+            Nachos
+            </a>
+        </li>
+    </ul>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 mt-4">
+        <!-- Menu 1 -->
+        <div id="Menu1" class="menu-item bg-orange-100 p-4 shadow rounded relative">
+            <div class="relative">
+                <img alt="Quesadilla Meal Image" height="200" src="{% static 'img/menu2.png' %}" width="300" class="rounded-lg" />
+                <button class="menu-add-btn">
+                    <i class="fas fa-plus-square text-orange-500 text-3xl absolute top-0 right-0 mt-2 mr-2 hover:text-orange-700"></i>
+                </button>
+            </div>
+            <h3 class="text-lg font-bold mt-2">Quesadilla Meal</h3>
+            <div class="flex items-center my-1">
+                <span class="text-orange-500">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </span>
+                <span class="text-gray-600 ml-2">(760)</span>
+            </div>
+            <p class="text-gray-900">$16.25</p>
+            <p class="text-sm text-gray-600">Your choice of DOUBLE filling with creamy Jalapeno mayo, grilled between a tortilla with oozing melted cheese and served with hot or tortilla chips and a drink.</p>
+        </div>
+       
+        <!-- Menu 2 -->
+        <div id="Menu2" class="menu-item bg-orange-100 p-4 shadow rounded relative">
+            <div class="relative">
+                <img alt="Stacked Tortilla Chips Image" height="200" src="{% static 'img/menu3.png' %}" width="300" class="rounded-lg" />
+                <button class="menu-add-btn">
+                    <i class="fas fa-plus-square text-orange-500 text-3xl absolute top-0 right-0 mt-2 mr-2 hover:text-orange-700"></i>
+                </button>
+            </div>
+            <h3 class="text-lg font-bold mt-2">Stacked Tortilla Chips</h3>
+            <div class="flex items-center my-1">
+                <span class="text-orange-500">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </span>
+                <span class="text-gray-600 ml-2">(1750)</span>
+            </div>
+            <p class="text-gray-900">$14.75</p>
+            <p class="text-sm text-gray-600">Our seasoned tortilla chips topped with your choice of filling (meat or black beans), Nacho Cheese Sauce, sour cream, guacamole and fiesta salsa.</p>
+        </div>
+    </div>
+    </div>
+    <script src="{% static 'UserNavigation.js' %}"></script>
+    </body>
+    <!-- Foot-->
+    {% endblock %}
+</html>

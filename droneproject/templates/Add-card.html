@@ -1,0 +1,183 @@
+<html>
+    <head>
+        <title>
+            Card
+        </title>
+        <script src="https://cdn.tailwindcss.com">
+        </script>
+        <script src="UserNavigation.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+        <style>
+         body {
+                  background-color: #fff;
+              }
+        </style>
+    </head>
+
+
+    <body>
+    <!-- Header -->
+    <header class="flex justify-between items-center h-14 bg-orange-500">
+        <div class="flex items-center">
+            <img alt="WingWays Logo" class="mr-1" height="10" src="img/logo-white-transparent.png" width="100"/>
+            <div class="relative mx-10">
+                <input class="pl-10 pr-20 py-2 rounded-full" placeholder="Search" type="text"/>
+                <i class="fas fa-search absolute left-3 top-3 text-gray-400">
+                </i>
+            </div>
+            <nav class="flex items-center">
+                <ul class="flex space-x-5">
+                    <li>
+                        <a class="mx-2 text-white hover:text-orange-700" href="Home.html">
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a class="mx-2 text-white hover:text-orange-700" href="Restaurants.html">
+                            Restaurants
+                        </a>
+                    </li>
+                    <li>
+                        <a class="mx-2 text-white hover:text-orange-700" href="#">
+                            About Us
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="relative mx-2">
+            <a class="mx-2 fas fa-shopping-cart text-orange-900 text-2xl hover:text-orange-700" href="Cart.html">
+            </a>
+            <a class="mx-2 fas fa-user-circle text-white text-4xl" href="Profile.html">
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-6">
+        <div class="container mx-auto mt-10 mb-10">
+            <div class="flex justify-center space-x-20 items-center mb-4">
+             <div class="step-container flex flex-col items-center w-full h-full">
+                <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">1</div>
+                <div>Shopping Cart</div>
+             </div>
+        
+             <div class="step-container flex flex-col items-center w-full h-full">
+                <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">2</div>
+                <div>Shopping Info</div>
+             </div>
+        
+             <div class="step-container flex flex-col items-center w-full h-full">
+                <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">3</div>
+                <div>Address</div>
+             </div>
+        
+             <div class="step-container flex flex-col items-center w-full h-full">
+                <div class="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold hover:bg-orange-300">4</div>
+                <div class="text-orange-500">Payment Method</div>
+             </div>
+        </div>
+            <p class="text-white mt-10 mb-2 mx-10">    
+            - 
+            </p>
+        
+        <!-- Add card -->
+        <div class="bg-orange-200 p-6 rounded-lg mt-10 mx-10">
+            <div class="flex justify-end">
+                <button class="text-gray-600 text-3xl mt-2 mb-2 mx-4 close-button">
+                    <i class="far fa-window-close"></i>
+                </button>
+            </div>
+            <h2 class="text-2xl font-bold my-4 mx-10">
+                Add Card
+            </h2>
+            <form class="mx-10">
+                <div class="mb-6">
+                    <label class="block mb-2" for="cardholder">
+                        Card Holder Name
+                    </label>
+                    <input class="w-full px-3 py-2 border shadow-lg rounded-lg" id="cardholder" type="text"/>
+                </div>
+                <div class="mb-6">
+                    <label class="block mb-2" for="cardnumber">
+                        Card Number
+                    </label>
+                    <input class="w-full px-3 py-2 border shadow-lg rounded-lg" id="cardnumber" type="text"/>
+                </div>
+                <div class="flex mb-6">
+                    <div class="mr-10">
+                        <label class="block mb-2" for="expiredate">
+                            Expire Date
+                        </label>
+                        <input class="px-3 py-2 border shadow-lg rounded-lg" id="expiredate" placeholder="mm/yyyy" type="text"/>
+                    </div>
+                    <div>
+                        <label class="block mb-2" for="cvc">
+                            CVC
+                        </label>
+                        <input class="px-3 py-2 border shadow-lg rounded-lg" id="cvc" placeholder="***" type="text"/>
+                    </div>
+                </div>
+
+                <button class="mx-4 mt-4 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 save-button" type="submit">
+                    Save
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Foot-->
+    <footer class="bg-orange-500 mt-8 p-4">
+        <div class="container mx-auto flex flex-col lg:flex-row justify-between items-center text-white">
+            <div class="w-full lg:w-auto" >
+                <p class="font-bold">Company</p>
+                <ul>
+                    <li>About Us</li>
+                    <li>Blog</li>
+                    <li>Contact Us</li>
+                    <li>Testimonials</li>
+                </ul>
+            </div>
+            <div class="w-full lg:w-auto mt-4 lg:mt-0">
+                <p class="font-bold">Support</p>
+                <ul>
+                    <li>Help Center</li>
+                    <li>Terms of Service</li>
+                    <li>Privacy Policy</li>
+                </ul>
+            </div>
+            <div class="w-full lg:w-auto mt-4 lg:mt-0">
+                <h3 class="font-bold">
+                Stay up to date
+                </h3>
+                <form>
+                <input class="p-2 rounded-lg" placeholder="Your email address" type="text"/>
+                <button class="bg-white text-orange-500 p-2 rounded-lg" type="submit">
+                <i class="fas fa-paper-plane">
+                </i>
+                </button>
+                </form>
+            </div>
+            <div class="flex space-x-5">
+                <a href="#">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="#">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+            </div>
+        </div>
+        <div class="text-white text-center mt-4">
+            Copyright © 2024 Drone food delivery website
+                    All rights reserved
+        </div>
+    </footer>
+    </body>
+
+</html>

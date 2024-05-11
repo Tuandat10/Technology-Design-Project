@@ -1,0 +1,266 @@
+<html>
+    <head>
+        <title>
+            Home
+        </title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+        <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
+        <style>
+        body {
+                    background-color: #fff;
+                }
+        </style>
+    </head>
+
+
+    <body>
+    <!-- Header -->
+    {% extends 'base.html' %}
+    {% block content %}
+    {% load static %}
+    <!-- Main Content -->
+    <main class="mx-10 my-6 grid grid-cols-3 gap-10 py-4">
+        <!-- Resto 1 -->
+        <div id="Resto1" class="restaurant-item bg-orange-200 p-4 rounded-lg">
+            <img alt="McDonald's meal image" class="mb-2 rounded-lg" height="300" src="{% static 'img/meal1.jpg' %}" width="500"/>
+            <h2 class="font-semibold">
+              McDonald's
+            </h2>
+            <p>
+              9.99$ for two
+            </p>
+            <p>
+              7 min
+            </p>
+            <div class="text-orange-400">
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star-half-alt">
+                </i>
+            </div>
+        </div>
+
+        <!-- Resto 2 -->
+        <a href="{% url 'Menu' %}">
+          <div id="Resto2" class="restaurant-item bg-orange-200 p-4 rounded-lg hover:bg-orange-300">
+                <img alt="Taco Bell meal image" class="mb-2 rounded-lg" height="300" src="{% static 'img/meal2.jpg' %}" width="500"/>
+                <h2 class="font-semibold">
+                  Taco Bell
+                </h2>
+                <p>
+                  10.95$ free 1
+                </p>
+                <p>
+                  12 min
+                </p>
+                <div class="text-orange-400">
+                    <i class="fas fa-star">
+                    </i>
+                    <i class="fas fa-star">
+                    </i>
+                    <i class="fas fa-star">
+                    </i>
+                    <i class="fas fa-star">
+                    </i>
+                    <i class="fas fa-star">
+                    </i>
+              </div>
+          </div>
+        </a>
+
+        <!-- Resto 3 -->
+          <div id="Resto3" class="restaurant-item bg-orange-200 p-4 rounded-lg">
+              <img alt="Generic food image" class="mb-2 rounded-lg" height="300" src="{% static 'img/food1.jpg' %}" width="500"/>
+              <h2 class="font-semibold">
+                Food
+              </h2>
+              <p>
+                xx.xx$
+              </p>
+              <p>
+                xx min
+              </p>
+              <div class="text-orange-400">
+                  <i class="fas fa-star">
+                  </i>
+                  <i class="fas fa-star">
+                  </i>
+                  <i class="fas fa-star">
+                  </i>
+                  <i class="fas fa-star">
+                  </i>
+                  <i class="fas fa-star">
+                  </i>
+              </div>
+          </div>
+
+        <!-- Resto 4 -->
+        <div id="Resto4" class="bg-orange-200 p-4 rounded-lg">
+            <img alt="Placeholder image for food" class="mb-2 rounded-lg" height="300" src="{% static 'img/food1.jpg' %}" width="500"/>
+            <h2 class="font-semibold">
+              Food
+            </h2>
+            <p>
+              xx.xx$
+            </p>
+            <p>
+              xx min
+            </p>
+            <div class="text-orange-400">
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+            </div>
+        </div>
+
+        <!-- Resto 5 -->
+        <div id="Resto5" class="bg-orange-200 p-4 rounded-lg">
+            <img alt="Placeholder image for food" class="mb-2 rounded-lg" height="300" src="{% static 'img/food1.jpg' %}" width="500"/>
+            <h2 class="font-semibold">
+              Food
+            </h2>
+            <p>
+              xx.xx$
+            </p>
+            <p>
+              xx min
+            </p>
+            <div class="text-orange-400">
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+            </div>
+        </div>
+
+        <!-- Resto 6 -->
+        <div id="Resto6" class="bg-orange-200 p-4 rounded-lg">
+            <img alt="Placeholder image for food" class="mb-2 rounded-lg" height="300" src="{% static 'img/food1.jpg' %}" width="500"/>
+            <h2 class="font-semibold">
+              Food
+            </h2>
+            <p>
+              xx.xx$
+            </p>
+            <p>
+              xx min
+            </p>
+            <div class="text-orange-400">
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+            </div>
+        </div>
+
+        <!-- Resto 7 -->
+        <div id="Resto7" class="bg-orange-200 p-4 rounded-lg">
+            <img alt="Placeholder image for food" class="mb-2 rounded-lg" height="300" src="{% static 'img/food1.jpg' %}" width="500"/>
+            <h2 class="font-semibold">
+            Food
+            </h2>
+            <p>
+            xx.xx$
+            </p>
+            <p>
+            xx min
+            </p>
+            <div class="text-orange-400">
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+            </div>
+        </div>
+    
+        <!-- Resto 8 -->
+        <div id="Resto8" class="bg-orange-200 p-4 rounded-lg">
+            <img alt="Placeholder image for food" class="mb-2 rounded-lg" height="300" src="{% static 'img/food1.jpg' %}" width="500"/>
+            <h2 class="font-semibold">
+            Food
+            </h2>
+            <p>
+            xx.xx$
+            </p>
+            <p>
+            xx min
+            </p>
+            <div class="text-orange-400">
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+            </div>
+        </div>
+    
+        <!-- Resto 9 -->
+        <div id="Resto9" class="bg-orange-200 p-4 rounded-lg">
+            <img alt="Placeholder image for food" class="mb-2 rounded-lg" height="300" src="{% static 'img/food1.jpg' %}" width="500"/>
+            <h2 class="font-semibold">
+            Food
+            </h2>
+            <p>
+            xx.xx$
+            </p>
+            <p>
+            xx min
+            </p>
+            <div class="text-orange-400">
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+                <i class="fas fa-star">
+                </i>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Foot-->
+    <script src="{% static 'UserNavigation.js' %}"></script>
+    </body>
+    {% endblock %}
+</html>

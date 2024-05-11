@@ -1,0 +1,174 @@
+<html>
+    <head>
+        <title>
+            Settings - Address
+        </title>
+        <script src="https://cdn.tailwindcss.com">
+        </script>
+        <script src="UserNavigation.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+        <style>
+         body {
+                  background-color: #fff;
+              }
+        </style>
+    </head>
+
+
+    <body>
+    {% extends 'base.html' %}
+    {% block content %}
+    {% load static %}
+    <!-- Header -->
+  
+    <!-- Main Content -->
+    <div class="flex flex-row mb-10 mt-10 mx-10">
+        <div class="flex flex-col mb-10 mt-10 mx-10">
+            <!-- Sidebar -->
+            <!-- 1st block -->
+            <div class="bg-orange-200 p-4 rounded-lg mb-6">
+                <div class="flex flex-col space-y-4 my-2 mx-4">
+                    <button class="sidebar-button flex items-center space-x-2 hover:text-orange-600" data-url="{% url 'Profile' %}">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Personal Info</span>
+                    </button>
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 font-extrabold text-orange-700 hover:text-orange-600" data-url="{% url 'My-address' %}">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>My address</span>
+                    </button>
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'Favourite' %}">
+                            <i class="fas fa-heart"></i>
+                    <span>Favorite</span>
+                    </button>
+                </div>
+            </div>
+        
+            <!-- 2nd block -->
+            <div class="bg-orange-200 p-4 rounded-lg mb-6">
+                <div class="flex flex-col space-y-4 my-2 mx-4">
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'My-order-history' %}">
+                        <i class="fas fa-history"></i>
+                        <span>Order History</span>
+                    </button>
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'Notification' %}">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
+                    </button>
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'Payment' %}">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Payment Method</span>
+                    </button>
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'Settings' %}">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </button>
+                </div>
+            </div>
+        
+            <!-- 3rd block -->
+            <div class="bg-orange-200 p-4 rounded-lg mb-6">
+                <div class="sidebar-button flex flex-col space-y-4 my-2 mx-4">
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'Logout' %}">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Log Out</span>
+                    </button>
+                </div>
+            </div>
+            </div>
+
+
+
+        <!-- Main Section -->
+        <div class="w-2/3 mx-10 mt-10">
+            <!-- Address Info -->
+            <div class="space-y-4">
+                <div class="bg-orange-200 p-4 rounded-lg mx-2">
+                    <div class="my-2 mx-2">
+                        <input type="radio" name="address" checked class="mr-2">
+                        <span class="text-xl">Pinsawan Srisai</span>
+                        <div class="text-l text-orange-800">
+                            <p>Street: 502/639 Little Bourke Street City: Melbourne</p>
+                            <p>State/Province: Victoria</p>
+                            <p>Zip Code: 3000 Phone Number: 0452362289</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-orange-200 p-4 rounded-lg mx-2">
+                    <div class="my-2 mx-2">
+                        <input type="radio" name="address" class="mr-2">
+                        <span class="text-xl">Pinsawan Srisai</span>
+                        <div class="text-l text-orange-800">
+                            <p>Street: 55 Camberwell Road City: Melbourne</p>
+                            <p>State/Province: Victoria</p>
+                            <p>Zip Code: 3123 Phone Number: 0402624506</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Add new card -->
+            <div class="mx-10">
+                <button class="border-2 w-full mt-4 bg-gray-100 text-orange-500 py-2 px-4 rounded-lg hover:bg-gray-200 hover:text-orange-700">
+                    + ADD NEW ADDRESS
+                </button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+    <!-- Foot-->
+    <footer class="bg-orange-500 mt-8 p-4">
+        <div class="container mx-auto flex flex-col lg:flex-row justify-between items-center text-white">
+            <div class="w-full lg:w-auto" >
+                <p class="font-bold">Company</p>
+                <ul>
+                    <li>About Us</li>
+                    <li>Blog</li>
+                    <li>Contact Us</li>
+                    <li>Testimonials</li>
+                </ul>
+            </div>
+            <div class="w-full lg:w-auto mt-4 lg:mt-0">
+                <p class="font-bold">Support</p>
+                <ul>
+                    <li>Help Center</li>
+                    <li>Terms of Service</li>
+                    <li>Privacy Policy</li>
+                </ul>
+            </div>
+            <div class="w-full lg:w-auto mt-4 lg:mt-0">
+                <h3 class="font-bold">
+                Stay up to date
+                </h3>
+                <form>
+                <input class="p-2 rounded-lg" placeholder="Your email address" type="text"/>
+                <button class="bg-white text-orange-500 p-2 rounded-lg" type="submit">
+                <i class="fas fa-paper-plane">
+                </i>
+                </button>
+                </form>
+            </div>
+            <div class="flex space-x-5">
+                <a href="#">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="#">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+            </div>
+        </div>
+        <div class="text-white text-center mt-4">
+            Copyright © 2024 Drone food delivery website
+                    All rights reserved
+        </div>
+    </footer>
+    <script src="{% static 'UserNavigation.js' %}"></script>
+    </body>
+    {% endblock %}
+</html>
