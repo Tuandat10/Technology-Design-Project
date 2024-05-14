@@ -6,7 +6,7 @@ urlpatterns = [
     path("Restaurants/",views.Restaurants,name="Restaurants"),
     path("Cart/",views.Cart,name="Cart"),
     path("Profile/",views.Profile, name="Profile"),
-    path("Menu/",views.Menu, name="Menu"),
+    path("Menu/<str:pk>",views.Menu, name="Menu"),
     path("Shopping-Info/",views.ShoppingInfo, name="Shopping-Info"),
     path("Address/",views.Address, name="Address"),
     path("Add-address/",views.AddAddress, name="Add-address"),
@@ -22,5 +22,7 @@ urlpatterns = [
     path("Payment/",views.Payment, name="Payment"),
     path("Settings/",views.Settings, name="Settings"),
     path("Logout/",views.Logout, name="Logout"),
+    path("Signin/",views.Signin, name="Signin"),
+    path("Categories/<str:pk>",views.Categories, name="Categories"),
 
 ]

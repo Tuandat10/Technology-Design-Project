@@ -56,14 +56,27 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Navigate to Track Order
-document.addEventListener('DOMContentLoaded', function () {
-    var trackOrderButton = document.querySelector('.track-order-button');
-    if (trackOrderButton) {
-        trackOrderButton.addEventListener('click', function () {
-            window.location.href = 'Delivery.html';
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Document is button');
+    const trackOrder = document.querySelectorAll('.track-order-button');
+    trackOrder.forEach(function(trackOrder, index) {
+        trackOrder.addEventListener('click', function() {
+            const destinationUrl = trackOrder.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
+            }
         });
-    }
-});  
+    });
+});
+// document.addEventListener('DOMContentLoaded', function () {
+//     var trackOrderButton = document.querySelector('.track-order-button');
+//     if (trackOrderButton) {
+//         trackOrderButton.addEventListener('click', function () {
+//             window.location.href = 'Delivery.html';
+//         });
+//     }
+// });  
 
 
 
@@ -151,48 +164,47 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Navigate between the steps (in cart page)
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Document is button');
     const stepContainers = document.querySelectorAll('.step-container');
     stepContainers.forEach(function(stepContainer, index) {
         stepContainer.addEventListener('click', function() {
-            let targetPage = '';
-            switch (index) {
-                case 0:
-                    targetPage = 'Cart.html';
-                    break;
-                case 1:
-                    targetPage = 'Shopping-Info.html';
-                    break;
-                case 2:
-                    targetPage = 'Address.html';
-                    break;
-                case 3:
-                    targetPage = 'Payment-no-card.html';
-                    break;
-                default:
-                    break;
+            const destinationUrl = stepContainer.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
             }
-            if (targetPage) {
-                window.location.href = targetPage;
+        });
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Document is button');
+    const nextButton = document.querySelectorAll('.next-button');
+    nextButton.forEach(function(nextButton, index) {
+        nextButton.addEventListener('click', function() {
+            const destinationUrl = nextButton.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
             }
         });
     });
 });
 
 
-
 // Add item to cart
 document.addEventListener('DOMContentLoaded', function() {
-    const addButton = document.querySelector('.menu-add-btn');
-    if (addButton) {
-        const itemName = document.querySelector('.font-semibold').innerText;
-        const itemPrice = parseFloat(document.querySelector('.text-xl').innerText.slice(1));
+    const addButtons = document.querySelectorAll('.menu-add-btn');
+    addButtons.forEach(function(addButton) {
         addButton.addEventListener('click', function(event) {
             event.preventDefault();
+            const parentElement = addButton.closest('.parent-class');
+            console.log(parentElement);
+            const itemName = parentElement.querySelector('.font-semibold').innerText;
+            const itemPrice = parseFloat(parentElement.querySelector('.text-xl').innerText.slice(1));
             addToCart(itemName, itemPrice); // Add item
         });
-    }
+    });
 });
-
 function addToCart(itemName, itemPrice) {
     const cartItems = getCartItems();
     const existingItem = cartItems.find(item => item.name === itemName);
@@ -254,45 +266,100 @@ function getNextPage(currentPage) {
 
 // Add new address
 document.addEventListener('DOMContentLoaded', function() {
-    const addAddressButton = document.querySelector('.add-address-button');
-    if (addAddressButton) {
-        addAddressButton.addEventListener('click', function(event) {
-            event.preventDefault();
-            window.location.href = 'Add-address.html';
-        }); 
-    }
+    console.log('Document is button');
+    const addAddress = document.querySelectorAll('.add-address-button');
+    addAddress.forEach(function(addAddress, index) {
+        addAddress.addEventListener('click', function() {
+            const destinationUrl = addAddress.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
+            }
+        });
+    });
 });
+
+// document.addEventListener('DOMContentLoaded', function() {
+//     const addAddressButton = document.querySelector('.add-address-button');
+//     if (addAddressButton) {
+//         addAddressButton.addEventListener('click', function(event) {
+//             event.preventDefault();
+//             window.location.href = 'Add-address.html';
+//         }); 
+//     }
+// });
 
 
 
 // Add new card
-document.addEventListener('DOMContentLoaded', function() {
-    const addCardButton = document.querySelector('.add-card-button');
+// document.addEventListener('DOMContentLoaded', function() {
+//     const addCardButton = document.querySelector('.add-card-button');
 
-    if (addCardButton) {
-        addCardButton.addEventListener('click', function() {
-            window.location.href = 'Add-card.html';
+//     if (addCardButton) {
+//         addCardButton.addEventListener('click', function() {
+//             window.location.href = 'Add-card.html';
+//         });
+//     }
+// });
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Document is button');
+    const addCard = document.querySelectorAll('.add-card-button');
+    addCard.forEach(function(addCard, index) {
+        addCard.addEventListener('click', function() {
+            const destinationUrl = addCard.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
+            }
         });
-    }
+    });
 });
 
 
 
 // Save button
 document.addEventListener('DOMContentLoaded', function() {
-    const saveButton = document.querySelector('.save-button');
-    if (saveButton) {
-        saveButton.addEventListener('click', function(event) {
-            event.preventDefault();
-            const currentPage = getCurrentPageName();
-            if (currentPage === 'Add-card') {
-                window.location.href = 'Payment-have-card.html';
-            } else if (currentPage === 'Add-address') {
-                window.location.href = 'Address.html';
+    console.log('Document is button');
+    const saveButton = document.querySelectorAll('.save-button');
+    saveButton.forEach(function(saveButton, index) {
+        saveButton.addEventListener('click', function() {
+            const destinationUrl = saveButton.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
             }
         });
-    }
+    });
 });
+
+// document.addEventListener('DOMContentLoaded', function() {
+//     console.log('Document is button');
+//     const saveButton = document.querySelectorAll('.save-button');
+//     saveButton.forEach(function(saveButton, index) {
+//         saveButton.addEventListener('click', function() {
+//             const destinationUrl = saveButton.getAttribute('data-url');
+//             if (destinationUrl) {
+//                 console.log('Navigating to:', destinationUrl); // Check the URL
+//                 window.location.href = destinationUrl;
+//             }
+//         });
+//     });
+// })
+
+// document.addEventListener('DOMContentLoaded', function() {
+//     const saveButton = document.querySelector('.save-button');
+//     if (saveButton) {
+//         saveButton.addEventListener('click', function(event) {
+//             event.preventDefault();
+//             const currentPage = getCurrentPageName();
+//             if (currentPage === 'Add-card') {
+//                 window.location.href = 'Payment-have-card.html';
+//             } else if (currentPage === 'Add-address') {
+//                 window.location.href = 'Address.html';
+//             }
+//         });
+//     }
+// });
 
 function getCurrentPageName() {
     const currentPageUrl = window.location.href;
@@ -300,32 +367,57 @@ function getCurrentPageName() {
     return currentPageName;
 }
 
-
-
-// Close add-card tab
 document.addEventListener('DOMContentLoaded', function() {
-    const closeButton = document.querySelector('.close-button');
-
-    if (closeButton) {
-        closeButton.addEventListener('click', function(event) {
-            event.preventDefault();
-            window.location.href = 'Payment-no-card.html';
+    console.log('Document is button');
+    const justifyEnd = document.querySelectorAll('.justify-end');
+    justifyEnd.forEach(function(justifyEnd, index) {
+        justifyEnd.addEventListener('click', function() {
+            const destinationUrl = justifyEnd.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
+            }
         });
-    }
-});
+    });
+})
+
+// // Close add-card tab
+// document.addEventListener('DOMContentLoaded', function() {
+//     const closeButton = document.querySelector('.close-button');
+
+//     if (closeButton) {
+//         closeButton.addEventListener('click', function(event) {
+//             event.preventDefault();
+//             window.location.href = 'Payment-no-card.html';
+//         });
+//     }
+// });
 
 
 
 // Pay the order
 document.addEventListener('DOMContentLoaded', function() {
-    const payConfirmButton = document.querySelector('.pay-button');
-
-    if (payConfirmButton) {
-        payConfirmButton.addEventListener('click', function() {
-            window.location.href = 'Payment-success.html';
+    console.log('Document is button');
+    const paymentSuccess = document.querySelectorAll('.pay-button');
+    paymentSuccess.forEach(function(paymentSuccess, index) {
+        paymentSuccess.addEventListener('click', function() {
+            const destinationUrl = paymentSuccess.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
+            }
         });
-    }
-});
+    });
+})
+// document.addEventListener('DOMContentLoaded', function() {
+//     const payConfirmButton = document.querySelector('.pay-button');
+
+//     if (payConfirmButton) {
+//         payConfirmButton.addEventListener('click', function() {
+//             window.location.href = 'Payment-success.html';
+//         });
+//     }
+// });
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -355,3 +447,45 @@ document.addEventListener('DOMContentLoaded', function() {
 //         return pageMap[buttonText];
 //     }
 // });
+// Log out
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Document is button');
+    const yesButton = document.querySelectorAll('.yesButton');
+    yesButton.forEach(function(yesButton, index) {
+        yesButton.addEventListener('click', function() {
+            const destinationUrl = yesButton.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
+            }
+        });
+    });
+})
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Document is button');
+    const noButton = document.querySelectorAll('.noButton');
+    noButton.forEach(function(noButton, index) {
+        noButton.addEventListener('click', function() {
+            const destinationUrl = noButton.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
+            }
+        });
+    });
+})
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Document is button');
+    const noButton = document.querySelectorAll('.noButton');
+    noButton.forEach(function(noButton, index) {
+        noButton.addEventListener('click', function() {
+            const destinationUrl = noButton.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
+            }
+        });
+    });
+})
+

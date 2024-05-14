@@ -23,20 +23,23 @@
     <div class="bg-white p-6 rounded-lg">
         <div class="grid grid-cols-3 gap-4">
             <div class="col-span-1">
-                <img alt="Crunchwrap Supreme Meal Image" height="500" class="rounded-lg" src="{% static 'img/menu1.png' %}" width="700"/>
+                <img alt="Crunchwrap Supreme Meal Image" height="500" class="rounded-lg" src="{% static 'img/'|add:restaurant.picture_link %}" width="700"/>
             </div>
         <div class="col-span-2">
         <h1 class="text-2xl font-bold text-gray-900">
-            Crunchwrap Supreme Meal
+            {{ restaurant.name }}
         </h1>
         <p class="text-sm text-gray-600">
-            Mexican - Fast food - Healthy - Tacos
+            {{ restaurant.menu_items}}
         </p>
         <div class="text-green-600 font-bold my-2">
             open now
         </div>
         <div class="text-gray-900 my-1">
-            11:00 am - 9:30 pm Everyday
+            {{ resutaurant.opening_hours }}
+        </div>
+        <div class="text-gray-900 my-1">
+            {{ resutaurant.location }}
         </div>
         <div class="flex items-center my-2 border-2 w-12 rounded-full">
             <i class="fas fa-star text-orange-600"></i>
@@ -102,14 +105,15 @@
 
     <div class="grid grid-cols-2 gap-4 mt-4">
         <!-- Menu 1 -->
+        {% for food in foods %}
         <div id="Menu1" class="menu-item bg-orange-100 p-4 shadow rounded relative">
             <div class="relative">
-                <img alt="Quesadilla Meal Image" height="200" src="{% static 'img/menu2.png' %}" width="300" class="rounded-lg" />
+                <img alt="Quesadilla Meal Image" height="200" src="{% static 'img/'|add:food.picture_link %}" width="300" class="rounded-lg" />
                 <button class="menu-add-btn">
                     <i class="fas fa-plus-square text-orange-500 text-3xl absolute top-0 right-0 mt-2 mr-2 hover:text-orange-700"></i>
                 </button>
             </div>
-            <h3 class="text-lg font-bold mt-2">Quesadilla Meal</h3>
+            <h3 class="text-lg font-bold mt-2">{{ food.food_name }}</h3>
             <div class="flex items-center my-1">
                 <span class="text-orange-500">
                     <i class="fas fa-star"></i>
@@ -120,32 +124,11 @@
                 </span>
                 <span class="text-gray-600 ml-2">(760)</span>
             </div>
-            <p class="text-gray-900">$16.25</p>
-            <p class="text-sm text-gray-600">Your choice of DOUBLE filling with creamy Jalapeno mayo, grilled between a tortilla with oozing melted cheese and served with hot or tortilla chips and a drink.</p>
+            <p class="text-gray-900">${{ food.price }}</p>
+            <p class="text-sm text-gray-600">{{ food.category }}</p>
         </div>
-       
+        {% endfor %}
         <!-- Menu 2 -->
-        <div id="Menu2" class="menu-item bg-orange-100 p-4 shadow rounded relative">
-            <div class="relative">
-                <img alt="Stacked Tortilla Chips Image" height="200" src="{% static 'img/menu3.png' %}" width="300" class="rounded-lg" />
-                <button class="menu-add-btn">
-                    <i class="fas fa-plus-square text-orange-500 text-3xl absolute top-0 right-0 mt-2 mr-2 hover:text-orange-700"></i>
-                </button>
-            </div>
-            <h3 class="text-lg font-bold mt-2">Stacked Tortilla Chips</h3>
-            <div class="flex items-center my-1">
-                <span class="text-orange-500">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </span>
-                <span class="text-gray-600 ml-2">(1750)</span>
-            </div>
-            <p class="text-gray-900">$14.75</p>
-            <p class="text-sm text-gray-600">Our seasoned tortilla chips topped with your choice of filling (meat or black beans), Nacho Cheese Sauce, sour cream, guacamole and fiesta salsa.</p>
-        </div>
     </div>
     </div>
     <script src="{% static 'UserNavigation.js' %}"></script>

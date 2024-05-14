@@ -5,7 +5,6 @@
         </title>
         <script src="https://cdn.tailwindcss.com">
         </script>
-        <script src="UserNavigation.js"></script>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
         <style>
          body {
@@ -17,57 +16,25 @@
 
 <body>
   <!-- Header -->
-  <header class="flex justify-between items-center h-14 bg-orange-500">
-    <div class="flex items-center">
-     <img alt="WingWays Logo" class="mr-1" height="10" src="img/logo-white-transparent.png" width="100"/>
-     <div class="relative mx-10">
-         <input class="pl-10 pr-20 py-2 rounded-full" placeholder="Search" type="text"/>
-         <i class="fas fa-search absolute left-3 top-3 text-gray-400">
-         </i>
-     </div>
-    <nav class="flex items-center">
-     <ul class="flex space-x-5">
-      <li>
-       <a class="mx-2 text-white hover:text-orange-700" href="Home.html">
-        Home
-       </a>
-      </li>
-      <li>
-       <a class="mx-2 text-white hover:text-orange-700" href="Restaurants.html">
-        Restaurants
-       </a>
-      </li>
-      <li>
-       <a class="mx-2 text-white hover:text-orange-700" href="#">
-        About Us
-       </a>
-      </li>
-     </ul>
-    </nav>
-    </div>
-    <div class="relative mx-2">
-      <a class="mx-2 fas fa-shopping-cart  text-orange-900 text-2xl hover:text-orange-700" href="Cart.html">
-      </a>
-      <a class="mx-2 fas fa-user-circle text-white text-4xl" href="Profile.html">
-      </a>
-    </div>
-  </header>
+  {% extends 'base.html' %}
+  {% block content %}
+  {% load static %}
 
   <!-- Main Content -->
   <main class="container mx-auto p-6">
     <div class="container mx-auto mt-10 mb-10">
         <div class="flex justify-center space-x-20 items-center mb-4">
-         <div class="step-container flex flex-col items-center w-full h-full">
+         <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Cart' %}">
             <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">1</div>
             <div>Shopping Cart</div>
          </div>
     
-         <div class="step-container flex flex-col items-center w-full h-full">
+         <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Shopping-Info' %}">
             <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">2</div>
             <div>Shopping Info</div>
          </div>
     
-         <div class="step-container flex flex-col items-center w-full h-full">
+         <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Address' %}">
             <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">3</div>
             <div>Address</div>
          </div>
@@ -89,8 +56,8 @@
             <span class="text-xl">Credit &amp; Debit Cards</span>
             </div>
             <div class="flex items-center space-x-4">
-                <img class="h-5" src="img/logo-visa.png" alt="Visa Logo">
-                <img class="h-8" src="img/logo-mastercard.png" alt="Mastercard Logo">
+                <img class="h-5" src="{% static 'img/logo-visa.png' %}" alt="Visa Logo">
+                <img class="h-8" src="{% static 'img/logo-mastercard.png' %}" alt="Mastercard Logo">
             </div>
         </div>
     </div>
@@ -100,7 +67,7 @@
     <div class="flex items-center justify-between mb-4">
         <div class="flex items-center space-x-4">
             <div class="mr-10">
-            <img alt="Placeholder image for a credit card" class="rounded-lg" height="300" src="img/card.png" width="200"/>
+            <img alt="Placeholder image for a credit card" class="rounded-lg" height="300" src="{% static 'img/card.png' %}" width="200"/>
             </div>
             <div>
                 <div class="font-semibold text-gray-900">
@@ -116,7 +83,7 @@
 
     <!-- Add new card -->
     <div class="mx-10">
-        <button class="add-card-button border-2 w-full mt-4 bg-gray-100 text-orange-500 py-2 px-4 rounded-lg hover:bg-gray-200 hover:text-orange-600">
+        <button class="add-card-button border-2 w-full mt-4 bg-gray-100 text-orange-500 py-2 px-4 rounded-lg hover:bg-gray-200 hover:text-orange-600" data-url="{% url 'Add-card' %}">
             + ADD NEW
         </button>
     </div>
@@ -130,57 +97,9 @@
         </div>
     </div>
   </main>
+  <script src="{% static 'UserNavigation.js' %}"></script>
 </body>
 
   <!-- Foot-->
-  <footer class="bg-orange-500 mt-8 p-4">
-    <div class="container mx-auto flex flex-col lg:flex-row justify-between items-center text-white">
-        <div class="w-full lg:w-auto" >
-            <p class="font-bold">Company</p>
-            <ul>
-                <li>About Us</li>
-                <li>Blog</li>
-                <li>Contact Us</li>
-                <li>Testimonials</li>
-            </ul>
-        </div>
-        <div class="w-full lg:w-auto mt-4 lg:mt-0">
-            <p class="font-bold">Support</p>
-            <ul>
-                <li>Help Center</li>
-                <li>Terms of Service</li>
-                <li>Privacy Policy</li>
-            </ul>
-        </div>
-        <div class="w-full lg:w-auto mt-4 lg:mt-0">
-            <h3 class="font-bold">
-                Stay up to date
-            </h3>
-            <form>
-                <input class="p-2 rounded-lg" placeholder="Your email address" type="text"/>
-                <button class="bg-white text-orange-500 p-2 rounded-lg" type="submit">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </form>
-        </div>
-        <div class="flex space-x-5">
-            <a href="#">
-                <i class="fab fa-instagram"></i>
-            </a>
-            <a href="#">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#">
-                <i class="fab fa-youtube"></i>
-            </a>
-            <a href="#">
-                <i class="fab fa-tiktok"></i>
-            </a>
-        </div>
-    </div>
-    <div class="text-white text-center mt-4">
-        Copyright © 2024 Drone food delivery website
-                All rights reserved
-    </div>
-  </footer>
+  {% endblock %}
 </html>

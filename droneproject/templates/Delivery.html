@@ -5,7 +5,6 @@
         </title>
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-        <script src="UserNavigation.js"></script>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
         <style>
@@ -23,41 +22,9 @@
 
     <body>
     <!-- Header -->
-    <header class="flex justify-between items-center h-14 bg-orange-500">
-        <div class="flex items-center">
-            <img alt="WingWays Logo" class="mr-1" height="10" src="img/logo-white-transparent.png" width="100"/>
-            <div class="relative mx-10">
-                <input class="pl-10 pr-20 py-2 rounded-full" placeholder="Search" type="text"/>
-                <i class="fas fa-search absolute left-3 top-3 text-gray-400">
-                </i>
-            </div>
-            <nav class="flex items-center">
-                <ul class="flex space-x-5">
-                    <li>
-                        <a class="mx-2 text-white hover:text-orange-700" href="Home.html">
-                            Home
-                        </a>
-                    </li>
-                    <li>
-                        <a class="mx-2 text-white hover:text-orange-700" href="Restaurants.html">
-                            Restaurants
-                        </a>
-                    </li>
-                    <li>
-                        <a class="mx-2 text-white hover:text-orange-700" href="#">
-                            About Us
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-        <div class="relative mx-2">
-            <a class="mx-2 fas fa-shopping-cart text-white text-2xl hover:text-orange-700" href="Cart.html">
-            </a>
-            <a class="mx-2 fas fa-user-circle text-white text-4xl" href="Profile.html">
-            </a>
-        </div>
-    </header>
+    {% extends 'base.html' %}
+    {% block content %}
+    {% load static %}
 
 
     <!-- Main Content -->    
@@ -190,5 +157,7 @@
     </div>
     </div>
     </div>
+    <script src="{% static 'UserNavigation.js' %}"></script>
     </body>
+    {% endblock %}
 </html>

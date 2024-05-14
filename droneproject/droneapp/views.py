@@ -1,15 +1,22 @@
 from django.shortcuts import render
+from .models import *
 
 def Home(request):
-    return render(request,'Home.html')
+    restaurants = Restaurant.objects.all()
+    foods = Food.objects.all()[:8]
+    return render(request,'Home.html',{'foods':foods,'restaurants':restaurants})
 def Restaurants(request):
-    return render(request,"Restaurants.html")
+    restaurants = Restaurant.objects.all()
+    return render(request,"Restaurants.html",{ 'restaurants':restaurants})
 def Cart(request):
     return render(request,"Cart.html")
 def Profile(request):
     return render(request,"Profile.html")
-def Menu(request):
-    return render(request,"Menu.html")
+def Menu(request,pk):
+    restaurant = Restaurant.objects.filter(name=pk).first()
+    restaurant_id = restaurant.restaurant_id
+    foods = Food.objects.filter(restaurant=restaurant_id)
+    return render(request,"Menu.html",{ 'restaurant':restaurant,'foods':foods})
 def ShoppingInfo(request):
     return render(request,"Shopping-Info.html")
 def Address(request):
@@ -40,4 +47,42 @@ def Settings(request):
     return render(request,"Settings.html")
 def Logout(request):
     return render(request,"Logout.html")
+def Signin(request):
+    return render(request,"Login-(U).html")
+def Categories(request,pk):
+    if request.method == "GET":
+        if request.GET.get('category')=='all':
+            foods = Food.objects.all()
+            return render(request,"Categories.html",{ 'foods':foods})
+        elif request.GET.get('category')=='fastfood':
+            foods = Food.objects.filter(category="Fast Food")
+            return render(request,"Categories.html",{ 'foods':foods})
+        elif request.GET.get('category')=='sushi':
+            foods = Food.objects.filter(category="Sushi")
+            return render(request,"Categories.html",{ 'foods':foods})
+        elif request.GET.get('category')=='asian':
+            foods = Food.objects.filter(category="Asian")
+            return render(request,"Categories.html",{ 'foods':foods})
+        elif request.GET.get('category')=='bubbletea':
+            foods = Food.objects.filter(category="Bubble tea")
+            return render(request,"Categories.html",{ 'foods':foods})
+        elif request.GET.get('category')=='bakery':
+            foods = Food.objects.filter(category="Bakery")
+            return render(request,"Categories.html",{ 'foods':foods})
+        elif request.GET.get('category')=='vegan':
+            foods = Food.objects.filter(category="Vegan")
+            return render(request,"Categories.html",{ 'foods':foods})
+        elif request.GET.get('category')=='coffee':
+            foods = Food.objects.filter(category="Coffee")
+            return render(request,"Categories.html",{ 'foods':foods})
+        elif request.GET.get('category')=='alcohol':
+            foods = Food.objects.filter(category="Alcohol")
+            return render(request,"Categories.html",{ 'foods':foods})
+        else:
+            foods = Food.objects.filter(category="Ice cream")
+            return render(request,"Categories.html",{ 'foods':foods})
+    else:
+        foods = Food.objects.all()
+        print("aaaaa")
+        return render(request,"Categories.html",{ 'foods':foods})
 # Create your views here.

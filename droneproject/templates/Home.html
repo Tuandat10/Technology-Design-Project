@@ -45,248 +45,100 @@
         </h2>
         <div class="overflow-x-10">
             <div class="flex space-x-4 mb-8">
-                <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white">
+                <form action="{% url 'Categories' 'All' %}" method="GET">
+                <input type="hidden" name="category" value="all">
+                <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
                     All
                 </button>
-                <button class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white">
-                    Fast food
-                </button>
-                <button class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white">
-                    Sushi
-                </button>
-                <button class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white">
-                    Asian
-                </button>
-                <button class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white">
-                    Bubble tea
-                </button>
-                <button class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white">
-                    Bakery
-                </button>
-                <button class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white">
-                    Vegan
-                </button>
-                <button class="flex items-center justify-center rounded-full bg-gray-200 px-6 py-2 text-orange-400 hover:bg-orange-500 hover:text-white">
-                    Coffee
-                </button>
-                <button class="flex items-center justify-center rounded-full bg-gray-200 px-6 py-2 text-orange-400 hover:bg-orange-500 hover:text-white">
-                    Alcohol
-                </button>
-                <button class="flex items-center justify-center rounded-full bg-gray-200 px-6 py-2 text-orange-400 hover:bg-orange-500 hover:text-white">
-                    Ice cream
-                </button>
+                </form>
+                <form action="{% url 'Categories' 'Fastfood' %}" method="GET">
+                    <input type="hidden" name="category" value="fastfood">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Fast Food
+                    </button>
+                    </form>
+                <form action="{% url 'Categories' 'Sushi' %}" method="GET">
+                    <input type="hidden" name="category" value="sushi">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Sushi
+                    </button>
+                </form>
+                <form action="{% url 'Categories' 'Asian' %}" method="GET">
+                    <input type="hidden" name="category" value="asian">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Asian
+                    </button>
+                </form>
+                <form action="{% url 'Categories' 'Bubbletea' %}" method="GET">
+                    <input type="hidden" name="category" value="bubbletea">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Bubble tea
+                    </button>
+                </form>
+                <form action="{% url 'Categories' 'Bakery' %}" method="GET">
+                    <input type="hidden" name="category" value="bakery">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Bakery
+                    </button>
+                </form>
+                <form action="{% url 'Categories' 'Vegan' %}" method="GET">
+                    <input type="hidden" name="category" value="vegan">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Vegan
+                    </button>
+                </form>
+                <form action="{% url 'Categories' 'Coffee' %}" method="GET">
+                    <input type="hidden" name="category" value="coffee">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Coffee
+                    </button>
+                </form>
+                <form action="{% url 'Categories' 'Alcohol' %}" method="GET">
+                    <input type="hidden" name="category" value="alcohol">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Alcohol
+                    </button>
+                </form>
+                <form action="{% url 'Categories' 'Icecream' %}" method="GET">
+                    <input type="hidden" name="category" value="icecream">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Ice cream
+                    </button>
+                </form>
             </div>
             </div>
             </main>
             
     <!-- Food 1 -->
-    <main class="grid grid-cols-4 gap-10 mx-10">
-        <div class="bg-orange-200 p-4 rounded-lg shadow">
-            <img alt="Classic Beef Burger" class="mb-3 rounded-lg" height="200" src="{% static 'img/classic-bf-burger.jpeg' %}" width="300"/>
-            <h3 class="font-bold">
-            Classic Beef Burger
-            </h3>
-            <p class="text-gray-500">
-            $5.49
-            </p>
-            <p class="text-gray-500">
-            7 min
-            </p>
-            <div class="flex">
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
+    <main id="foodGrid" class="grid grid-cols-4 gap-10 mx-10">
+        {% for food in foods %}
+        <div id="Menu1" class="menu-item bg-orange-100 p-4 shadow rounded relative parent-class">
+            <div class="relative">
+                <img alt="Quesadilla Meal Image" height="200" src="{% static 'img/'|add:food.picture_link %}" width="300" class="rounded-lg" />
+                <button class="menu-add-btn" data-item-name="123" data-item-price="123">
+                    <i class="fas fa-plus-square text-orange-500 text-3xl absolute top-0 right-0 mt-2 mr-2 hover:text-orange-700"></i>
+                </button>
             </div>
-        </div>
-
-    <!-- Food 2 -->
-        <div class="bg-orange-200 p-4 rounded-lg shadow">
-            <img alt="Placeholder image for food item" class="mb-3 rounded-lg" height="200" src="{% static 'img/food.jpg' %}" width="300"/>
-            <h3 class="font-bold">
-            Food
-            </h3>
-            <p class="text-gray-500">
-            $x.xx
-            </p>
-            <p class="text-gray-500">
-            XX min
-            </p>
-            <div class="flex">
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
+            <h3 class="text-lg font-bold mt-2 font-semibold">{{ food.food_name }}</h3>
+            <div class="flex items-center my-1">
+                <span class="text-orange-500">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </span>
+                <span class="text-gray-600 ml-2">(760)</span>
             </div>
+            <p class="text-gray-900 text-xl">${{ food.price }}</p>
+            <p class="text-sm text-gray-600">{{ food.category }}</p>
         </div>
-
-    <!-- Food 3 -->
-        <div class="bg-orange-200 p-4 rounded-lg shadow">
-            <img alt="Placeholder image for food item" class="mb-3 rounded-lg" height="200" src="{% static 'img/food.jpg' %}" width="300"/>
-            <h3 class="font-bold">
-            Food
-            </h3>
-            <p class="text-gray-500">
-            $x.xx
-            </p>
-            <p class="text-gray-500">
-            XX min
-            </p>
-            <div class="flex">
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-            </div>
-        </div>
-
-    <!-- Food 4 -->
-        <div class="bg-orange-200 p-4 rounded-lg shadow">
-            <img alt="Placeholder image for food item" class="mb-3 rounded-lg" height="200" src="{% static 'img/food.jpg' %}" width="300"/>
-            <h3 class="font-bold">
-            Food
-            </h3>
-            <p class="text-gray-500">
-            $x.xx
-            </p>
-            <p class="text-gray-500">
-            XX min
-            </p>
-            <div class="flex">
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-            </div>
-        </div>
-
-    <!-- Food 5 -->
-        <div class="bg-orange-200 p-4 rounded-lg shadow">
-            <img alt="Placeholder image for food item" class="mb-3 rounded-lg" height="200" src="{% static 'img/food.jpg' %}" width="300"/>
-            <h3 class="font-bold">
-            Food
-            </h3>
-            <p class="text-gray-500">
-            $x.xx
-            </p>
-            <p class="text-gray-500">
-            XX min
-            </p>
-            <div class="flex">
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-            </div>
-        </div>
-
-    <!-- Food 6 -->
-        <div class="bg-orange-200 p-4 rounded-lg shadow">
-            <img alt="Placeholder image for food item" class="mb-3 rounded-lg" height="200" src="{% static 'img/food.jpg' %}" width="300"/>
-            <h3 class="font-bold">
-            Food
-            </h3>
-            <p class="text-gray-500">
-            $x.xx
-            </p>
-            <p class="text-gray-500">
-            XX min
-            </p>
-            <div class="flex">
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-            </div>
-        </div>
-
-    <!-- Food 7 -->
-        <div class="bg-orange-200 p-4 rounded-lg shadow">
-            <img alt="Placeholder image for food item" class="mb-3 rounded-lg" height="200" src="{% static 'img/food.jpg' %}" width="300"/>
-            <h3 class="font-bold">
-            Food
-            </h3>
-            <p class="text-gray-500">
-            $x.xx
-            </p>
-            <p class="text-gray-500">
-            XX min
-            </p>
-            <div class="flex">
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-            </div>
-        </div>
-
-    <!-- Food 8 -->
-        <div class="bg-orange-200 p-4 rounded-lg shadow">
-            <img alt="Placeholder image for food item" class="mb-3 rounded-lg" height="200" src="{% static 'img/food.jpg' %}" width="300"/>
-            <h3 class="font-bold">
-            Food
-            </h3>
-            <p class="text-gray-500">
-            $x.xx
-            </p>
-            <p class="text-gray-500">
-            XX min
-            </p>
-            <div class="flex">
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-                <i class="fas fa-star text-orange-400">
-                </i>
-            </div>
-        </div>
+        {% endfor %}
+        <a href="{% url 'Categories' 'All' %}">
+            <h5 class="text-2xl font-extrabold mb-4">
+                Load more
+            </h5>
+        </a>
     </main>
 
 
@@ -296,13 +148,15 @@
         Restaurants near you
         </h2>
         <div class="grid grid-cols-4 gap-4">
-                 <div id="Suggest1" class="suggest-item bg-white p-4 w-150 rounded-lg shadow-xl hover:bg-gray-200" data-url="{% url 'Menu' %}">
-                <img alt="Taco Bell restaurant with various Mexican dishes" class="rounded-lg mb-2" height="100" src="{% static 'img/taco-bell.jpg' %}" width="300"/>
+            <!-- Resto 1 -->
+            {% for restaurant in restaurants %}
+            <div id="Suggest1" class="suggest-item bg-white p-4 w-150 rounded-lg shadow-xl hover:bg-gray-200" data-url="{% url 'Menu' restaurant.name %}">
+                <img alt="Taco Bell restaurant with various Mexican dishes" class="rounded-lg mb-2" height="100" src="{% static 'img/'|add:restaurant.picture_link %}" width="300"/>
                 <h3 class="text-lg font-bold">
-                Taco Bell
+                {{ restaurant.name }}
                 </h3>
                 <p class="text-sm">
-                Fast food - Mexican
+                {{ restaurant.menu_items}}
                 </p>
                 <div class="flex items-center text-sm text-gray-600">
                     <i class="fas fa-star text-orange-600">
@@ -324,95 +178,7 @@
                     </span>
                 </div>
             </div>
-
-        <!-- Resto 2 -->
-        <div id="Suggest2" class="suggest-item bg-white p-4 rounded-lg shadow-xl">
-            <img alt="China Bar restaurant with various Chinese noodle dishes" class="rounded-lg mb-2" height="200" src="{% static 'img/china-bar.jpg' %}" width="300"/>
-            <h3 class="text-lg font-bold">
-            China Bar
-            </h3>
-            <p class="text-sm">
-            Chinese - Noodles
-            </p>
-            <div class="flex items-center text-sm text-gray-600">
-                <i class="fas fa-star text-orange-600">
-                </i>
-                <span>
-                    4.5
-                </span>
-                <span class="mx-2">
-                    •
-                </span>
-                <span>
-                    $0.99 Delivery Fee
-                </span>
-                <span class="mx-2">
-                    •
-                </span>
-                <span>
-                    15min
-                </span>
-            </div>
-        </div>
-
-        <!-- Resto 3 -->
-        <div id="Suggest3" class="suggest-item bg-white p-4 rounded-lg shadow-xl">
-            <img alt="Share Tea restaurant with various bubble tea options" class="rounded-lg mb-2" height="200" src="{% static 'img/share-tea.jpg' %}" width="300"/>
-            <h3 class="text-lg font-bold">
-            Share Tea
-            </h3>
-            <p class="text-sm">
-            Drinks - Bubble tea
-            </p>
-            <div class="flex items-center text-sm text-gray-600">
-                <i class="fas fa-star text-orange-600">
-                </i>
-                <span>
-                    4.9
-                </span>
-                <span class="mx-2">
-                    •
-                </span>
-                <span>
-                    $0.99 Delivery Fee
-                </span>
-                <span class="mx-2">
-                    •
-                </span>
-                <span>
-                    7min
-                </span>
-            </div>
-        </div>
-
-        <!-- Resto 4 -->
-        <div id="Suggest4" class="suggest-item bg-white p-4 rounded-lg shadow-xl">
-            <img alt="Lukas restaurant with various dessert options" class="rounded-lg mb-2" height="200" src="{% static 'img/lukumama.png' %}" width="300"/>
-            <h3 class="text-lg font-bold">
-            Lukumama
-            </h3>
-            <p class="text-sm">
-            Desserts
-            </p>
-            <div class="flex items-center text-sm text-gray-600">
-                <i class="fas fa-star text-orange-600">
-                </i>
-                <span>
-                    4.9
-                </span>
-                <span class="mx-2">
-                    •
-                </span>
-                <span>
-                    $0.99 Delivery Fee
-                </span>
-                <span class="mx-2">
-                    •
-                </span>
-                <span>
-                    9min
-                </span>
-            </div>
+            {% endfor %}
         </div>
 
 
