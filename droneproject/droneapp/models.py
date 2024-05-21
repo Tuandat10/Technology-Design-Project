@@ -35,10 +35,7 @@ class Restaurant(models.Model):
     menu_items = models.CharField(max_length=255)
     opening_time = models.TimeField(default='00:00:00')
     closing_time = models.TimeField(default='23:59:59')
-    icon = models.ImageField(upload_to='img/', blank=True, null=True)
- 
-    def __str__(self):
-        return self.name
+    picture_link = models.CharField(max_length=255, default="123")
 
 class Food(models.Model):
     food_id = models.AutoField(primary_key=True)
