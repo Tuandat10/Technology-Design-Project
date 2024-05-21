@@ -24,12 +24,12 @@
     <main class="container mx-auto p-6">
         <div class="container mx-auto mt-10 mb-10">
             <div class="flex justify-center space-x-20 items-center mb-4">
-                <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Cart' %}">
+                <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Cart' id %}">
                    <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">1</div>
                    <div>Shopping Cart</div>
                 </div>
            
-                <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Shopping-Info' %}">
+                <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Shopping-Info' id %}">
                    <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">2</div>
                    <div>Shopping Info</div>
                 </div>
@@ -51,30 +51,31 @@
             <!-- New Address -->
             <div class="bg-orange-200 p-8 rounded-lg mx-10">
                 <div class="grid grid-cols-2 gap-4 mx-10 my-6">
-                    <div>
-                        <label class="block mb-2">Name</label>
-                        <input type="text" class="w-full shadow-md rounded-lg p-2 mb-4">
+                    <form action="{% url 'Add-address' id %}" method="POST">
+                        {% csrf_token %}
+                        <div>
 
-                        <label class="block mb-2">Street Name</label>
-                        <input type="text" class="w-full shadow-md rounded-lg p-2 mb-4">
+                            <label class="block mb-2">Street Name</label>
+                            <input type="text" class="w-full shadow-md rounded-lg p-2 mb-4" name="street_name">
 
-                        <label class="block mb-2">State</label>
-                        <input type="text" class="w-full shadow-md rounded-lg p-2 mb-4">
-                    </div>
-                    <div>
-                        <label class="block mb-2">Phone Number</label>
-                        <input type="text" class="w-full shadow-md rounded-lg p-2 mb-4">
+                            <label class="block mb-2">State</label>
+                            <input type="text" class="w-full shadow-md rounded-lg p-2 mb-4" name="state">
+                        </div>
+                        <div>
+                            <label class="block mb-2">Phone Number</label>
+                            <input type="text" class="w-full shadow-md rounded-lg p-2 mb-4" name="phone">
 
-                        <label class="block mb-2">City</label>
-                        <input type="text" class="w-full shadow-md rounded-lg p-2 mb-4">
+                            <label class="block mb-2">City</label>
+                            <input type="text" class="w-full shadow-md rounded-lg p-2 mb-4" name="city">
 
-                        <label class="block mb-2">Zip Code</label>
-                        <input type="text" class="w-full shadow-md rounded-lg p-2 mb-4">
-                    </div>
+                            <label class="block mb-2">Zip Code</label>
+                            <input type="text" class="w-full shadow-md rounded-lg p-2 mb-4" name="zip_code">
+                        </div>
+                        <button class="mx-4 mt-4 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 save-button" data-url="{% url 'Address' id %}" type="submit">
+                            Save
+                        </button>
+                    </form>
                 </div>
-                <button class="mx-4 mt-4 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 save-button" data-url="{% url 'Address' %}">
-                    Save
-                </button>
             </div>
         </div>
     </main>

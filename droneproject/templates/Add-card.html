@@ -24,17 +24,17 @@
     <main class="container mx-auto p-6">
         <div class="container mx-auto mt-10 mb-10">
             <div class="flex justify-center space-x-20 items-center mb-4">
-                <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Cart' %}">
+                <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Cart' id %}">
                    <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">1</div>
                    <div>Shopping Cart</div>
                 </div>
            
-                <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Shopping-Info' %}">
+                <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Shopping-Info' id %}">
                    <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">2</div>
                    <div>Shopping Info</div>
                 </div>
            
-                <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Address' %}">
+                <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Address' id %}">
                    <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">3</div>
                    <div>Address</div>
                 </div>
@@ -50,7 +50,7 @@
         
         <!-- Add card -->
         <div class="bg-orange-200 p-6 rounded-lg mt-10 mx-10">
-            <div class="flex justify-end" data-url="{% url 'Payment-no-card' %}">
+            <div class="flex justify-end" data-url="{% url 'Payment-no-card' id %}">
                 <button class="text-gray-600 text-3xl mt-2 mb-2 mx-4 close-button">
                     <i class="far fa-window-close"></i>
                 </button>
@@ -58,32 +58,32 @@
             <h2 class="text-2xl font-bold my-4 mx-10">
                 Add Card
             </h2>
-            <form class="mx-10" method="post" action="{% url 'Payment-have-card' %}">
+            <form class="mx-10" method="POST" action="{% url 'Add-card' id %}">
                 {% csrf_token %}
                 <div class="mb-6">
                     <label class="block mb-2" for="cardholder">
                         Card Holder Name
                     </label>
-                    <input class="w-full px-3 py-2 border shadow-lg rounded-lg" id="cardholder" type="text"/>
+                    <input class="w-full px-3 py-2 border shadow-lg rounded-lg" id="cardholder" type="text" name="card_name"/>
                 </div>
                 <div class="mb-6">
                     <label class="block mb-2" for="cardnumber">
                         Card Number
                     </label>
-                    <input class="w-full px-3 py-2 border shadow-lg rounded-lg" id="cardnumber" type="text"/>
+                    <input class="w-full px-3 py-2 border shadow-lg rounded-lg" id="cardnumber" type="text" name="card_number"/>
                 </div>
                 <div class="flex mb-6">
                     <div class="mr-10">
                         <label class="block mb-2" for="expiredate">
                             Expire Date
                         </label>
-                        <input class="px-3 py-2 border shadow-lg rounded-lg" id="expiredate" placeholder="mm/yyyy" type="text"/>
+                        <input class="px-3 py-2 border shadow-lg rounded-lg" id="expiredate" placeholder="mm/yyyy" type="text" name="expire"/>
                     </div>
                     <div>
                         <label class="block mb-2" for="cvc">
                             CVC
                         </label>
-                        <input class="px-3 py-2 border shadow-lg rounded-lg" id="cvc" placeholder="***" type="text"/>
+                        <input class="px-3 py-2 border shadow-lg rounded-lg" id="cvc" placeholder="***" type="text" name="cvc"/>
                     </div>
                 </div>
 

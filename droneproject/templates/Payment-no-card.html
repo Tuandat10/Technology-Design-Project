@@ -24,17 +24,17 @@
   <main class="container mx-auto p-6">
     <div class="container mx-auto mt-10 mb-10">
         <div class="flex justify-center space-x-20 items-center mb-4">
-         <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Cart' %}">
+         <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Cart' id %}">
             <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">1</div>
             <div>Shopping Cart</div>
          </div>
     
-         <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Shopping-Info' %}">
+         <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Shopping-Info' id %}">
             <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">2</div>
             <div>Shopping Info</div>
          </div>
     
-         <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Address' %}">
+         <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Address' id %}">
             <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">3</div>
             <div>Address</div>
          </div>
@@ -49,6 +49,8 @@
         </p>
 
    <!-- Choose type of card -->
+   {% if payments %}
+   {% for payment in payments %}
    <div class="bg-orange-200 p-4 rounded-lg mx-10">
         <div class="my-2 mx-2 flex items-center justify-between">
             <div>
@@ -63,6 +65,46 @@
     </div>
    
    <!-- Card -->
+
+   <section class="bg-gray-100 p-6 shadow-md mx-10">
+    <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center space-x-4">
+            <div class="mr-10">
+            <img alt="Placeholder image for a credit card" class="rounded-lg" height="300" src="{% static 'img/card.png' %}" width="200"/>
+            </div>
+            <div>
+                <div class="font-semibold text-gray-900">
+                    Master Card
+                    <form action="{% url 'Payment-success' id %}" method="POST">
+                        {% csrf_token %}
+                </div>
+                    <input type="hidden" class="cartItems" name="cartItems">
+                    <input type="hidden" class="street" name="street">
+                    <input type="hidden" class="zip_code" name="zip_code">
+                    <input type="hidden" class="totalprice" name="totalprice">
+                    <input type="hidden" class="deliveryfee" name="deliveryfee">
+                    <input type="hidden" class="city" name="city">
+                    <input type="hidden" class="time_ordered" name="time_ordered">
+                    <input type="hidden" class="province" name="province">
+                    <input type="hidden" class="totalPrice" name="totalPrice">
+                    <input type="hidden" class="servicefee" name="servicefee">
+                    <input type="hidden" class="phone" name="phone">
+                    <input type="hidden" name="payment_id" value="{{ payment.card_number }}">
+                    <div class="text-sm text-gray-500">
+                        <p>{{ payment.card_number }}</p>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <button class="mx-10 my-4 mt-4 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 pay-button" data-url="{% url 'Payment-success' id %}" id="pay_confirm" type="submit">
+                            Pay &amp; Confirm
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </section>
+    {% endfor %}
+   {% else %}
    <section class="bg-gray-100 p-6 shadow-md mx-10">
     <div class="flex items-center justify-between mb-4">
         <div class="flex items-center space-x-4">
@@ -80,21 +122,13 @@
         </div>
     </div>
     </section>
+    {% endif %}
 
     <!-- Add new card -->
     <div class="mx-10">
-        <button class="add-card-button border-2 w-full mt-4 bg-gray-100 text-orange-500 py-2 px-4 rounded-lg hover:bg-gray-200 hover:text-orange-600" data-url="{% url 'Add-card' %}">
+        <button class="add-card-button border-2 w-full mt-4 bg-gray-100 text-orange-500 py-2 px-4 rounded-lg hover:bg-gray-200 hover:text-orange-600" data-url="{% url 'Add-card' id %}">
             + ADD NEW
         </button>
-    </div>
-
-    <div class="flex justify-between items-center">
-        <button class="mx-10 my-4 mt-4 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600">
-            Pay &amp; Confirm
-        </button>
-        <div class="text-gray-700 text-lg font-extrabold mx-10">
-         TOTAL: $35
-        </div>
     </div>
   </main>
   <script src="{% static 'UserNavigation.js' %}"></script>

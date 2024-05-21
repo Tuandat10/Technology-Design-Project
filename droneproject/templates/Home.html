@@ -26,7 +26,7 @@
                 Food you love, <br> delivered to you
                 </h2>
                 <div class="mt-5">
-                    <a id="orderNow" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-lg" href="{% url 'Restaurants' %}">
+                    <a id="orderNow" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-lg" href="{% url 'Restaurants' id %}">
                         Order Now
                     </a>                    
                 </div>
@@ -45,61 +45,61 @@
         </h2>
         <div class="overflow-x-10">
             <div class="flex space-x-4 mb-8">
-                <form action="{% url 'Categories' 'All' %}" method="GET">
+                <form action="{% url 'Categories' 'All' id %}" method="GET">
                 <input type="hidden" name="category" value="all">
                 <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
                     All
                 </button>
                 </form>
-                <form action="{% url 'Categories' 'Fastfood' %}" method="GET">
+                <form action="{% url 'Categories' 'Fastfood' id %}" method="GET">
                     <input type="hidden" name="category" value="fastfood">
                     <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
                         Fast Food
                     </button>
                     </form>
-                <form action="{% url 'Categories' 'Sushi' %}" method="GET">
+                <form action="{% url 'Categories' 'Sushi' id %}" method="GET">
                     <input type="hidden" name="category" value="sushi">
                     <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
                         Sushi
                     </button>
                 </form>
-                <form action="{% url 'Categories' 'Asian' %}" method="GET">
+                <form action="{% url 'Categories' 'Asian' id %}" method="GET">
                     <input type="hidden" name="category" value="asian">
                     <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
                         Asian
                     </button>
                 </form>
-                <form action="{% url 'Categories' 'Bubbletea' %}" method="GET">
+                <form action="{% url 'Categories' 'Bubbletea' id %}" method="GET">
                     <input type="hidden" name="category" value="bubbletea">
                     <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
                         Bubble tea
                     </button>
                 </form>
-                <form action="{% url 'Categories' 'Bakery' %}" method="GET">
+                <form action="{% url 'Categories' 'Bakery' id %}" method="GET">
                     <input type="hidden" name="category" value="bakery">
                     <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
                         Bakery
                     </button>
                 </form>
-                <form action="{% url 'Categories' 'Vegan' %}" method="GET">
+                <form action="{% url 'Categories' 'Vegan' id %}" method="GET">
                     <input type="hidden" name="category" value="vegan">
                     <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
                         Vegan
                     </button>
                 </form>
-                <form action="{% url 'Categories' 'Coffee' %}" method="GET">
+                <form action="{% url 'Categories' 'Coffee' id %}" method="GET">
                     <input type="hidden" name="category" value="coffee">
                     <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
                         Coffee
                     </button>
                 </form>
-                <form action="{% url 'Categories' 'Alcohol' %}" method="GET">
+                <form action="{% url 'Categories' 'Alcohol' id %}" method="GET">
                     <input type="hidden" name="category" value="alcohol">
                     <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
                         Alcohol
                     </button>
                 </form>
-                <form action="{% url 'Categories' 'Icecream' %}" method="GET">
+                <form action="{% url 'Categories' 'Icecream' id %}" method="GET">
                     <input type="hidden" name="category" value="icecream">
                     <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
                         Ice cream
@@ -120,6 +120,7 @@
                 </button>
             </div>
             <h3 class="text-lg font-bold mt-2 font-semibold">{{ food.food_name }}</h3>
+            <p class="text-sm text-restaurant text-gray-600" >{{ food.restaurant }}</p>
             <div class="flex items-center my-1">
                 <span class="text-orange-500">
                     <i class="fas fa-star"></i>
@@ -134,7 +135,7 @@
             <p class="text-sm text-gray-600">{{ food.category }}</p>
         </div>
         {% endfor %}
-        <a href="{% url 'Categories' 'All' %}">
+        <a href="{% url 'Categories' 'All' id %}">
             <h5 class="text-2xl font-extrabold mb-4">
                 Load more
             </h5>
@@ -150,7 +151,7 @@
         <div class="grid grid-cols-4 gap-4">
             <!-- Resto 1 -->
             {% for restaurant in restaurants %}
-            <div id="Suggest1" class="suggest-item bg-white p-4 w-150 rounded-lg shadow-xl hover:bg-gray-200" data-url="{% url 'Menu' restaurant.name %}">
+            <div id="Suggest1" class="suggest-item bg-white p-4 w-150 rounded-lg shadow-xl hover:bg-gray-200" data-url="{% url 'Menu' restaurant.name id %}">
                 <img alt="Taco Bell restaurant with various Mexican dishes" class="rounded-lg mb-2" height="100" src="{% static 'img/'|add:restaurant.picture_link %}" width="300"/>
                 <h3 class="text-lg font-bold">
                 {{ restaurant.name }}
