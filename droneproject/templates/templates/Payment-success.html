@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <title>
+            Successfull
+        </title>
+        <script src="https://cdn.tailwindcss.com">
+        </script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+        <style>
+         body {
+                  background-color: #fff;
+              }
+        </style>
+    </head>
+
+    <body>
+    <!-- Header -->
+    {% extends 'base.html' %}
+    {% block content %}
+    {% load static %}
+    <!-- Main Content -->
+    <main class="flex flex-col items-center justify-center min-h-screen">
+        <div class="bg-orange-400 p-8 rounded-full shadow-xl">
+            <i class="fas fa-check text-white text-6xl">
+            </i>
+        </div>
+        <h1 class="text-3xl font-bold mt-4">
+            Order Received!
+        </h1>
+        <p class="mt-2">
+            You successfully made a payment, enjoy our service!
+        </p>
+        <div class="my-8">
+            <button class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg track-order-button" data-url="{% url 'Delivery' id %}">
+                Track Order
+            </button>
+        </div>
+    </main>
+    <script src="{% static 'UserNavigation.js' %}"></script> 
+    <!-- Foot-->
+ </body>
+ {% endblock %}
+</html>

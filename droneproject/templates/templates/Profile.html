@@ -1,0 +1,120 @@
+<html>
+    <head>
+        <title>
+            Settings - Profile
+        </title>
+        <script src="https://cdn.tailwindcss.com">
+        </script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+        <style>
+         body {
+                  background-color: #fff;
+              }
+        </style>
+    </head>
+
+
+    <body>
+    <!-- Header -->
+    {% extends 'base.html' %}
+    {% block content %}
+    {% load static %}
+       <!-- Main Content -->
+    <div class="flex flex-row mb-10 mt-10 mx-10">
+        <div class="flex flex-col mb-10 mt-10 mx-10">
+            <!-- Sidebar -->
+            <!-- 1st block -->
+            <div class="bg-orange-200 p-4 rounded-lg mb-6">
+                <div class="flex flex-col space-y-4 my-2 mx-4">
+                    <button class="sidebar-button flex items-center space-x-2 font-extrabold text-orange-700 hover:text-orange-600" data-url="{% url 'Profile' id %}">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Personal Info</span>
+                    </button>
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'My-address' id %}">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>My address</span>
+                    </button>
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'Favourite' id %}">
+                            <i class="fas fa-heart"></i>
+                    <span>Favorite</span>
+                    </button>
+                </div>
+            </div>
+        
+            <!-- 2nd block -->
+            <div class="bg-orange-200 p-4 rounded-lg mb-6">
+                <div class="flex flex-col space-y-4 my-2 mx-4">
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'My-order-history' id %}">
+                        <i class="fas fa-history"></i>
+                        <span>Order History</span>
+                    </button>
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'Notification' id %}">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
+                    </button>
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'Payment' id %}">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Payment Method</span>
+                    </button>
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'Settings' id %}">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </button>
+                </div>
+            </div>
+        
+            <!-- 3rd block -->
+            <div class="bg-orange-200 p-4 rounded-lg mb-6">
+                <div class="sidebar-button flex flex-col space-y-4 my-2 mx-4">
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'Logout' id %}">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Log Out</span>
+                    </button>
+                </div>
+            </div>
+            </div>
+        <!-- Profile Form -->
+        <div class="flex-1 p-10 bg-orange-200 rounded-lg mt-10 mb-10 mx-10">
+            <div class="flex justify-between items-cente mt-6 mx-10">
+            <div class="space-y-4 w-1/2">
+                <div>
+                    <label class="block text-l font-semibold text-orange-800">
+                    Name
+                    </label>
+                    <input class="w-full p-2 shadow-lg rounded-lg" type="text"/>
+                </div>
+                <div>
+                    <label class="block text-l font-semibold text-orange-800">
+                    Phone Number
+                    </label>
+                    <input class="w-full p-2 shadow-lg rounded-lg" type="text"/>
+                </div>
+                <div>
+                    <label class="block text-l font-semibold text-orange-800">
+                    Email Address
+                    </label>
+                    <input class="w-full p-2 shadow-lg rounded-lg" type="email"/>
+                </div>
+                <div class="flex justify-end space-x-2">
+                    <button class="mt-4 bg-gray-400 text-white py-2 px-4 rounded-lg hover:bg-gray-600" type="button">
+                        Cancel
+                    </button>
+                    <button class="mt-4 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600" type="button">
+                        Update
+                    </button>
+                </div>
+            </div>
+            <div class="flex flex-col items-center mx-10">
+                <img alt="Profile Image" class="rounded-full" height="200" src="{% static 'img/profile-pic.png' %}" width="200"/>
+                <button class="text-gray-700 text-sm px-4 hover:text-gray-500" type="button">
+                    Edit
+                </button>
+            </div>
+            </div>
+        </div>
+    </div> 
+    <script src="{% static 'UserNavigation.js' %}"></script>
+    <!-- Foot-->
+    </body>
+    {% endblock %}
+</html>

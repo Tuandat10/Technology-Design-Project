@@ -1,0 +1,126 @@
+<html>
+  {% load static %}
+ <head>
+  <title>
+   Items
+  </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="{% static 'UserNavigation.js' %}"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+ </head>
+ <body class="bg-gray-100">
+  <div class="max-w-4xl mx-auto">
+   <!-- Header -->
+   <div class="flex justify-between items-center h-14 bg-orange-500">
+      <img alt="WingWays Logo" class="mr-1" height="10" src="{% static 'img/logo-white-transparent.png' %}" width="100"/>
+      <button class="float-right text-white" id = "home" data-url="{% url 'Res-dashboard' %}">
+      <i class="fas fa-home fa-2X px-4"></i>
+      </button>
+   </div>
+   <!-- Search and Filter -->
+   <div class="bg-white p-4 flex items-center justify-between">
+    <div class="p-4 text-gray-600 text-4xl font-bold">Items</div>
+    <div class="flex border rounded overflow-hidden">
+     <input class="px-4 py-2" placeholder="Search by items" type="text"/>
+     <button class="bg-gray-300 px-4 text-gray-700">
+      <i class="fas fa-search"></i>
+     </button>
+    </div>
+    <div>
+     <button class="bg-orange-200 text-orange-800 px-4 py-2 rounded">
+      All items
+     </button>
+     <button class="bg-gray-200 text-gray-600 px-4 py-2 rounded">
+      Sold out (0)
+     </button>
+    </div>
+   </div>
+   <!-- Items List -->
+   <div class="bg-white p-4">
+    <div class="flex items-center justify-between border-b pb-4">
+     <img alt="Quesadilla Meal" class="w-24 h-20" height="100" src="{% static 'img/menu3 1.png' %}" width="100"/>
+     <div class="flex-1 ml-4">
+      <p class="font-semibold">
+       Quesadilla Meal
+      </p>
+     </div>
+     <select class="bg-orange-200 text-orange-800 px-4 py-2 rounded">
+      <option>
+       In stock
+      </option>
+      <option>
+       Sold out
+      </option>
+     </select>
+    </div>
+    <div class="flex items-center justify-between border-b py-4">
+     <img alt="Stacked Tortilla Chips" class="w-24 h-20" height="100" src="{% static 'img/menu2.png' %}" width="100"/>
+     <div class="flex-1 ml-4">
+      <p class="font-semibold">
+       Stacked Tortilla Chips
+      </p>
+     </div>
+     <select class="bg-orange-200 text-orange-800 px-4 py-2 rounded">
+      <option>
+       In stock
+      </option>
+      <option>
+        Sold out
+      </option>
+     </select>
+    </div>
+    <div class="flex items-center justify-between border-b py-4">
+     <div class="bg-gray-300 w-24 h-20">
+     </div>
+     <div class="flex-1 ml-4">
+      <p class="font-semibold">
+       Items
+      </p>
+     </div>
+     <select class="bg-orange-200 text-orange-800 px-4 py-2 rounded">
+      <option>
+       In stock
+      </option>
+      <option>
+        Sold out
+      </option>
+     </select>
+    </div>
+    <div class="flex items-center justify-between border-b py-4">
+     <div class="bg-gray-300 w-24 h-20">
+     </div>
+     <div class="flex-1 ml-4">
+      <p class="font-semibold">
+       Items
+      </p>
+     </div>
+     <select class="bg-orange-200 text-orange-800 px-4 py-2 rounded">
+      <option>
+       In stock
+      </option>
+      <option>
+        Sold out
+      </option>
+     </select>
+    </div>
+    <div class="flex items-center justify-between py-4">
+     <div class="bg-gray-300 w-24 h-20">
+     </div>
+     <div class="flex-1 ml-4">
+      <p class="font-semibold">
+       Items
+      </p>
+     </div>
+     <select class="bg-orange-200 text-orange-800 px-4 py-2 rounded">
+      <option>
+       In stock
+      </option>
+      <option>
+        Sold out
+      </option>
+     </select>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>

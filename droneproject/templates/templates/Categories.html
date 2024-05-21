@@ -1,0 +1,130 @@
+<html>
+    <head>
+        <title>
+            Home
+        </title>
+            <script src="https://cdn.tailwindcss.com"></script>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+            <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
+        <style>
+        body {
+                    background-color: #fff;
+                }
+        </style>
+    </head>
+ 
+    <body>
+
+    <!-- Main Content -->
+    <!-- Welcome -->
+    {% extends 'base.html' %}
+    {% block content %}
+    {% load static %}
+
+        
+        
+    <!-- Categories -->
+    <main class="container mx-10 mt-12">
+        <h2 class="text-2xl font-extrabold mb-4">
+        Categories
+        </h2>
+        <div class="overflow-x-10">
+            <div class="flex space-x-4 mb-8">
+                <form action="{% url 'Categories' 'All' id %}" method="GET">
+                <input type="hidden" name="category" value="all">
+                <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                    All
+                </button>
+                </form>
+                <form action="{% url 'Categories' 'Fastfood' id %}" method="GET">
+                    <input type="hidden" name="category" value="fastfood">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Fast Food
+                    </button>
+                    </form>
+                <form action="{% url 'Categories' 'Sushi' id %}" method="GET">
+                    <input type="hidden" name="category" value="sushi">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Sushi
+                    </button>
+                </form>
+                <form action="{% url 'Categories' 'Asian' id %}" method="GET">
+                    <input type="hidden" name="category" value="asian">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Asian
+                    </button>
+                </form>
+                <form action="{% url 'Categories' 'Bubbletea' id %}" method="GET">
+                    <input type="hidden" name="category" value="bubbletea">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Bubble tea
+                    </button>
+                </form>
+                <form action="{% url 'Categories' 'Bakery' id %}" method="GET">
+                    <input type="hidden" name="category" value="bakery">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Bakery
+                    </button>
+                </form>
+                <form action="{% url 'Categories' 'Vegan' id %}" method="GET">
+                    <input type="hidden" name="category" value="vegan">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Vegan
+                    </button>
+                </form>
+                <form action="{% url 'Categories' 'Coffee' id %}" method="GET">
+                    <input type="hidden" name="category" value="coffee">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Coffee
+                    </button>
+                </form>
+                <form action="{% url 'Categories' 'Alcohol' id %}" method="GET">
+                    <input type="hidden" name="category" value="alcohol">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Alcohol
+                    </button>
+                </form>
+                <form action="{% url 'Categories' 'Icecream' id %}" method="GET">
+                    <input type="hidden" name="category" value="icecream">
+                    <button id="allFood" class="flex items-center justify-center rounded-full bg-gray-200 px-8 py-2 text-orange-400 hover:bg-orange-500 hover:text-white" type="submit">
+                        Ice cream
+                    </button>
+                </form>
+            </div>
+            </div>
+            </main>
+            
+    <!-- Food 1 -->
+    <main id="foodGrid" class="grid grid-cols-4 gap-10 mx-10">
+        {% for food in foods %}
+        <div id="Menu1" class="menu-item bg-orange-100 p-4 shadow rounded relative parent-class">
+            <div class="relative">
+                <img alt="Quesadilla Meal Image" height="200" src="{% static 'img/'|add:food.picture_link %}" width="300" class="rounded-lg" />
+                <button class="menu-add-btn" data-item-name="123" data-item-price="123">
+                    <i class="fas fa-plus-square text-orange-500 text-3xl absolute top-0 right-0 mt-2 mr-2 hover:text-orange-700"></i>
+                </button>
+            </div>
+            <h3 class="text-lg font-bold mt-2 font-semibold">{{ food.food_name }}</h3>
+            <p class="text-sm text-restaurant text-gray-600" >{{ food.restaurant }}</p>
+            <div class="flex items-center my-1">
+                <span class="text-orange-500">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </span>
+                <span class="text-gray-600 ml-2">(760)</span>
+            </div>
+            <p class="text-gray-900 text-xl">${{ food.price }}</p>
+            <p class="text-sm text-gray-600">{{ food.category }}</p>
+        </div>
+        {% endfor %}
+    </main>
+
+
+    <!-- Suggested Restaurants -->
+    <script src="{% static 'UserNavigation.js' %}"></script>
+</body>
+{% endblock %}
+</html>

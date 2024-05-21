@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <title>
+            Home
+        </title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+        <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
+        <style>
+        body {
+                    background-color: #fff;
+                }
+        </style>
+    </head>
+
+
+    <body>
+    <!-- Header -->
+    {% extends 'base.html' %}
+    {% block content %}
+    {% load static %}
+    <!-- Main Content -->
+    <main class="mx-10 my-6 grid grid-cols-3 gap-10 py-4">
+        <!-- Resto 2 -->
+        {% for restaurant in restaurants %}
+        <a href="{% url 'Menu' restaurant.name id %}">
+          <div id="Resto2" class="restaurant-item bg-orange-200 p-4 rounded-lg hover:bg-orange-300">
+                <img alt="Taco Bell meal image" class="mb-2 rounded-lg" height="300" src="{% static 'img/'|add:restaurant.picture_link %}" width="500"/>
+                <h2 class="font-semibold">
+                  {{ restaurant.name }}
+                </h2>
+                <p>
+                  {{ restaurant.location }}
+                </p>
+                <p>
+                  {{ restaurant.opening_hours }}
+                </p>
+                <p>
+                  {{ restaurant.menu_items }}
+                </p>
+                <div class="text-orange-400">
+                    <i class="fas fa-star">
+                    </i>
+                    <i class="fas fa-star">
+                    </i>
+                    <i class="fas fa-star">
+                    </i>
+                    <i class="fas fa-star">
+                    </i>
+                    <i class="fas fa-star">
+                    </i>
+              </div>
+          </div>
+        </a>
+        {% endfor %}
+
+    </main>
+
+    <!-- Foot-->
+    <script src="{% static 'UserNavigation.js' %}"></script>
+    </body>
+    {% endblock %}
+</html>

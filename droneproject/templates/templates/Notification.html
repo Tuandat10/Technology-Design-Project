@@ -1,0 +1,96 @@
+<html>
+    <head>
+        <title>
+            Settings - Notification
+        </title>
+        <script src="https://cdn.tailwindcss.com">
+        </script>
+        
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+        <style>
+         body {
+                  background-color: #fff;
+              }
+        </style>
+    </head>
+
+
+    <body>
+    <!-- Header -->
+    {% extends 'base.html' %}
+    {% block content %}
+    {% load static %}
+
+
+    <!-- Main Content -->
+    <div class="flex flex-row mb-10 mt-10 mx-10">
+       <div class="flex flex-col mb-10 mt-10 mx-10">
+            <!-- Sidebar -->
+            <!-- 1st block -->
+            <div class="bg-orange-200 p-4 rounded-lg mb-6">
+                <div class="flex flex-col space-y-4 my-2 mx-4">
+                    <button class="sidebar-button flex items-center space-x-2  hover:text-orange-600" data-url="{% url 'Profile' id %}">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Personal Info</span>
+                    </button>
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'My-address' id %}">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>My address</span>
+                    </button>
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'Favourite' id %}">
+                            <i class="fas fa-heart"></i>
+                    <span>Favorite</span>
+                    </button>
+                </div>
+            </div>
+        
+            <!-- 2nd block -->
+            <div class="bg-orange-200 p-4 rounded-lg mb-6">
+                <div class="flex flex-col space-y-4 my-2 mx-4">
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'My-order-history' id %}">
+                        <i class="fas fa-history"></i>
+                        <span>Order History</span>
+                    </button>
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 font-extrabold text-orange-700 hover:text-orange-600" data-url="{% url 'Notification' id %}">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
+                    </button>
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'Payment' id %}">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Payment Method</span>
+                    </button>
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'Settings' id %}">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </button>
+                </div>
+            </div>
+        
+            <!-- 3rd block -->
+            <div class="bg-orange-200 p-4 rounded-lg mb-6">
+                <div class="sidebar-button flex flex-col space-y-4 my-2 mx-4">
+                    <button class="sidebar-button flex items-center space-x-2 text-gray-700 hover:text-orange-600" data-url="{% url 'Logout' id %}">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Log Out</span>
+                    </button>
+                </div>
+            </div>
+            </div>
+    
+    <!-- Main Section -->
+    <div class="w-3/4 ml-8 mt-10 mx-2">
+        <div class="bg-orange-200 p-4 rounded">
+            <p class="mx-4">
+                Invite friends to Wingways. You get $0 delivery fee when they use Wingways for the first time, they get a $0 delivery fee on 5 orders of $10 or more. Then, you get a $0 delivery fee on a $10 order. Other fees may apply.
+            </p>
+            <button class="bg-orange-500 text-white px-4 py-2 mx-4 rounded-lg mt-4 hover:bg-orange-600">
+                Detail
+            </button>
+        </div>
+    </div>
+    </div>
+    <script src="{% static 'UserNavigation.js' %}"></script>
+    <!-- Foot-->
+    </body>
+    {% endblock %}
+</html>

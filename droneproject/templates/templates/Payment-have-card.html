@@ -1,0 +1,104 @@
+<html>
+    <head>
+        <title>
+            Payment
+        </title>
+        <script src="https://cdn.tailwindcss.com">
+        </script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+        <style>
+         body {
+                  background-color: #fff;
+              }
+        </style>
+    </head>
+
+
+    <body>
+    <!-- Header -->
+    {% extends 'base.html' %}
+    {% block content %}
+    {% load static %}
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-6">
+    <div class="container mx-auto mt-10 mb-10">
+        <div class="flex justify-center space-x-20 items-center mb-4">
+            <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Cart' id %}">
+               <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">1</div>
+               <div>Shopping Cart</div>
+            </div>
+       
+            <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Shopping-Info' id %}">
+               <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">2</div>
+               <div>Shopping Info</div>
+            </div>
+       
+            <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Address' id %}">
+               <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">3</div>
+               <div>Address</div>
+            </div>
+       
+            <div class="step-container flex flex-col items-center w-full h-full">
+               <div class="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold hover:bg-orange-300">4</div>
+               <div class="text-orange-500">Payment Method</div>
+            </div>
+       </div>
+        <p class="text-white mt-10 mb-2 mx-10">    
+        - 
+        </p>
+
+        <!-- Choose type of card -->
+        {% for payment in payments %}
+        <div class="bg-orange-200 p-4 rounded-lg mx-10">
+            <div class="my-2 mx-2 flex items-center justify-between">
+                <div>
+                <input type="radio" name="credit" checked class="mr-2">
+                <span class="text-xl">Credit &amp; Debit Cards</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <img class="h-5" src="{% static 'img/logo-visa.png' %}" alt="Visa Logo">
+                    <img class="h-8" src="{% static 'img/logo-mastercard.png' %}" alt="Mastercard Logo">
+                </div>
+            </div>
+        </div>
+   
+        <!-- Card -->
+        <section class="bg-gray-100 p-6 shadow-md mx-10">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center space-x-4">
+                <div class="mr-10">
+                <img alt="Placeholder image for a credit card" class="rounded-lg" height="300" src="{% static 'img/card.png' %}" width="200"/>
+                </div>
+                <div>
+                    <div class="font-semibold text-gray-900">
+                        Master Card
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        {{ payment.card_number }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+        {% endfor %}
+
+        <!-- Add new card -->
+        <div class="mx-10">
+             <button class="add-card-button border-2 w-full mt-4 bg-gray-100 text-orange-500 py-2 px-4 rounded-lg hover:bg-gray-200 hover:text-orange-600" data-url="{% url 'Add-card' id %}">
+                + ADD NEW
+            </button>
+        </div>
+
+        <div class="flex justify-between items-center">
+            <button class="mx-10 my-4 mt-4 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 pay-button" data-url="{% url 'Payment-success' id %}">
+                Pay &amp; Confirm
+            </button>
+        </div>
+    </main>
+    <script src="{% static 'UserNavigation.js' %}"></script>
+    </body>
+
+    <!-- Foot-->
+    {% endblock %}
+</html>
