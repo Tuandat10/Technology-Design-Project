@@ -1,0 +1,76 @@
+<html>
+    {% load static %}
+<head>
+    <title>Ready order</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{% static 'UserNavigation.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="flex flex-col items-center justify-center w-full bg-orange-400">
+         <!-- Head section with large circle -->
+          <div class="flex flex-col items-center justify-center my-6">
+          <div class="bg-white rounded-full w-24 h-24 flex items-center justify-center overflow-hidden">
+            <img src="{% static 'img/tacobell.png' %}" class="h-full w-full object-cover">
+          </div>
+          <div class="bg-gray-100 text-gray-500 font-bold mt-2 px-4 py-2 rounded">OPEN</div>
+          <button id="home" data-url="{% url 'Res-dashboard' id %}" class="bg-orange-600 rounded-full p-2 inline-flex justify-between items-center mt-4">
+            <i id="home" class="fas fa-home text-gray-300 text-xl"></i>
+          </button>
+          </div>
+        <!-- Top section with nav-->
+        <div class="flex space-x-4 items-center bg-white h-16">
+            <div class="flex flex-col items-center hover:bg-orange-100 cursor-pointer w-full h-full">
+              <div type="submit" id = "newOrderButton" data-url="{% url 'Res-neworder-noti' id %}" class="text-orange-500 font-bold px-2 py-1 mb-1 whitespace-nowrap overflow-hidden text-ellipsis">New Order</div>
+              <div class="text-xs font-bold px-2 py-1 mb-1"> {{ number.number_new_orders }}</div>
+            </div>
+            <div class="flex flex-col items-center hover:bg-orange-100 cursor-pointer w-full h-full">
+                <button type="submit" id = "preparingButton" data-url="{% url 'Res-preparing-order' id %}" class="text-orange-500 font-bold px-2 py-1 mb-1 whitespace-nowrap overflow-hidden text-ellipsis">Preparing</button>
+                <div class="text-xs font-bold px-2 py-1 mb-1"> {{ number.number_preparing_orders }}</div>
+            </div>
+            <div class="flex flex-col items-center bg-orange-600 cursor-pointer w-full h-full">
+                <button type="submit" id = "readyButton" data-url="{% url 'Res-order-ready' id %}" class="text-white font-bold px-2 py-1 mb-1 whitespace-nowrap overflow-hidden text-ellipsis">Ready</button>
+                <div class="text-xs text-white font-bold px-2 py-1 mb-1">{{ number.number_ready_orders }}</div>
+            </div>
+            <div class="flex flex-col items-center hover:bg-orange-100 cursor-pointer w-full h-full">
+                <button type="submit" id="deliveryButton" data-url="{% url 'Res-order-delivery' id %}" class="text-orange-500 font-bold px-2 py-1 mb-1 whitespace-nowrap overflow-hidden text-ellipsis">Delivering</button>
+                <div class="text-xs font-bold px-2 py-1 mb-1">{{ number.number_delivering_orders }}</div>
+            </div>
+            <div class="flex flex-col items-center hover:bg-orange-100 cursor-pointer w-full h-full">
+                <button type="submit" id="orderTracking" class="text-orange-500 font-bold px-2 py-1 mb-1 whitespace-nowrap overflow-hidden text-ellipsis">Tracking order</button>
+            </div>
+        </div>
+    </div>
+    <div class="container mx-auto px-4 my-10">
+      <!-- Orders list -->
+      {% for order_id, order_list in ready_results.items %}
+        <div class="bg-orange-300 p-4 rounded-lg mb-4">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-bold">Order Code {{ order_id }}</span>
+                <span class="text-gray-600">Pick up at {{ order_list.0.time }}</span>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+                <h3 class="font-bold"> {{ order_list.0.customer_name }} </h3>
+                <span class="text-gray-600"> ${{ order_list.0.price }}</span>
+            </div>
+            <div class="flex justify-between items-center">
+                <span>{{ order_list.0.total_quantity }} items</span>
+                <div>
+                    <form action="{% url 'Res-order-ready' id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="order_id" value="{{ order_id }}">
+                        <button type="submit" class="bg-orange-600 text-white font-bold px-4 py-1 rounded">Picking up</button>
+                </div>
+            </div>
+            {% empty %}
+            <p style="text-align: center; font-weight: bold; color: red;">You don't have any new orders right now</p>
+        {% endfor %}
+            </div>
+        </div>
+</body>
+</html>
