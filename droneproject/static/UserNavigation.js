@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // });
 
 
+
 // Sign in (redirect from sign up page)
 // document.addEventListener('DOMContentLoaded', function() {
 //     const signinButton = document.querySelector('.signinLink');
@@ -670,6 +671,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 })
+document.addEventListener('DOMContentLoaded', function() {
+    const pay_confirm = document.getElementById('pay_confirm');
+    if (pay_confirm) {
+        const elements = ['cartItems', 'street', 'zip_code', 'totalPrice', 'deliveryFee', 'city', 'province', 'serviceFee', 'phone','time_ordered'];
+        elements.forEach(className => {
+            const elements = document.getElementsByClassName(className);
+            Array.from(elements).forEach(element => {
+                element.value = sessionStorage.getItem(className);
+            });
+        });
+    }
+});
 
 // Sign up for new Restaurant account
 document.addEventListener('DOMContentLoaded', function() {

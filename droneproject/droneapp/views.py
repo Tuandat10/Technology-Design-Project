@@ -60,6 +60,8 @@ def PaymentCard(request,id):
     return render(request,"Payment-have-card.html",{'id':id,'payments':payments})
 def PaymentSuccess(request,id):
     if request.method == "POST":
+        print("a"*80)
+        print(request.POST.get('cartItems'))
         cartitems = json.loads(request.POST.get('cartItems'))
         street = request.POST.get('street')
         zip_code = request.POST.get('zip_code')
