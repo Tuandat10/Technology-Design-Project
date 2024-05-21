@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
 // Sign in (redirect from sign up page)
 document.addEventListener('DOMContentLoaded', function() {
     const signinButton = document.querySelector('.signinLink');
@@ -489,3 +488,175 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 })
 
+// Sign up for new Restaurant account
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('123456')
+    const form = document.getElementById('signupForm');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Form data handling
+        const formData = new FormData(form);
+
+        fetch(form.action, { // Assuming your form's 'action' attribute is set to the submission URL
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken') // Handling CSRF token for Django
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            // Handle success, such as redirecting to another page or showing a success message
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            // Handle errors here, such as displaying an error message to the user
+        });
+    });
+});
+
+// Function to get CSRF token from cookies
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('loginForm');
+
+    loginForm.addEventListener('submit', function(event) {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        if (!username || !password) {
+            // Simple alert to notify the user what is missing
+            alert('Both email and password are required.');
+            event.preventDefault(); // Prevent the form from being submitted
+        }
+    });
+});
+
+// document.addEventListener('DOMContentLoaded', function() {
+//     var orderHistoryButton = document.getElementById('orderHistoryButton');
+//     orderHistoryButton.addEventListener('click', function() {
+//         window.location.href = '/rorderhistory/';
+//     });
+// });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const nextButton = document.querySelector('#orderHistoryButton');
+    if (nextButton) {
+        nextButton.addEventListener('click', function() {
+            const destinationUrl = nextButton.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
+            }
+        });
+    } else {
+        console.log('#orderHistoryButton not found');
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const nextButton = document.querySelector('#home');
+    if (nextButton) {
+        nextButton.addEventListener('click', function() {
+            const destinationUrl = nextButton.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
+            }
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const nextButton = document.querySelector('#itemsButton');
+    if (nextButton) {
+        nextButton.addEventListener('click', function() {
+            const destinationUrl = nextButton.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
+            }
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const nextButton = document.querySelector('#newOrderButton');
+    if (nextButton) {
+        nextButton.addEventListener('click', function() {
+            const destinationUrl = nextButton.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
+            }
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const nextButton = document.querySelector('#preparingButton');
+    if (nextButton) {
+        nextButton.addEventListener('click', function() {
+            const destinationUrl = nextButton.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
+            }
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const nextButton = document.querySelector('#readyButton');
+    if (nextButton) {
+        nextButton.addEventListener('click', function() {
+            const destinationUrl = nextButton.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
+            }
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const nextButton = document.querySelector('#deliveryButton');
+    if (nextButton) {
+        nextButton.addEventListener('click', function() {
+            const destinationUrl = nextButton.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
+            }
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const nextButton = document.querySelector('#orderTracking');
+    if (nextButton) {
+        nextButton.addEventListener('click', function() {
+            const destinationUrl = nextButton.getAttribute('data-url');
+            if (destinationUrl) {
+                console.log('Navigating to:', destinationUrl); // Check the URL
+                window.location.href = destinationUrl;
+            }
+        });
+    }
+});

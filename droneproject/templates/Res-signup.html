@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <title>Partner with WingWays</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{% static 'UserNavigation.js' %}"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen flex flex-col justify-center items-center">
+        <div class="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full">
+            <form id="restaurantSignup" method="POST" action="{% url 'Res-signup' %}">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <input class="w-full p-2 border border-gray-300 rounded" placeholder="Store name" type="text" name="store_name" value="{{ form.store_name.value|default_if_none:'' }}" />
+                    {% if form.store_name.errors %}
+                        <p class="text-red-500 text-xs italic">{{ form.store_name.errors.as_text }}</p>
+                    {% endif %}
+                </div>
+                <div class="mb-4">
+                    <input class="w-full p-2 border border-gray-300 rounded" placeholder="Store Address" type="text" name="store_address" value="{{ form.store_address.value|default_if_none:'' }}" />
+                    {% if form.store_address.errors %}
+                        <p class="text-red-500 text-xs italic">{{ form.store_address.errors.as_text }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium text-gray-700">Menu Items</label>
+                    <div class="mt-2">
+                        <div>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" name="menu_items[]" value="Bakery" {% if 'Bakery' in form.business_type.value %}checked{% endif %}
+                                       class="form-checkbox h-5 w-5 text-blue-600">
+                                <span class="ml-2">Bakery</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" name="menu_items[]" value="Coffee" {% if 'Coffee' in form.business_type.value %}checked{% endif %}
+                                       class="form-checkbox h-5 w-5 text-blue-600">
+                                <span class="ml-2">Coffee</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" name="menu_items[]" value="Drink" {% if 'Drink' in form.business_type.value %}checked{% endif %}
+                                       class="form-checkbox h-5 w-5 text-blue-600">
+                                <span class="ml-2">Drink</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" name="menu_items[]" value="Food" {% if 'Food' in form.business_type.value %}checked{% endif %}
+                                       class="form-checkbox h-5 w-5 text-blue-600">
+                                <span class="ml-2">Food</span>
+                            </label>
+                        </div>
+                    </div>
+                    {% if form.business_type.errors %}
+                        <p class="text-red-500 text-xs italic">{{ form.business_type.errors.as_text }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block font-medium text-gray-700">Opening Time</label>
+                    <input class="w-full p-2 border border-gray-300 rounded" type="time" name="opening_time" value="{{ form.opening_time.value|default_if_none:'' }}" />
+                    {% if form.opening_time.errors %}
+                        <p class="text-red-500 text-xs italic">{{ form.opening_time.errors.as_text }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block font-medium text-gray-700">Closing Time</label>
+                    <input class="w-full p-2 border border-gray-300 rounded" type="time" name="closing_time" value="{{ form.closing_time.value|default_if_none:'' }}" />
+                    {% if form.closing_time.errors %}
+                        <p class="text-red-500 text-xs italic">{{ form.closing_time.errors.as_text }}</p>
+                    {% endif %}
+                </div>                
+
+                <div class="mb-4">
+                    <label class="block font-medium text-gray-700">Upload Your Icon</label>
+                    <input class="w-full p-2 border border-gray-300 rounded" type="file" name="icon" accept="image/*" />
+                    {% if form.icon.errors %}
+                        <p class="text-red-500 text-xs italic">{{ form.icon.errors.as_text }}</p>
+                    {% endif %}
+                </div>
+             
+                <div class="mb-4">
+                    <input class="w-full p-2 border border-gray-300 rounded" placeholder="Phone" type="text" name="phone" value="{{ form.phone.value|default_if_none:'' }}" />
+                    {% if form.phone.errors %}
+                        <p class="text-red-500 text-xs italic">{{ form.phone.errors.as_text }}</p>
+                    {% endif %}
+                </div>
+                <div class="mb-4">
+                    <input class="w-full p-2 border border-gray-300 rounded" placeholder="Email" type="email" name="email" value="{{ form.email.value|default_if_none:'' }}" />
+                    {% if form.email.errors %}
+                        <p class="text-red-500 text-xs italic">{{ form.email.errors.as_text }}</p>
+                    {% endif %}
+                </div>
+                <div class="mb-4">
+                    <input class="w-full p-2 border border-gray-300 rounded" placeholder="Create Your Password" type="password" name="password1" />
+                    {% if form.password1.errors %}
+                        <p class="text-red-500 text-xs italic">{{ form.password1.errors.as_text }}</p>
+                    {% endif %}
+                </div>
+                <div class="mb-4">
+                    <input class="w-full p-2 border border-gray-300 rounded" placeholder="Confirm Your Password" type="password" name="password2" />
+                    {% if form.password2.errors %}
+                        <p class="text-red-500 text"></p>
+                    {% endif %}
+                    <input class="w-full p-2 border border-gray-300 rounded" type="submit" value="Submit" />
+            </form>
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}        
+        </div>
+    </div>
+</body>
+</html>

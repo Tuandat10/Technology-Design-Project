@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <title>Restaurant Log in</title>
+    <script src="{% static 'UserNavigation.js' %}"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="flex flex-col items-center justify-center w-full bg-orange-500">
+        <div class="my-10">
+            <img src="{% static 'img/logo-white-transparent.png' %}" class="w-32 h-auto object-contain" alt="Logo">
+        </div>
+    </div>
+    <div class="flex items-center justify-center min-h-screen">
+        <!-- Form starts here -->
+        <form id="loginForm" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-sm">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                    Email
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" name="username" type="text" placeholder="example@gmail.com" value="{{ form.username.value|default_if_none:'' }}">
+                {% if form.username.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.username.errors.as_text }}</p>
+                {% endif %}
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                    Password
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" name="password" type="password" placeholder="Enter Your Password">
+                {% if form.password.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.password.errors.as_text }}</p>
+                {% endif %}
+            </div>
+            <div class="flex items-center justify-between">
+                <button class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                    Login
+                </button>
+                <a class="inline-block align-baseline font-bold text-sm text-orange-500 hover:text-orange-800" href="#">
+                    Forgot Password?
+                </a>
+            </div>
+        </form>
+        <!-- End of Form -->
+    </div>
+</body>
+</html>
