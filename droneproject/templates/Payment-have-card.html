@@ -24,17 +24,17 @@
     <main class="container mx-auto p-6">
     <div class="container mx-auto mt-10 mb-10">
         <div class="flex justify-center space-x-20 items-center mb-4">
-            <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Cart' %}">
+            <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Cart' id %}">
                <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">1</div>
                <div>Shopping Cart</div>
             </div>
        
-            <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Shopping-Info' %}">
+            <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Shopping-Info' id %}">
                <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">2</div>
                <div>Shopping Info</div>
             </div>
        
-            <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Address' %}">
+            <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Address' id %}">
                <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">3</div>
                <div>Address</div>
             </div>
@@ -49,6 +49,7 @@
         </p>
 
         <!-- Choose type of card -->
+        {% for payment in payments %}
         <div class="bg-orange-200 p-4 rounded-lg mx-10">
             <div class="my-2 mx-2 flex items-center justify-between">
                 <div>
@@ -74,27 +75,25 @@
                         Master Card
                     </div>
                     <div class="text-sm text-gray-500">
-                        ************* 436
+                        {{ payment.card_number }}
                     </div>
                 </div>
             </div>
         </div>
         </section>
+        {% endfor %}
 
         <!-- Add new card -->
         <div class="mx-10">
-             <button class="add-card-button border-2 w-full mt-4 bg-gray-100 text-orange-500 py-2 px-4 rounded-lg hover:bg-gray-200 hover:text-orange-600" data-url="{% url 'Add-card' %}">
+             <button class="add-card-button border-2 w-full mt-4 bg-gray-100 text-orange-500 py-2 px-4 rounded-lg hover:bg-gray-200 hover:text-orange-600" data-url="{% url 'Add-card' id %}">
                 + ADD NEW
             </button>
         </div>
 
         <div class="flex justify-between items-center">
-            <button class="mx-10 my-4 mt-4 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 pay-button" data-url="{% url 'Payment-success' %}">
+            <button class="mx-10 my-4 mt-4 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 pay-button" data-url="{% url 'Payment-success' id %}">
                 Pay &amp; Confirm
             </button>
-            <div class="text-gray-700 text-lg font-extrabold mx-10">
-                TOTAL: $35
-            </div>
         </div>
     </main>
     <script src="{% static 'UserNavigation.js' %}"></script>

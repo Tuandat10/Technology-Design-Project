@@ -10,12 +10,12 @@
             <nav class="flex items-center">
                 <ul class="flex space-x-5">
                     <li>
-                        <a class="mx-2 font-bold text-orange-900 hover:text-orange-700" href="{% url 'Home' %}">
+                        <a class="mx-2 font-bold text-orange-900 hover:text-orange-700" href="{% url 'Home' id %}">
                             Home
                         </a>
                     </li>
                     <li>
-                        <a class="mx-2 text-white hover:text-orange-700" href="{% url 'Restaurants' %}">
+                        <a class="mx-2 text-white hover:text-orange-700" href="{% url 'Restaurants' id %}">
                             Restaurants
                         </a>
                     </li>
@@ -28,9 +28,9 @@
             </nav>
         </div>
         <div class="relative mx-2">
-            <a class="mx-2 fas fa-shopping-cart text-white text-2xl hover:text-orange-700" href="{% url 'Cart' %}">
+            <a class="mx-2 fas fa-shopping-cart text-white text-2xl hover:text-orange-700" href="{% url 'Cart' id %}">
             </a>
-            <a class="mx-2 fas fa-user-circle text-white text-4xl" href="{% url 'Profile' %}">
+            <a class="mx-2 fas fa-user-circle text-white text-4xl" href="{% url 'Profile' id %}">
             </a>
         </div>
     </header>

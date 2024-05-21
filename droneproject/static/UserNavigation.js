@@ -12,27 +12,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // Sign up for new account
-document.addEventListener('DOMContentLoaded', function() {
-    const signupLink = document.getElementById('signupLink');
-    if (signupLink) {
-        signupLink.addEventListener('click', function(event) {
-            event.preventDefault();
-            window.location.href = 'Signup-(U).html';
-        });
-    }
-});
+// document.addEventListener('DOMContentLoaded', function() {
+//     const signupLink = document.getElementById('signupLink');
+//     if (signupLink) {
+//         signupLink.addEventListener('click', function(event) {
+//             event.preventDefault();
+//             window.location.href = 'Signup-(U).html';
+//         });
+//     }
+// });
 
 
 // Sign in (redirect from sign up page)
-document.addEventListener('DOMContentLoaded', function() {
-    const signinButton = document.querySelector('.signinLink');
-    if (signinButton) {
-        signinButton.addEventListener('click', function(event) {
-            event.preventDefault(); 
-            window.location.href = 'Login-(U).html';
-        });
-    }
-});
+// document.addEventListener('DOMContentLoaded', function() {
+//     const signinButton = document.querySelector('.signinLink');
+//     if (signinButton) {
+//         signinButton.addEventListener('click', function(event) {
+//             event.preventDefault(); 
+//             window.location.href = 'Login-(U).html';
+//         });
+//     }
+// });
 
 
 
@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Navigate to Track Order
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Document is button');
     const trackOrder = document.querySelectorAll('.track-order-button');
     trackOrder.forEach(function(trackOrder, index) {
         trackOrder.addEventListener('click', function() {
@@ -163,7 +162,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Navigate between the steps (in cart page)
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Document is button');
     const stepContainers = document.querySelectorAll('.step-container');
     stepContainers.forEach(function(stepContainer, index) {
         stepContainer.addEventListener('click', function() {
@@ -176,7 +174,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Document is button');
     const nextButton = document.querySelectorAll('.next-button');
     nextButton.forEach(function(nextButton, index) {
         nextButton.addEventListener('click', function() {
@@ -200,47 +197,240 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log(parentElement);
             const itemName = parentElement.querySelector('.font-semibold').innerText;
             const itemPrice = parseFloat(parentElement.querySelector('.text-xl').innerText.slice(1));
-            addToCart(itemName, itemPrice); // Add item
+            const restaurant = parentElement.querySelector('.text-restaurant').innerText;
+            addToCart(itemName, itemPrice, restaurant); // Add item
         });
     });
 });
-function addToCart(itemName, itemPrice) {
+
+function addToCart(itemName, itemPrice, restaurant) {
     const cartItems = getCartItems();
-    const existingItem = cartItems.find(item => item.name === itemName);
+    const existingItem = cartItems.find(item => item.name === itemName && item.restaurant === restaurant);
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
-        cartItems.push({ name: itemName, price: itemPrice, quantity: 1 });
+        cartItems.push({ name: itemName, price: itemPrice, quantity: 1, restaurant: restaurant });
     }
     updateCartItems(cartItems); // Update database
 }
-
 function getCartItems() {
-    return JSON.parse(localStorage.getItem('cartItems')) || [];
+    return JSON.parse(sessionStorage.getItem('cartItems')) || [];
 }
 
 function updateCartItems(cartItems) {
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
+}
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.location.pathname.includes('Cart')) {
+        const cartItems = getCartItems();
+        displayCartItems(cartItems);
+    }
+});
+
+function displayCartItems(cartItems) {
+    const cartContainer = document.getElementById('cart-container');
+    cartItems.forEach(item => {
+        const zerodive = document.createElement('div');
+        zerodive.className = 'flex flex-col gap-4 mt-4 mx-6'; // Add a class to the item
+        const firstdiv = document.createElement('div');
+        firstdiv.className = 'flex justify-between items-center p-4 rounded '; // Add a class to the item element
+        const firstspan = document.createElement('span');
+        firstspan.className = 'font-semibold text-xl'; // Add a class to the item element
+        firstspan.textContent = item.name;
+        const seconddiv = document.createElement('div');
+        seconddiv.className = 'flex items-center mx-10'; // Add a class to the item element    
+        const secondspan = document.createElement('span');
+        secondspan.className = 'text-xl'; // Add a class to the item element
+        secondspan.textContent = item.quantity;
+        const thirdspan = document.createElement('span');
+        const totalPrice = item.price * item.quantity;
+        thirdspan.className = 'text-xl'; // Add a class to the item element
+        thirdspan.textContent = `$${totalPrice}`;        
+
+        // Append the span elements to the firstdiv
+        firstdiv.appendChild(firstspan);
+        firstdiv.appendChild(secondspan);
+        firstdiv.appendChild(thirdspan);
+
+        // Append firstdiv to zerodive
+        zerodive.appendChild(firstdiv);
+
+        // Append zerodive to the cartContainer
+        cartContainer.appendChild(zerodive);
+    });
+
+    // Calculate the total price
+    let totalPrice = cartItems.reduce((total, item) => {
+        return total + (item.price * item.quantity);
+    }, 0);
+
+    // Select the HTML element where you want to display the total price
+    let totalPriceElement = document.getElementById('total-price');
+
+    // Set the text content of the element to the total price
+    totalPriceElement.textContent = `Food Price: $${totalPrice}`;
+}
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.location.pathname.includes('Shopping-Info')) {
+        const cartItems = getCartItems();
+        displayCartItemsshopinfo(cartItems);
+    }
+});
+
+function displayCartItemsshopinfo(cartItems) {
+    const cartContainer = document.getElementById('shop-info');
+
+    const firstdiv = document.createElement('div');
+    firstdiv.className = 'flex justify-between mx-10 mt-10 text-xl'; // Add a class to the item
+
+    const seconddiv = document.createElement('div');
+    firstdiv.appendChild(seconddiv); // Append seconddiv to firstdiv
+
+    const thirddiv = document.createElement('div');
+    thirddiv.className = 'py-2'; // Add a class to the item
+    thirddiv.textContent = "Food Price:";
+    seconddiv.appendChild(thirddiv); // Append thirddiv to seconddiv
+
+    const fourthdiv = document.createElement('div');
+    firstdiv.appendChild(fourthdiv); // Append fourthdiv to firstdiv
+
+    const fifthdiv = document.createElement('div');
+    let totalPrice = cartItems.reduce((total, item) => {
+        return total + (item.price * item.quantity);
+    }, 0);
+    fifthdiv.className = 'py-2'; // Add a class to the item
+    fifthdiv.textContent = `$${totalPrice}`;
+    fourthdiv.appendChild(fifthdiv); // Append fifthdiv to fourthdiv
+
+    cartContainer.appendChild(firstdiv); // Append firstdiv to cartContainer
 }
 
-
-
-// Navigate to next page based on current page
 document.addEventListener('DOMContentLoaded', function() {
-    const nextButton = document.querySelector('.next-button');
-    if (nextButton) {
-        nextButton.addEventListener('click', function() {
-            const currentPage = getCurrentPage(); 
-            const nextPage = getNextPage(currentPage);
-            if (nextPage) {
-                // Get the URLs from the data attribute
-                const urls = JSON.parse(document.body.getAttribute('data-urls'));
-                // Navigate to the next page
-                window.location.href = urls[nextPage];
+    if (window.location.pathname.includes('Shopping-Info')) {
+        const cartItems = getCartItems();
+        displayCartItemsfeeinfo(cartItems);
+    }
+});
+
+function displayCartItemsfeeinfo(cartItems) {
+    const cartContainer = document.getElementById('fee-info');
+    const firstdiv = document.createElement('div');
+    cartContainer.appendChild(firstdiv);
+    const seconddiv = document.createElement('div');
+    seconddiv.textContent = "Service Fee";
+    firstdiv.appendChild(seconddiv);
+    const thirddiv = document.createElement('div');
+    thirddiv.textContent = "Delivery Fee";
+    firstdiv.appendChild(thirddiv);
+    const fourthdiv = document.createElement('div');
+    fourthdiv.className = 'font-extrabold';
+    fourthdiv.textContent = "Total";
+    firstdiv.appendChild(fourthdiv);
+    const fifthdiv = document.createElement('div');
+    cartContainer.appendChild(fifthdiv);
+    const sixthdiv = document.createElement('div');
+    serviceFee = 3;
+    sixthdiv.textContent = `$${serviceFee}`;
+    fifthdiv.appendChild(sixthdiv);
+    const seventhdiv = document.createElement('div');
+    deliveryFee = 1;
+    seventhdiv.textContent = `$${deliveryFee}`;
+    fifthdiv.appendChild(seventhdiv);
+    const eighthdiv = document.createElement('div');
+    eighthdiv.className = 'font-extrabold';
+    let foodPrice = cartItems.reduce((total, item) => {
+        return total + (item.price * item.quantity);
+    }, 0);
+    const total = foodPrice + serviceFee + deliveryFee;
+    eighthdiv.textContent = `$${total}`;
+    fifthdiv.appendChild(eighthdiv);
+    return {total, serviceFee, deliveryFee};
+   
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const feeButton = document.getElementById('fee-button');
+    if (feeButton) {
+        feeButton.addEventListener('click', function(event) {
+            const cartItems = getCartItems();
+            const { total, serviceFee, deliveryFee } = displayCartItemsfeeinfo(cartItems);
+            sessionStorage.setItem('totalPrice', total);
+            sessionStorage.setItem('serviceFee', serviceFee);
+            sessionStorage.setItem('deliveryFee', deliveryFee);
+        });
+    }
+});
+document.addEventListener('DOMContentLoaded', (event) => {
+    const payMent = document.getElementById('address-button');
+    if(payMent) {
+        payMent.addEventListener('click', function() {
+            var radios = document.getElementsByName('credit');
+            console.log(radios.length);
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    var paymentdiv = radios[i].parentNode;
+                    var payment_id = paymentdiv.querySelector('.paymentid').textContent;
+                    sessionStorage.setItem('payment_id', payment_id);
+                }
             }
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    const addressButton = document.getElementById('address-button');
+    if(addressButton) {
+        addressButton.addEventListener('click', function() {
+            var radios = document.getElementsByName('address');
+            console.log(radios.length);
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    var addressDiv = radios[i].parentNode;
+                    var street = addressDiv.querySelector('.street').textContent.split(': ')[1];
+                    var city = addressDiv.querySelector('.city').textContent.split(': ')[1];
+                    var province = addressDiv.querySelector('.province').textContent.split(': ')[1];
+                    var zip_code = addressDiv.querySelector('.zip_code').textContent.split(': ')[1];
+                    var phone = addressDiv.querySelector('.phone').textContent.split(': ')[1];
+                    var date = new Date();
+                    let hours = date.getHours();
+                    let minutes = date.getMinutes();
+                    let seconds = date.getSeconds();
+                    sessionStorage.setItem('street', street);
+                    sessionStorage.setItem('city', city);
+                    sessionStorage.setItem('province', province);
+                    sessionStorage.setItem('zip_code', zip_code);
+                    sessionStorage.setItem('phone', phone);
+                    sessionStorage.setItem('time_ordered', `${hours}:${minutes}:${seconds}`);
+                    break;
+                }
+            }
+        });
+    }
+});
+
+    
+
+
+
+
+
+
+// Navigate to next page based on current page
+// document.addEventListener('DOMContentLoaded', function() {
+//     const nextButton = document.querySelector('.next-button');
+//     if (nextButton) {
+//         nextButton.addEventListener('click', function() {
+//             const currentPage = getCurrentPage(); 
+//             const nextPage = getNextPage(currentPage);
+//             if (nextPage) {
+//                 // Get the URLs from the data attribute
+//                 const urls = JSON.parse(document.body.getAttribute('data-urls'));
+//                 // Navigate to the next page
+//                 window.location.href = urls[nextPage];
+//             }
+//         });
+//     }
+// });
 
 
 // Function to get current page name
@@ -251,21 +441,20 @@ function getCurrentPage() {
 }
 
 // Function to determine the next page based on current page
-function getNextPage(currentPage) {
-    const pageMap = { // Define a mapping
-        'Cart': 'Shopping-Info',
-        'Shopping-Info': 'Address',
-        'Address': 'Payment-no-card',
-        'Payment-no-card': 'Payment-success'
-    };
-    return pageMap[currentPage];
-}
+// function getNextPage(currentPage) {
+//     const pageMap = { // Define a mapping
+//         'Cart': 'Shopping-Info',
+//         'Shopping-Info': 'Address',
+//         'Address': 'Payment-no-card',
+//         'Payment-no-card': 'Payment-success'
+//     };
+//     return pageMap[currentPage];
+// }
 
 
 
 // Add new address
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Document is button');
     const addAddress = document.querySelectorAll('.add-address-button');
     addAddress.forEach(function(addAddress, index) {
         addAddress.addEventListener('click', function() {
@@ -301,7 +490,7 @@ document.addEventListener('DOMContentLoaded', function() {
 //     }
 // });
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Document is button');
+    console.log('abcxyz')
     const addCard = document.querySelectorAll('.add-card-button');
     addCard.forEach(function(addCard, index) {
         addCard.addEventListener('click', function() {
@@ -318,7 +507,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Save button
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Document is button');
     const saveButton = document.querySelectorAll('.save-button');
     saveButton.forEach(function(saveButton, index) {
         saveButton.addEventListener('click', function() {
@@ -367,7 +555,6 @@ function getCurrentPageName() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Document is button');
     const justifyEnd = document.querySelectorAll('.justify-end');
     justifyEnd.forEach(function(justifyEnd, index) {
         justifyEnd.addEventListener('click', function() {
@@ -396,7 +583,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Pay the order
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Document is button');
     const paymentSuccess = document.querySelectorAll('.pay-button');
     paymentSuccess.forEach(function(paymentSuccess, index) {
         paymentSuccess.addEventListener('click', function() {
@@ -448,7 +634,6 @@ document.addEventListener('DOMContentLoaded', function() {
 // });
 // Log out
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Document is button');
     const yesButton = document.querySelectorAll('.yesButton');
     yesButton.forEach(function(yesButton, index) {
         yesButton.addEventListener('click', function() {
@@ -462,7 +647,6 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Document is button');
     const noButton = document.querySelectorAll('.noButton');
     noButton.forEach(function(noButton, index) {
         noButton.addEventListener('click', function() {
@@ -475,7 +659,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 })
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Document is button');
     const noButton = document.querySelectorAll('.noButton');
     noButton.forEach(function(noButton, index) {
         noButton.addEventListener('click', function() {

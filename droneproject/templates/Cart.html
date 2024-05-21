@@ -47,8 +47,8 @@
     <!-- Information of items -->
     <div class="bg-orange-200 p-2 mx-10 rounded-lg">
         <!-- First item -->
-        <div class="flex flex-col gap-4 mt-4 mx-6">
-            <div class="flex justify-between items-center p-4 rounded">
+        <!-- <div class="flex flex-col gap-4 mt-4 mx-6">
+            <div class="flex justify-between items-center p-4 rounded ">
             <img alt="Quesadilla Meal" class="rounded" height="200" src="{% static 'img/menu2.png' %}" width="200"/>
             <span class="font-semibold text-xl">
                 Quesadilla Meal
@@ -65,10 +65,10 @@
             <span class="text-xl">
                 $16.25
             </span>
-        </div>
+        </div> -->
      
         <!-- Second item -->
-        <div class="flex justify-between items-center p-4 rounded">
+        <!-- <div class="flex justify-between items-center p-4 rounded">
             <img alt="Stacked Tortilla Chips" class="rounded" height="200" src="{% static 'img/menu3.png' %}" width="200"/>
             <span class="font-semibold text-xl">
                 Stacked Tortilla Chips
@@ -85,10 +85,27 @@
             <span class="text-xl">
                 $14.75
             </span>
-        </div>
+        </div> -->
+        <div class="flex justify-between items-center p-4 rounded">
+        <span class="font-semibold text-xl">
+            Food
+        </span>
+        <span class="text-xl">
+            Quantity
+        </span>
+        <span class="text-xl">
+            Total Price
+        </span>
     </div>
+        <div id="cart-container">
+        </div>
+        <span id="total-price" class="font-semibold text-xl"></span>
 
-    <button class="next-button mx-4 my-4 mt-4 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600" data-url="{% url 'Shopping-Info' %}">
+    </div>
+ 
+
+
+    <button class="next-button mx-4 my-4 mt-4 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600" data-url="{% url 'Shopping-Info' id %}">
         Next
     </button>
     </div>

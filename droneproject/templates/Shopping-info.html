@@ -24,7 +24,7 @@
   <main class="container mx-auto p-6">
     <div class="container mx-auto mt-10 mb-10">
         <div class="flex justify-center space-x-20 items-center mb-4">
-         <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Cart' %}">
+         <div class="step-container flex flex-col items-center w-full h-full" data-url="{% url 'Cart' id %}">
             <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">1</div>
             <div>Shopping Cart</div>
          </div>
@@ -50,59 +50,12 @@
    
     <!-- Order information -->
     <div class="bg-orange-200 p-2 mx-10 rounded-lg">
-        <div class="flex justify-between mx-10 mt-10 text-xl">
-            <div>
-                <div class="py-2">
-                    Quesadilla Meal
-                </div>
-                <div class="py-2">
-                    Stacked Tortilla Chips
-                </div>
-            </div>
-            <div>
-                <div class="py-2">
-                    $16.25
-                </div>
-                <div class="py-2">
-                    $14.75
-                </div>
-            </div>
-        </div>
+        <div id="shop-info"></div>
         <hr class="my-4"/>
-
-
-        <div class="flex justify-between mx-10 mt-6  text-xl">
-            <div>
-                <div>
-                    Subtotal
-                </div>
-                <div>
-                    Service Fee
-                </div>
-                <div>
-                    Delivery Fee
-                </div>
-                <div class="font-extrabold">
-                    Total
-                </div>
-            </div>
-            <div>
-                <div>
-                    $31
-                </div>
-                <div>
-                    $3
-                </div>
-                <div>
-                    $1
-                </div>
-                <div class="font-extrabold">
-                    $35
-                </div>
-            </div>
+        <div class="flex justify-between mx-10 mt-6  text-xl" id="fee-info">
         </div>
 
-        <button class="next-button mx-4 my-4 mt-4 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600" data-url="{% url 'Address' %}">
+        <button class="next-button mx-4 my-4 mt-4 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600" data-url="{% url 'Address' id %}" id="fee-button">
             Next
         </button>
     </div>
