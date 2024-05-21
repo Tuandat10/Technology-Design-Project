@@ -108,6 +108,7 @@ class Order_Food(models.Model):
     order_generalid = models.ForeignKey(Order_General, on_delete=models.DO_NOTHING)
     food = models.CharField(max_length=255)
     quantity = models.IntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2,default=0.0)
 
 class Restaurant_Order(models.Model):
     id = models.AutoField(primary_key=True)

@@ -229,13 +229,13 @@ def register(request):
         password2 = request.POST.get('password2')
         opening_time = request.POST.get('opening_time')
         closing_time = request.POST.get('closing_time')
-        icon = request.POST.get('icon')
+        picture_link = request.POST.get('icon')
         if password == password2:
             if Restaurant.objects.filter(email=email).exists():
                 print('Email is already taken')
                 return redirect('Res-signup')
             else:
-                user = Restaurant.objects.create(email=email, password=password, name=name, location=location, menu_items=menu_items, phone=phone, opening_time=opening_time, closing_time=closing_time, icon=icon)
+                user = Restaurant.objects.create(email=email, password=password, name=name, location=location, menu_items=menu_items, phone=phone, opening_time=opening_time, closing_time=closing_time, picture_link=picture_link)
                 user.save()
                 return redirect('Res-signin')
         else:
@@ -275,12 +275,12 @@ def dashboard(request, id):
         }
         results.append(order_data)
     number_of_orders = len(results)
-
-    number_new_orders = Order_General.objects.filter(status='New order').count()
-    number_preparing_orders = Order_General.objects.filter(status='Preparing').count()
-    number_ready_orders = Order_General.objects.filter(status='Ready').count()
-    number_delivering_orders = Order_General.objects.filter(status='Delivering').count()
-    number_delivered_orders = Order_General.objects.filter(status='Delivered').count()
+    restaurant_ordernumber = Restaurant_Order.objects.filter(restaurant=id).first()
+    number_new_orders = Order_General.objects.filter(status='New order',order_id=restaurant_ordernumber.order.order_id).count()
+    number_preparing_orders = Order_General.objects.filter(status='Preparing',order_id=restaurant_ordernumber.order.order_id).count()
+    number_ready_orders = Order_General.objects.filter(status='Ready',order_id=restaurant_ordernumber.order.order_id).count()
+    number_delivering_orders = Order_General.objects.filter(status='Delivering',order_id=restaurant_ordernumber.order.order_id).count()
+    number_delivered_orders = Order_General.objects.filter(status='Delivered',order_id=restaurant_ordernumber.order.order_id).count()
     number = {
         'number_new_orders': number_new_orders,
         'number_preparing_orders': number_preparing_orders,
@@ -362,11 +362,12 @@ def rnewordernoti(request, id):
         number_of_orders = len(results)
         print(number_of_orders)
         number_of_neworders = 0
-    number_new_orders = Order_General.objects.filter(status='New order').count()
-    number_preparing_orders = Order_General.objects.filter(status='Preparing').count()
-    number_ready_orders = Order_General.objects.filter(status='Ready').count()
-    number_delivering_orders = Order_General.objects.filter(status='Delivering').count()
-    number_delivered_orders = Order_General.objects.filter(status='Delivered').count()
+    restaurant_ordernumber = Restaurant_Order.objects.filter(restaurant=id).first()
+    number_new_orders = Order_General.objects.filter(status='New order',order_id=restaurant_ordernumber.order.order_id).count()
+    number_preparing_orders = Order_General.objects.filter(status='Preparing',order_id=restaurant_ordernumber.order.order_id).count()
+    number_ready_orders = Order_General.objects.filter(status='Ready',order_id=restaurant_ordernumber.order.order_id).count()
+    number_delivering_orders = Order_General.objects.filter(status='Delivering',order_id=restaurant_ordernumber.order.order_id).count()
+    number_delivered_orders = Order_General.objects.filter(status='Delivered',order_id=restaurant_ordernumber.order.order_id).count()
     number = {
         'number_new_orders': number_new_orders,
         'number_preparing_orders': number_preparing_orders,
@@ -445,12 +446,12 @@ def rpreparingorder (request, id):
         }
         result_neworder_noti.append(order_data)
     number_of_neworders = len(result_neworder_noti)
-
-    number_new_orders = Order_General.objects.filter(status='New order').count()
-    number_preparing_orders = Order_General.objects.filter(status='Preparing').count()
-    number_ready_orders = Order_General.objects.filter(status='Ready').count()
-    number_delivering_orders = Order_General.objects.filter(status='Delivering').count()
-    number_delivered_orders = Order_General.objects.filter(status='Delivered').count()
+    restaurant_ordernumber = Restaurant_Order.objects.filter(restaurant=id).first()
+    number_new_orders = Order_General.objects.filter(status='New order',order_id=restaurant_ordernumber.order.order_id).count()
+    number_preparing_orders = Order_General.objects.filter(status='Preparing',order_id=restaurant_ordernumber.order.order_id).count()
+    number_ready_orders = Order_General.objects.filter(status='Ready',order_id=restaurant_ordernumber.order.order_id).count()
+    number_delivering_orders = Order_General.objects.filter(status='Delivering',order_id=restaurant_ordernumber.order.order_id).count()
+    number_delivered_orders = Order_General.objects.filter(status='Delivered',order_id=restaurant_ordernumber.order.order_id).count()
     number = {
         'number_new_orders': number_new_orders,
         'number_preparing_orders': number_preparing_orders,
@@ -488,12 +489,12 @@ def rorderready(request, id):
             ready_results[order_id].append(order_data)
         else :
             ready_results[order_id] = [order_data]
-    
-    number_new_orders = Order_General.objects.filter(status='New order').count()
-    number_preparing_orders = Order_General.objects.filter(status='Preparing').count()
-    number_ready_orders = Order_General.objects.filter(status='Ready').count()
-    number_delivering_orders = Order_General.objects.filter(status='Delivering').count()
-    number_delivered_orders = Order_General.objects.filter(status='Delivered').count()
+    restaurant_ordernumber = Restaurant_Order.objects.filter(restaurant=id).first()
+    number_new_orders = Order_General.objects.filter(status='New order',order_id=restaurant_ordernumber.order.order_id).count()
+    number_preparing_orders = Order_General.objects.filter(status='Preparing',order_id=restaurant_ordernumber.order.order_id).count()
+    number_ready_orders = Order_General.objects.filter(status='Ready',order_id=restaurant_ordernumber.order.order_id).count()
+    number_delivering_orders = Order_General.objects.filter(status='Delivering',order_id=restaurant_ordernumber.order.order_id).count()
+    number_delivered_orders = Order_General.objects.filter(status='Delivered',order_id=restaurant_ordernumber.order.order_id).count()
     number = {
         'number_new_orders': number_new_orders,
         'number_preparing_orders': number_preparing_orders,
@@ -531,12 +532,12 @@ def rorderdelivery (request, id):
         else :
             delivery_results[order_id] = [order_data]
     print(delivery_results)
-
-    number_new_orders = Order_General.objects.filter(status='New order').count()
-    number_preparing_orders = Order_General.objects.filter(status='Preparing').count()
-    number_ready_orders = Order_General.objects.filter(status='Ready').count()
-    number_delivering_orders = Order_General.objects.filter(status='Delivering').count()
-    number_delivered_orders = Order_General.objects.filter(status='Delivered').count()
+    restaurant_ordernumber = Restaurant_Order.objects.filter(restaurant=id).first()
+    number_new_orders = Order_General.objects.filter(status='New order',order_id=restaurant_ordernumber.order.order_id).count()
+    number_preparing_orders = Order_General.objects.filter(status='Preparing',order_id=restaurant_ordernumber.order.order_id).count()
+    number_ready_orders = Order_General.objects.filter(status='Ready',order_id=restaurant_ordernumber.order.order_id).count()
+    number_delivering_orders = Order_General.objects.filter(status='Delivering',order_id=restaurant_ordernumber.order.order_id).count()
+    number_delivered_orders = Order_General.objects.filter(status='Delivered',order_id=restaurant_ordernumber.order.order_id).count()
     number = {
         'number_new_orders': number_new_orders,
         'number_preparing_orders': number_preparing_orders,
@@ -550,7 +551,7 @@ def rorderdelivery (request, id):
 def rordertracking(request, id):
 
     order_tracking ={}
-    restaurant_orders = Restaurant_Order.objects.filter(restaurant=id, status='Delivering')
+    restaurant_orders = Restaurant_Order.objects.filter(restaurant=id, status='Delivered')
     for restaurant_order in restaurant_orders:
         order_generals = restaurant_order.order
         order_id = order_generals.order_id
@@ -564,12 +565,12 @@ def rordertracking(request, id):
             order_tracking[order_id].append(order_data)
         else :
             order_tracking[order_id] = [order_data]
-
-    number_new_orders = Order_General.objects.filter(status='New order').count()
-    number_preparing_orders = Order_General.objects.filter(status='Preparing').count()
-    number_ready_orders = Order_General.objects.filter(status='Ready').count()
-    number_delivering_orders = Order_General.objects.filter(status='Delivering').count()
-    number_delivered_orders = Order_General.objects.filter(status='Delivered').count()
+    restaurant_ordernumber = Restaurant_Order.objects.filter(restaurant=id).first()
+    number_new_orders = Order_General.objects.filter(status='New order',order_id=restaurant_ordernumber.order.order_id).count()
+    number_preparing_orders = Order_General.objects.filter(status='Preparing',order_id=restaurant_ordernumber.order.order_id).count()
+    number_ready_orders = Order_General.objects.filter(status='Ready',order_id=restaurant_ordernumber.order.order_id).count()
+    number_delivering_orders = Order_General.objects.filter(status='Delivering',order_id=restaurant_ordernumber.order.order_id).count()
+    number_delivered_orders = Order_General.objects.filter(status='Delivered',order_id=restaurant_ordernumber.order.order_id).count()
     number = {
         'number_new_orders': number_new_orders,
         'number_preparing_orders': number_preparing_orders,
