@@ -5,11 +5,19 @@
         </title>
             <script src="https://cdn.tailwindcss.com"></script>
             <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
-            <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">ss" rel="stylesheet"/>
+            <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
         <style>
         body {
                     background-color: #fff;
                 }
+        .cart-item {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 4px;
+        margin-top: 4px;
+        margin-right: 6px;
+        margin-left: 6px;
+    }
         </style>
     </head>
     {% extends 'base.html' %}
@@ -40,67 +48,23 @@
             <div>Payment Method</div>
         </div>
     </div>
-        <p class="mt-10 mb-2 mx-10">
-        You have 2 items in your cart.
-        </p>
 
     <!-- Information of items -->
     <div class="bg-orange-200 p-2 mx-10 rounded-lg">
-        <!-- First item -->
-        <!-- <div class="flex flex-col gap-4 mt-4 mx-6">
-            <div class="flex justify-between items-center p-4 rounded ">
-            <img alt="Quesadilla Meal" class="rounded" height="200" src="{% static 'img/menu2.png' %}" width="200"/>
-            <span class="font-semibold text-xl">
-                Quesadilla Meal
-            </span>
-            <div class="flex items-center">
-                <button class="text-gray-500 mx-4">
-                    <i class="far fa-minus-square"></i>
-                </button>
-            <input class="w-8 text-xl text-center bg-orange-200" type="text" value="1"/>
-                <button class="text-gray-500 mx-4">
-                    <i class="far fa-plus-square"></i>
-                </button>
-            </div>
-            <span class="text-xl">
-                $16.25
-            </span>
-        </div> -->
-     
-        <!-- Second item -->
-        <!-- <div class="flex justify-between items-center p-4 rounded">
-            <img alt="Stacked Tortilla Chips" class="rounded" height="200" src="{% static 'img/menu3.png' %}" width="200"/>
-            <span class="font-semibold text-xl">
-                Stacked Tortilla Chips
-            </span>
-            <div class="flex items-center mx-10" >
-                <button class="text-gray-500 mx-4">
-                    <i class="far fa-minus-square"></i>
-                </button>
-            <input class="w-8 text-xl text-center bg-orange-200" type="text" value="1"/>
-                <button class="text-gray-500 mx-4">
-                    <i class="far fa-plus-square"></i>
-                </button>
-            </div>
-            <span class="text-xl">
-                $14.75
-            </span>
-        </div> -->
         <div class="flex justify-between items-center p-4 rounded">
-        <span class="font-semibold text-xl">
-            Food
-        </span>
-        <span class="text-xl">
-            Quantity
-        </span>
-        <span class="text-xl">
-            Total Price
-        </span>
-    </div>
+            <span class="font-semibold text-xl">
+                Food
+            </span>
+            <span class="text-xl">
+                Quantity
+            </span>
+            <span class="text-xl">
+                Total Price
+            </span>
+        </div>
         <div id="cart-container">
         </div>
         <span id="total-price" class="font-semibold text-xl"></span>
-
     </div>
  
 

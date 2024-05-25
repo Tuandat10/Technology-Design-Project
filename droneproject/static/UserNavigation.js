@@ -79,38 +79,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-// Tracking Map
-document.addEventListener('DOMContentLoaded', function () {
-    // Create map and sets center (Melbourne, Hawthorn) and zoom level
-    var map = L.map('map').setView([-37.8216, 145.0379], 10);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+// // Tracking Map
+// document.addEventListener('DOMContentLoaded', function () {
+//     // Create map and sets center (Melbourne, Hawthorn) and zoom level
+//     var map = L.map('map').setView([-37.8216, 145.0379], 10);
+//     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+//     }).addTo(map);
 
-    var droneIcon = L.icon({
-        iconUrl: 'img/track.png',
-        iconSize: [52, 52],
-        iconAnchor: [26, 26]
-    });
+//     var droneIcon = L.icon({
+//         iconUrl: 'img/track.png',
+//         iconSize: [52, 52],
+//         iconAnchor: [26, 26]
+//     });
 
-    // Drone (starting point)
-    var droneMarker = L.marker([-37.8216, 145.0379], { icon: droneIcon }).addTo(map);
-    droneMarker.bindPopup("<b>Hello!</b><br>This is a drone delivery.").openPopup();
+//     // Drone (starting point)
+//     var droneMarker = L.marker([-37.8216, 145.0379], { icon: droneIcon }).addTo(map);
+//     droneMarker.bindPopup("<b>Hello!</b><br>This is a drone delivery.").openPopup();
 
-    // Destination
-    L.marker([-37.8276, 145.0577]).addTo(map);
+//     // Destination
+//     L.marker([-37.8276, 145.0577]).addTo(map);
 
-    // Define coordinates
-    var deliveryPathCoordinates = [
-        [-37.8216, 145.0379], 
-        [-37.8276, 145.0577]  
-    ];
-    // Create a delivery path (route) using coordinates
-    var deliveryPath = L.polyline(deliveryPathCoordinates, { color: '#FF5733' }).addTo(map);
-    // Fit the map view to show all markers and path
-    var bounds = L.latLngBounds([droneMarker.getLatLng(), deliveryPath.getLatLngs()]);
-    map.fitBounds(bounds);
-});
+//     // Define coordinates
+//     var deliveryPathCoordinates = [
+//         [-37.8216, 145.0379], 
+//         [-37.8276, 145.0577]  
+//     ];
+//     // Create a delivery path (route) using coordinates
+//     var deliveryPath = L.polyline(deliveryPathCoordinates, { color: '#FF5733' }).addTo(map);
+//     // Fit the map view to show all markers and path
+//     var bounds = L.latLngBounds([droneMarker.getLatLng(), deliveryPath.getLatLngs()]);
+//     map.fitBounds(bounds);
+// });
 
 
 
@@ -231,33 +231,27 @@ document.addEventListener('DOMContentLoaded', function() {
 function displayCartItems(cartItems) {
     const cartContainer = document.getElementById('cart-container');
     cartItems.forEach(item => {
-        const zerodive = document.createElement('div');
-        zerodive.className = 'flex flex-col gap-4 mt-4 mx-6'; // Add a class to the item
-        const firstdiv = document.createElement('div');
-        firstdiv.className = 'flex justify-between items-center p-4 rounded '; // Add a class to the item element
-        const firstspan = document.createElement('span');
-        firstspan.className = 'font-semibold text-xl'; // Add a class to the item element
-        firstspan.textContent = item.name;
-        const seconddiv = document.createElement('div');
-        seconddiv.className = 'flex items-center mx-10'; // Add a class to the item element    
-        const secondspan = document.createElement('span');
-        secondspan.className = 'text-xl'; // Add a class to the item element
-        secondspan.textContent = item.quantity;
-        const thirdspan = document.createElement('span');
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'cart-item'; // Use CSS Grid for layout
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'font-semibold text-xl';
+        nameSpan.textContent = item.name;
+
+        const quantitySpan = document.createElement('span');
+        quantitySpan.className = 'text-xl';
+        quantitySpan.textContent = item.quantity;
+
+        const priceSpan = document.createElement('span');
         const totalPrice = item.price * item.quantity;
-        thirdspan.className = 'text-xl'; // Add a class to the item element
-        thirdspan.textContent = `$${totalPrice}`;        
+        priceSpan.className = 'text-xl';
+        priceSpan.textContent = `$${totalPrice}`;
 
-        // Append the span elements to the firstdiv
-        firstdiv.appendChild(firstspan);
-        firstdiv.appendChild(secondspan);
-        firstdiv.appendChild(thirdspan);
+        itemDiv.appendChild(nameSpan);
+        itemDiv.appendChild(quantitySpan);
+        itemDiv.appendChild(priceSpan);
 
-        // Append firstdiv to zerodive
-        zerodive.appendChild(firstdiv);
-
-        // Append zerodive to the cartContainer
-        cartContainer.appendChild(zerodive);
+        cartContainer.appendChild(itemDiv);
     });
 
     // Calculate the total price
@@ -309,7 +303,10 @@ function displayCartItemsshopinfo(cartItems) {
 document.addEventListener('DOMContentLoaded', function() {
     if (window.location.pathname.includes('Shopping-Info')) {
         const cartItems = getCartItems();
-        displayCartItemsfeeinfo(cartItems);
+        const { total, serviceFee, deliveryFee } = displayCartItemsfeeinfo(cartItems);
+        sessionStorage.setItem('totalPrice', total);
+        sessionStorage.setItem('serviceFee', serviceFee);
+        sessionStorage.setItem('deliveryFee', deliveryFee);
     }
 });
 
@@ -329,6 +326,7 @@ function displayCartItemsfeeinfo(cartItems) {
     firstdiv.appendChild(fourthdiv);
     const fifthdiv = document.createElement('div');
     cartContainer.appendChild(fifthdiv);
+    fifthdiv.innerHTML = ''; // Clear the fifthdiv element
     const sixthdiv = document.createElement('div');
     serviceFee = 3;
     sixthdiv.textContent = `$${serviceFee}`;
@@ -349,18 +347,6 @@ function displayCartItemsfeeinfo(cartItems) {
    
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const feeButton = document.getElementById('fee-button');
-    if (feeButton) {
-        feeButton.addEventListener('click', function(event) {
-            const cartItems = getCartItems();
-            const { total, serviceFee, deliveryFee } = displayCartItemsfeeinfo(cartItems);
-            sessionStorage.setItem('totalPrice', total);
-            sessionStorage.setItem('serviceFee', serviceFee);
-            sessionStorage.setItem('deliveryFee', deliveryFee);
-        });
-    }
-});
 document.addEventListener('DOMContentLoaded', (event) => {
     const payMent = document.getElementById('address-button');
     if(payMent) {

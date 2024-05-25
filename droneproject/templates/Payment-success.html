@@ -31,9 +31,16 @@
             You successfully made a payment, enjoy our service!
         </p>
         <div class="my-8">
-            <button class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg track-order-button" data-url="{% url 'Delivery' id %}">
-                Track Order
-            </button>
+            <form method="POST" action="{% url 'Delivery' id %}">
+                {% csrf_token %}
+                <input type="hidden" name="address_customer" value="{{ address_customer }}">
+                <input type="hidden" name="address_restaurant" value="{{ address_restaurant }}">
+                <input type="hidden" name="order_general_id" value="{{ order_general_id }}">
+                <input type="hidden" name="total_weight" value="{{ total_weight }}">
+                <button type="submit" class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg track-order-button" data-url="{% url 'Delivery' id %}">
+                    Track Order
+                </button>
+            </form>
         </div>
     </main>
     <script src="{% static 'UserNavigation.js' %}"></script> 

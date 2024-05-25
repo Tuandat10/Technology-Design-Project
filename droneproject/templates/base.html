@@ -1,7 +1,8 @@
     <!-- Header -->
+    {% load static %}
     <header class="flex justify-between items-center h-14 bg-orange-500">
         <div class="flex items-center">
-            <img alt="WingWays Logo" class="mr-1" height="10" src="img/logo-white-transparent.png" width="100"/>
+            <img alt="WingWays Logo" class="mr-1" height="10" src="{% static 'img/logo-white-transparent.png' %}" width="100"/>
             <div class="relative mx-10">
                 <input class="pl-10 pr-20 py-2 rounded-full" placeholder="Search" type="text"/>
                 <i class="fas fa-search absolute left-3 top-3 text-gray-400">

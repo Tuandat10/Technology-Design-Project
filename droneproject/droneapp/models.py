@@ -24,7 +24,6 @@ class ChargingStationStatus(models.Model):
     drone = models.ForeignKey(Drone, on_delete=models.DO_NOTHING)
     station = models.ForeignKey(ChargingStation, on_delete=models.DO_NOTHING)
     status = models.BooleanField(default=True)
-
 class Restaurant(models.Model):
     restaurant_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
