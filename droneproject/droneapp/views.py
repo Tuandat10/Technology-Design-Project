@@ -21,6 +21,17 @@ def Restaurants(request,id):
 def Cart(request,id):
     return render(request,"Cart.html",{'id':id})
 def Profile(request,id):
+    if request.method == "POST":
+        name = request.POST.get('name')
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        customer = Customer.objects.get(pk=id)
+        customer.name = name
+        customer.phone = phone
+        customer.email = email
+        customer.save()
+        messages.info(request,"Profile updated successfully")
+        return redirect('Profile',id)
     return render(request,"Profile.html",{'id':id})
 def Menu(request,pk,id):
     restaurant = Restaurant.objects.filter(name=pk).first()
@@ -413,7 +424,9 @@ def Delivery(request,id):
          m = folium.Map(location=[-37.8136, 144.9631], zoom_start=14)
          return render(request,"Delivery.html",{'id':id, 'map': m})
 def MyAddresses(request,id):
-    return render(request,"My-address.html",{'id':id})
+    deliveries = Customer_delivery.objects.filter(customer=id)
+    customers = Customer.objects.filter(customer_id=id).first()
+    return render(request,"My-address.html",{'id':id,'customers':customers,'deliveries':deliveries})
 def Favourites(request,id):
     return render(request,"Favourite.html",{'id':id})
 def OrderHistory(request,id):

@@ -82,34 +82,20 @@
         <div class="w-2/3 mx-10 mt-10">
             <!-- Address Info -->
             <div class="space-y-4">
-                <div class="bg-orange-200 p-4 rounded-lg mx-2">
-                    <div class="my-2 mx-2">
-                        <input type="radio" name="address" checked class="mr-2">
-                        <span class="text-xl">Pinsawan Srisai</span>
-                        <div class="text-l text-orange-800">
-                            <p>Street: 502/639 Little Bourke Street City: Melbourne</p>
-                            <p>State/Province: Victoria</p>
-                            <p>Zip Code: 3000 Phone Number: 0452362289</p>
-                        </div>
+                {% for delivery in deliveries %}
+                <div class="bg-orange-200 p-4 rounded-lg mx-10">
+                 <div class="my-2 mx-2">
+                    <span class="text-xl">{{ customers.name }}</span>
+                    <div class="text-l text-orange-800">
+                        <p class="street"> Street: {{ delivery.delivery_address }} </p>
+                        <p class="city"> City: {{ delivery.delivery_city }}</p> 
+                        <p class="province">Province: {{ delivery.delivery_state }}</p>
+                        <p class="zip_code">Zip Code: {{ delivery.delivery_postcode }} </p>
+                        <p class="phone"> Phone Number: {{ delivery.delivery_phone }}</p>
                     </div>
+                 </div>
                 </div>
-                <div class="bg-orange-200 p-4 rounded-lg mx-2">
-                    <div class="my-2 mx-2">
-                        <input type="radio" name="address" class="mr-2">
-                        <span class="text-xl">Pinsawan Srisai</span>
-                        <div class="text-l text-orange-800">
-                            <p>Street: 55 Camberwell Road City: Melbourne</p>
-                            <p>State/Province: Victoria</p>
-                            <p>Zip Code: 3123 Phone Number: 0402624506</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Add new card -->
-            <div class="mx-10">
-                <button class="border-2 w-full mt-4 bg-gray-100 text-orange-500 py-2 px-4 rounded-lg hover:bg-gray-200 hover:text-orange-700">
-                    + ADD NEW ADDRESS
-                </button>
+                {% endfor %}
             </div>
         </div>
         </div>
