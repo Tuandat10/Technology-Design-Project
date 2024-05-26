@@ -434,7 +434,8 @@ def OrderHistory(request,id):
 def Notifications(request,id):
     return render(request,"Notification.html",{'id':id})
 def Payment(request,id):
-    return render(request,"Payment.html",{'id':id})
+    payments = Paymentmethod.objects.filter(customer_id=id)
+    return render(request,"Payment.html",{'id':id,'payments':payments})
 def Settings(request,id):
     return render(request,"Settings.html",{'id':id})
 def Logout(request,id):
