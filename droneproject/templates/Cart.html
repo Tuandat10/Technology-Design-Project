@@ -10,15 +10,27 @@
         body {
                     background-color: #fff;
                 }
+        .cart-header {
+        display: grid;
+        grid-template-columns: 3fr 2fr .5fr;
+        gap: 16px;
+        margin-top: 4px;
+        margin-right: 6px;
+        margin-left: 6px;
+        font-weight: bolder;
+        text-decoration: underline;
+        }
+
         .cart-item {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 4px;
+        grid-template-columns: 3fr 2fr .5fr;
+        gap: 16px;
         margin-top: 4px;
         margin-right: 6px;
         margin-left: 6px;
     }
         </style>
+    
     </head>
     {% extends 'base.html' %}
     {% block content %}
@@ -28,54 +40,56 @@
     <main class="container mx-auto p-6">
     <div class="container mx-auto mt-10 mb-10">
         <div class="flex justify-center space-x-20 items-center mb-4">
-        <div class="flex flex-col items-center w-full h-full">
-            <div class="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold hover:bg-orange-300">1</div>
-            <div class="text-orange-500">Shopping Cart</div>
-        </div>
+            <div class="flex flex-col items-center w-full h-full">
+                <div class="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold hover:bg-orange-300">1</div>
+                <div class="text-orange-500">Shopping Cart</div>
+            </div>
 
-        <div class="flex flex-col items-center w-full h-full">
-            <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">2</div>
-            <div>Shopping Info</div>
-        </div>
+            <div class="flex flex-col items-center w-full h-full">
+                <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">2</div>
+                <div>Shopping Info</div>
+            </div>
 
-        <div class="flex flex-col items-center w-full h-full">
-            <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300" >3</div>
-            <div>Address</div>
-        </div>
+            <div class="flex flex-col items-center w-full h-full">
+                <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300" >3</div>
+                <div>Address</div>
+            </div>
 
-        <div class="flex flex-col items-center w-full h-full">
-            <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">4</div>
-            <div>Payment Method</div>
+            <div class="flex flex-col items-center w-full h-full">
+                <div class="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold hover:bg-orange-300">4</div>
+                <div>Payment Method</div>
+            </div>
         </div>
-    </div>
 
     <!-- Information of items -->
     <div class="bg-orange-200 p-2 mx-10 rounded-lg">
-        <div class="flex justify-between items-center p-4 rounded">
-            <span class="font-semibold text-xl">
-                Food
-            </span>
-            <span class="text-xl">
-                Quantity
-            </span>
-            <span class="text-xl">
-                Total Price
-            </span>
+        <!-- First item -->
+        <div class="flex flex-col gap-4 mt-4 mx-6 grid-template-columns">
+            <div class="cart-header">
+                <span class="text-xl">
+                    Food
+                </span>
+                <span class="text-xl">
+                    Quantity
+                </span>
+                <span class="text-xl">
+                    Price
+                </span>
+            </div>
+            <div id="cart-container"></div>
+            <span id="total-price" class="font-semibold text-xl "></span>
         </div>
-        <div id="cart-container">
-        </div>
-        <span id="total-price" class="font-semibold text-xl"></span>
-    </div>
- 
 
-
-    <button class="next-button mx-4 my-4 mt-4 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600" data-url="{% url 'Shopping-Info' id %}">
-        Next
-    </button>
+        <button class="next-button mx-4 my-4 mt-4 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600" data-url="{% url 'Shopping-Info' id %}">
+            Next
+        </button>
     </div>
-  </div>
-  </main>
-  </body>
-  <script src="{% static 'UserNavigation.js' %}"></script>
-  {% endblock %}
+    </div>
+    </main>
+    <script src="{% static 'UserNavigation.js' %}"></script>
+    </body>
+    
+    <!-- Foot-->
+    {% endblock %}
+
 </html>
