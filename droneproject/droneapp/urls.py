@@ -37,4 +37,6 @@ urlpatterns = [
     path('rorderready/<int:id>', views.rorderready, name='Res-order-ready'),
     path('rorderdelivery/<int:id>', views.rorderdelivery, name='Res-order-delivery'),
     path('rordertracking/<int:id>', views.rordertracking, name='Res-order-tracking'),
+    path('adminsignin/', views.adminsignin, name='Admin-signin'),
+    path('admindashboard/', views.admindashboard, name='Admin-dashboard'),
 ]

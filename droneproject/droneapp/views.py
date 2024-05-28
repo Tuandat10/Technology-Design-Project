@@ -94,8 +94,6 @@ def PaymentSuccess(request,id):
         payment = Paymentmethod.objects.get(pk=payment_object.payment_id)
         order_general = Order_General.objects.create(customer=customer,payment=payment,total_price=total_price,delivery_fee=delivery_fee,service_fee=servicefee,street=street,zip_code=zip_code,city=city,province=province,phone=phone,time_ordered=time_ordered)
         order_general.save()
-        print('*'*80)
-        print(order_general.order_id)
         order_general_id = order_general.order_id
         total_restaurantid =[]
         total_restaurant = []
@@ -122,300 +120,378 @@ def PaymentSuccess(request,id):
         return render(request,"Payment-success.html",{'id':id})
 def Delivery(request,id):
     if request.method == "POST":
-        geolocator = Nominatim(user_agent="YourAppName")
+        # request.session.clear()             
+        geolocator = Nominatim(user_agent="YourAppName",timeout=5)
         address_customer = request.POST.get('address_customer')
         address_restaurant = request.POST.get('address_restaurant')
         order_general_id = request.POST.get('order_general_id')
         total_weight = request.POST.get('total_weight')
+        print('-'*80)
+        print(total_weight)
         order_general_object = Order_General.objects.get(order_id=order_general_id)
         location_customer = geolocator.geocode(address_customer)
         location_restaurant = geolocator.geocode(address_restaurant)
         chargingstations = ChargingStation.objects.all()
         min_distance = float('inf')
-        nearest_station = None
         max_weight_perdrone = 10
+        numberdrone_status = True
         if float(total_weight) <= max_weight_perdrone:
+            
             number_drone = 1
             numberdrone_status = True
             for chargingstation in chargingstations:
+                print('xyz'*80) 
                 # Geocode the charging station location
-                location_charging = geolocator.geocode(chargingstation.location)
+                if request.session.get('droneid') == None:
+                    location_charging = geolocator.geocode(chargingstation.location)
 
-                # Calculate the distance to the restaurant
-                distance = geodesic((location_charging.latitude, location_charging.longitude), (location_restaurant.latitude, location_restaurant.longitude)).kilometers
-                if distance < min_distance:
-                    min_distance = distance
-                    nearest_station = location_charging
-                    nearest_stationungeocode = chargingstation
-                charginstationstatuses = ChargingStationStatus.objects.filter(station=nearest_stationungeocode,status = True)
-                if charginstationstatuses.count() == 0:
-                        min_distance = float('inf')
-                else:
-                    max_battery = -float('inf')
-                    for chargingstationstatus in charginstationstatuses:
-                        if chargingstationstatus.drone.battery_level > max_battery:
-                            drone = chargingstationstatus.drone
-                    charginestationstatus_drone = ChargingStationStatus.objects.get(drone=drone,station=nearest_stationungeocode,status=True)
-                    charginestationstatus_drone.status = False
-                    charginestationstatus_drone.save()
-                    order_general_object = Order_General.objects.get(order_id=order_general_id)
-                    order_general_object.drone = drone
-                    order_general_object.save()
-                    first_distance = geodesic((nearest_station.latitude, nearest_station.longitude), (location_restaurant.latitude, location_restaurant.longitude)).kilometers
-                    second_distance = geodesic((location_restaurant.latitude, location_restaurant.longitude), (location_customer.latitude, location_customer.longitude)).kilometers
-                    total_distance = first_distance + second_distance
-                    third_distance = geodesic((location_customer.latitude, location_customer.longitude), (nearest_station.latitude, nearest_station.longitude)).kilometers
-                    total_batteryused = (total_distance + third_distance) * 0.5
-                    if drone.battery_level > total_batteryused:
-                        drone.battery_level -= total_batteryused
-                        drone.save()
-                    else:
-                        # In reality we will wait them to charge the drone
-                        drone.battery_level = 100
-                        drone.save()
-                    flighpath = FlightPath.objects.create(start_location = address_restaurant,end_location = address_customer,drone = drone,battery_usage = total_batteryused)
-                    flighpath.save()
-                    order_general_status = None
-                    if (order_general_object.status == 'New order') or (order_general_object.status == 'Preparing'):
-                        # Geocode the customer and restaurant addresses
-                        # Create the map and add the markers
-                        m = folium.Map(location=[nearest_station.latitude, nearest_station.longitude], zoom_start=14)
-                        print("*"*80)
-                        print(nearest_station.latitude, nearest_station.longitude)
-                        folium.Marker([nearest_station.latitude, nearest_station.longitude], popup='Charging Station').add_to(m)
-                        folium.Marker([location_restaurant.latitude, location_restaurant.longitude], popup='Restaurant').add_to(m)
-                        folium.Marker([location_customer.latitude, location_customer.longitude], popup='Customer').add_to(m)
-                        # Calculate the route and add it to the map
-                        client = openrouteservice.Client(key='5b3ce3597851110001cf62481f738855150c49b3b8e6addabb1c3f67')
-                        coords = ((nearest_station.longitude, nearest_station.latitude), (location_restaurant.longitude, location_restaurant.latitude))
-                        route = client.directions(coordinates=coords, profile='foot-hiking', format='geojson')
-                        folium.plugins.AntPath(locations=[(coord[1], coord[0]) for coord in route['features'][0]['geometry']['coordinates']]).add_to(m)
-                        m = m._repr_html_()
-                        if order_general_object.status == 'New order':
-                            order_general_status = 'New order'
-                            return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,'order_general_id':order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
-                        elif order_general_object.status == 'Preparing':
-                            order_general_status = 'Preparing'
-                            return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,'order_general_id':order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
-                        elif order_general_object.status == "Delivering":
-                            order_general_status = 'Delivering'
-                            return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,'order_general_id':order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
-                    else:
-                        # Create the map and add the markers
-                        m = folium.Map(location=[nearest_station.latitude, nearest_station.longitude], zoom_start=14)
-                        folium.Marker([location_customer.latitude, location_customer.longitude], popup='Customer').add_to(m)
-                        folium.Marker([nearest_station.latitude, nearest_station.longitude], popup='Charging Station').add_to(m)
-                        folium.Marker([location_restaurant.latitude, location_restaurant.longitude], popup='Restaurant').add_to(m)
-                        # Calculate the route and add it to the map
-                        client = openrouteservice.Client(key='5b3ce3597851110001cf62481f738855150c49b3b8e6addabb1c3f67')
-                        coords = ((location_customer.longitude, location_customer.latitude), (location_restaurant.longitude, location_restaurant.latitude))
-                        route = client.directions(coordinates=coords, profile='foot-hiking', format='geojson')
-                        folium.plugins.AntPath(locations=[(coord[1], coord[0]) for coord in route['features'][0]['geometry']['coordinates']]).add_to(m)
-                        m = m._repr_html_() 
-                        if order_general_object.status == "Ready":
-                            order_general_status = 'Ready'
-                            return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,"order_general_id":order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
-                        elif order_general_object.status == "Delivering":
-                            order_general_status = 'Delivering'
-                            return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,"order_general_id":order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
-                        else:
-                            order_general_status = 'Delivered'
-                            chargingstations = ChargingStation.objects.all()
+                    # Calculate the distance to the restaurant
+                    distance = geodesic((location_charging.latitude, location_charging.longitude), (location_restaurant.latitude, location_restaurant.longitude)).kilometers
+                    if distance < min_distance:
+                        min_distance = distance
+                        nearest_station = chargingstation.location
+                        request.session['nearest_station'] = nearest_station
+                        nearest_stationungeocode = chargingstation.station_id
+                        request.session['nearest_stationungeocodeid'] = nearest_stationungeocode
+                    print('trang'*80)
+                    print(request.session['nearest_stationungeocodeid'])
+                    charginstationstatuses = ChargingStationStatus.objects.filter(station=ChargingStation.objects.get(pk=request.session['nearest_stationungeocodeid']),status = True)
+                    print(charginstationstatuses.count())
+                    if charginstationstatuses.count() == 0:
                             min_distance = float('inf')
-                            nearest_station = None
-                            for chargingstation in chargingstations:
-                                numberdrone = ChargingStationStatus.objects.filter(station=chargingstation,status = True).count()
-                                if numberdrone < 10:
-                                    # Geocode the charging station location
-                                    location_charging = geolocator.geocode(chargingstation.location)
-                                    # Calculate the distance to the restaurant
-                                    distance = geodesic((location_charging.latitude, location_charging.longitude), (location_customer.latitude, location_customer.longitude)).kilometers
-                                    if distance < min_distance:
-                                        min_distance = distance
-                                        nearest_station = chargingstation
-                            chargingstationstatus = ChargingStationStatus.objects.create(drone=drone,station=nearest_station,status=True)
-                            chargingstationstatus.save()
-                            flighpath = FlightPath.objects.create(start_location = address_customer,end_location = nearest_station.location,drone = drone,battery_usage = third_distance*0.5)
-                            flighpath.save()
-                            drone.battery_level = 100
-                            drone.save()                  
-                            return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,'order_general_id':order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
+                    else:
+                        max_battery = -float('inf')
+                        for chargingstationstatus in charginstationstatuses:
+                            if chargingstationstatus.drone.battery_level > max_battery:
+                                print('before everything')
+                                print(request.session.get('droneid'))
+                                drone = chargingstationstatus.drone
+                                request.session['droneid'] = drone.drone_id
+                        print("*"*80)
+                        print(request.session['droneid'])
+                        print(nearest_stationungeocode)
+                        break
+                else:
+                    charginestationstatus_drone = ChargingStationStatus.objects.get(pk=request.session['chargingstationstatus_id'])
+                    charginestationstatus_drone.status = True
+                    charginestationstatus_drone.save()
+            print('-*'*80)
+            print(Drone.objects.get(pk=request.session['droneid']))
+            print(ChargingStation.objects.get(pk=request.session['nearest_stationungeocodeid']))
+            charginestationstatus_drone = ChargingStationStatus.objects.get(drone=Drone.objects.get(pk=request.session['droneid']),station=ChargingStation.objects.get(pk=request.session['nearest_stationungeocodeid']),status=True)
+            request.session['chargingstationstatus_id'] = charginestationstatus_drone.checking_station_id
+            charginestationstatus_drone.status = False
+            charginestationstatus_drone.save()
+            print("a"*80)
+            order_general_object = Order_General.objects.get(order_id=order_general_id)
+            order_general_object.drone = Drone.objects.get(pk=request.session['droneid'])
+            order_general_object.save()
+            first_distance = geodesic((geolocator.geocode(request.session['nearest_station']).latitude, geolocator.geocode(request.session['nearest_station']).longitude), (location_restaurant.latitude, location_restaurant.longitude)).kilometers
+            second_distance = geodesic((location_restaurant.latitude, location_restaurant.longitude), (location_customer.latitude, location_customer.longitude)).kilometers
+            total_distance = first_distance + second_distance
+            third_distance = geodesic((location_customer.latitude, location_customer.longitude), (geolocator.geocode(request.session['nearest_station']).latitude, geolocator.geocode(request.session['nearest_station']).longitude)).kilometers
+            total_batteryused = (total_distance + third_distance) * 0.5
+            if Drone.objects.get(pk=request.session['droneid']).battery_level > total_batteryused:
+                Drone.objects.get(pk=request.session['droneid']).battery_level -= total_batteryused
+                Drone.objects.get(pk=request.session['droneid']).save()
+            else:
+                # In reality we will wait them to charge the drone
+                Drone.objects.get(pk=request.session['droneid']).battery_level = 100
+                Drone.objects.get(pk=request.session['droneid']).save()
+            order_general_status = None
+            if (order_general_object.status == 'New order') or (order_general_object.status == 'Preparing'):
+                # Geocode the customer and restaurant addresses
+                # Create the map and add the markers
+                m = folium.Map(location=[geolocator.geocode(request.session['nearest_station']).latitude, geolocator.geocode(request.session['nearest_station']).longitude], zoom_start=14)
+                print("*"*80)
+                print(geolocator.geocode(request.session['nearest_station']).latitude, geolocator.geocode(request.session['nearest_station']).longitude)
+                folium.Marker([geolocator.geocode(request.session['nearest_station']).latitude, geolocator.geocode(request.session['nearest_station']).longitude], popup='Charging Station').add_to(m)
+                folium.Marker([location_restaurant.latitude, location_restaurant.longitude], popup='Restaurant').add_to(m)
+                folium.Marker([location_customer.latitude, location_customer.longitude], popup='Customer').add_to(m)
+                # Calculate the route and add it to the map
+                client = openrouteservice.Client(key='5b3ce3597851110001cf62481f738855150c49b3b8e6addabb1c3f67')
+                coords = ((geolocator.geocode(request.session['nearest_station']).longitude, geolocator.geocode(request.session['nearest_station']).latitude), (location_restaurant.longitude, location_restaurant.latitude))
+                route = client.directions(coordinates=coords, profile='foot-hiking', format='geojson')
+                folium.plugins.AntPath(locations=[(coord[1], coord[0]) for coord in route['features'][0]['geometry']['coordinates']]).add_to(m)
+                m = m._repr_html_()
+                if order_general_object.status == 'New order':
+                    flighpath = FlightPath.objects.create(start_location = ChargingStation.objects.get(pk=request.session['nearest_stationungeocodeid']).location,end_location = address_restaurant,drone = Drone.objects.get(pk=request.session['droneid']),battery_usage = total_batteryused,status=False)
+                    request.session['flighpath_id'] = flighpath.path_id
+                    flighpath.save()
+                    order_general_status = 'New order'
+                    print('hatrang'*80)
+                    print(numberdrone_status)
+                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,'order_general_id':order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
+                elif order_general_object.status == 'Preparing':
+                    order_general_status = 'Preparing'
+                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,'order_general_id':order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
+                elif order_general_object.status == "Delivering":
+                    order_general_status = 'Delivering'
+                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,'order_general_id':order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
+            else:
+                # Create the map and add the markers
+                m = folium.Map(location=[geolocator.geocode(request.session['nearest_station']).latitude, geolocator.geocode(request.session['nearest_station']).longitude], zoom_start=14)
+                folium.Marker([location_customer.latitude, location_customer.longitude], popup='Customer').add_to(m)
+                folium.Marker([geolocator.geocode(request.session['nearest_station']).latitude, geolocator.geocode(request.session['nearest_station']).longitude], popup='Charging Station').add_to(m)
+                folium.Marker([location_restaurant.latitude, location_restaurant.longitude], popup='Restaurant').add_to(m)
+                # Calculate the route and add it to the map
+                client = openrouteservice.Client(key='5b3ce3597851110001cf62481f738855150c49b3b8e6addabb1c3f67')
+                coords = ((location_customer.longitude, location_customer.latitude), (location_restaurant.longitude, location_restaurant.latitude))
+                route = client.directions(coordinates=coords, profile='foot-hiking', format='geojson')
+                folium.plugins.AntPath(locations=[(coord[1], coord[0]) for coord in route['features'][0]['geometry']['coordinates']]).add_to(m)
+                m = m._repr_html_() 
+                if order_general_object.status == "Ready":
+                    order_general_status = 'Ready'
+                    flighpath = FlightPath.objects.get(pk=request.session['flighpath_id'])
+                    flighpath.status=True
+                    flighpath.save()
+                    flighpath_customer = FlightPath.objects.create(start_location = address_restaurant,end_location = address_customer,drone = Drone.objects.get(pk=request.session['droneid']),battery_usage = second_distance*0.5,status=False)
+                    request.session['flighpath_id'] = flighpath_customer.path_id
+                    flighpath_customer.save()
+                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,"order_general_id":order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
+                elif order_general_object.status == "Delivering":
+                    order_general_status = 'Delivering'
+                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,"order_general_id":order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
+                else:
+                    order_general_status = 'Delivered'
+                    chargingstations = ChargingStation.objects.all()
+                    min_distance = float('inf')
+                    nearest_station = None
+                    for chargingstation in chargingstations:
+                        numberdrone = ChargingStationStatus.objects.filter(station=chargingstation,status = True).count()
+                        if numberdrone < 10:
+                            # Geocode the charging station location
+                            location_charging = geolocator.geocode(chargingstation.location)
+                            # Calculate the distance to the restaurant
+                            distance = geodesic((location_charging.latitude, location_charging.longitude), (location_customer.latitude, location_customer.longitude)).kilometers
+                            if distance < min_distance:
+                                min_distance = distance
+                                nearest_station = chargingstation
+                    chargingstationstatus = ChargingStationStatus.objects.create(drone=Drone.objects.get(pk=request.session['droneid']),station=nearest_station,status=True)
+                    chargingstationstatus.save()
+                    flighpath_customer = FlightPath.objects.get(pk=request.session['flighpath_id'])
+                    flighpath_customer.status=True
+                    flighpath_customer.save()
+                    flighpath_charging = FlightPath.objects.create(start_location = address_customer,end_location = nearest_station.location,drone = Drone.objects.get(pk=request.session['droneid']),battery_usage = third_distance*0.5,status=False)
+                    flighpath_charging.save()
+                    Drone.objects.get(pk=request.session['droneid']).battery_level = 100
+                    Drone.objects.get(pk=request.session['droneid']).save()
+                    request.session.clear()             
+                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,'order_general_id':order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
         elif float(total_weight) > max_weight_perdrone and float(total_weight) <= 2*max_weight_perdrone:
+            # request.session.clear()              
             number_drone = 2
             numberdrone_status = True
             # drone 1
             for chargingstation in chargingstations:
-                # Geocode the charging station location
-                location_charging = geolocator.geocode(chargingstation.location)
-                numberdrone = 0
-
-                # Calculate the distance to the restaurant
-                distance = geodesic((location_charging.latitude, location_charging.longitude), (location_restaurant.latitude, location_restaurant.longitude)).kilometers
-                if distance < min_distance:
-                    min_distance = distance
-                    nearest_station = location_charging
-                    nearest_stationungeocode = chargingstation
-                charginstationstatuses = ChargingStationStatus.objects.filter(station=nearest_stationungeocode,status = True)
-                if charginstationstatuses.count() == 0:
-                        min_distance = float('inf')
-                else:
-                    max_battery = -float('inf')
-                    # drone 1
-                    for chargingstationstatus in charginstationstatuses:
-                        if chargingstationstatus.drone.battery_level > max_battery:
-                            drone = chargingstationstatus.drone
-                    charginestationstatus_drone = ChargingStationStatus.objects.get(drone=drone,station=nearest_stationungeocode,status=True)
-                    charginestationstatus_drone.status = False
-                    charginestationstatus_drone.save()
-                    order_general_object = Order_General.objects.get(order_id=order_general_id)
-                    order_general_object.drone = drone
-                    order_general_object.save()
-                    first_distance = geodesic((nearest_station.latitude, nearest_station.longitude), (location_restaurant.latitude, location_restaurant.longitude)).kilometers
-                    second_distance = geodesic((location_restaurant.latitude, location_restaurant.longitude), (location_customer.latitude, location_customer.longitude)).kilometers
-                    total_distance = first_distance + second_distance
-                    third_distance = geodesic((location_customer.latitude, location_customer.longitude), (nearest_station.latitude, nearest_station.longitude)).kilometers
-                    total_batteryused = (total_distance + third_distance) * 0.5
-                    if drone.battery_level > total_batteryused:
-                        drone.battery_level -= total_batteryused
-                        drone.save()
+                print('xyz'*80) 
+                if request.session.get('drone1id') == None:
+                    # Geocode the charging station location
+                    location_charging = geolocator.geocode(chargingstation.location)
+                    # Calculate the distance to the restaurant
+                    distance = geodesic((location_charging.latitude, location_charging.longitude), (location_restaurant.latitude, location_restaurant.longitude)).kilometers
+                    if distance < min_distance:
+                        min_distance = distance
+                        nearest_station = chargingstation.location
+                        request.session['nearest_station1'] = nearest_station
+                        nearest_stationungeocode = chargingstation.station_id
+                        request.session['nearest_stationungeocodeid1'] = nearest_stationungeocode
+                    charginstationstatuses = ChargingStationStatus.objects.filter(station=ChargingStation.objects.get(pk=request.session['nearest_stationungeocodeid1']),status = True)
+                    if charginstationstatuses.count() == 0:
+                            min_distance = float('inf')
                     else:
-                        # In reality we will wait them to charge the drone
-                        drone.battery_level = 100
-                        drone.save()
-                    flighpath = FlightPath.objects.create(start_location = address_restaurant,end_location = address_customer,drone = drone,battery_usage = total_batteryused)
-                    flighpath.save()
-                    # drone2
-                    for chargingstation in chargingstations:
-                        # Geocode the charging station location
-                        location_charging = geolocator.geocode(chargingstation.location)
-                        numberdrone = 0
-                        min_distance = float('inf')
-                        # Calculate the distance to the restaurant
-                        distance = geodesic((location_charging.latitude, location_charging.longitude), (location_restaurant.latitude, location_restaurant.longitude)).kilometers
-                        if distance < min_distance:
-                            min_distance = distance
-                            nearest_station2 = location_charging
-                            nearest_stationungeocode = chargingstation
-                        charginstationstatuses = ChargingStationStatus.objects.filter(station=nearest_stationungeocode,status = True)
-                        if charginstationstatuses.count() == 0:
-                                print("*"*80)
-                                print("go if")
-                                min_distance = float('inf')
-                        else:
-                            max_battery = -float('inf')               
-                            for chargingstationstatus in charginstationstatuses:
-                                if chargingstationstatus.drone.battery_level > max_battery:
+                        print('abc'*80) 
+                        max_battery = -float('inf')
+                        for chargingstationstatus in charginstationstatuses:
+                            if chargingstationstatus.drone.battery_level > max_battery:
+                                if request.session.get('drone1id') == None:
+                                    drone1 = chargingstationstatus.drone
+                                    request.session['drone1id'] = drone1.drone_id
+                        break
+                else:
+                    charginestationstatus_drone = ChargingStationStatus.objects.get(pk=request.session['chargingstationstatus_1id'])
+                    charginestationstatus_drone.status = True
+                    charginestationstatus_drone.save()
+            charginestationstatus_drone = ChargingStationStatus.objects.get(drone=Drone.objects.get(pk=request.session['drone1id']),station=ChargingStation.objects.get(pk=request.session['nearest_stationungeocodeid1']),status=True)
+            request.session['chargingstationstatus_1id'] = charginestationstatus_drone.checking_station_id
+            charginestationstatus_drone.status = False
+            charginestationstatus_drone.save()
+            order_general_object = Order_General.objects.get(order_id=order_general_id)
+            order_general_object.drone = Drone.objects.get(pk=request.session['drone1id'])
+            order_general_object.save()
+            first_distance = geodesic((geolocator.geocode(request.session['nearest_station1']).latitude, geolocator.geocode(request.session['nearest_station1']).longitude), (location_restaurant.latitude, location_restaurant.longitude)).kilometers
+            second_distance = geodesic((location_restaurant.latitude, location_restaurant.longitude), (location_customer.latitude, location_customer.longitude)).kilometers
+            total_distance = first_distance + second_distance
+            third_distance = geodesic((location_customer.latitude, location_customer.longitude), (geolocator.geocode(request.session['nearest_station1']).latitude, geolocator.geocode(request.session['nearest_station1']).longitude)).kilometers
+            total_batteryused = (total_distance + third_distance) * 0.5
+            if Drone.objects.get(pk=request.session['drone1id']).battery_level > total_batteryused:
+                Drone.objects.get(pk=request.session['drone1id']).battery_level -= total_batteryused
+                Drone.objects.get(pk=request.session['drone1id']).save()
+            else:
+                # In reality we will wait them to charge the drone
+                Drone.objects.get(pk=request.session['drone1id']).battery_level = 100
+                Drone.objects.get(pk=request.session['drone1id']).save()
+            # drone2
+            for chargingstation in chargingstations:
+                # Geocode the charging station location
+                if request.session.get('drone2id') == None:
+                    location_charging = geolocator.geocode(chargingstation.location)
+                    min_distance = float('inf')
+                    # Calculate the distance to the restaurant
+                    distance = geodesic((location_charging.latitude, location_charging.longitude), (location_restaurant.latitude, location_restaurant.longitude)).kilometers
+                    if distance < min_distance:
+                        min_distance = distance
+                        nearest_station2 = chargingstation.location
+                        request.session['nearest_station2'] = nearest_station2
+                        nearest_stationungeocode = chargingstation.station_id
+                        request.session['nearest_stationungeocodeid2'] = nearest_stationungeocode
+                    charginstationstatuses = ChargingStationStatus.objects.filter(station=ChargingStation.objects.get(pk=request.session['nearest_stationungeocodeid2']),status = True)
+                    if charginstationstatuses.count() == 0:
+                            min_distance = float('inf')
+                    else:
+                        max_battery = -float('inf')               
+                        for chargingstationstatus in charginstationstatuses:
+                            if chargingstationstatus.drone.battery_level > max_battery:
+                                if request.session.get('drone2id') == None:
                                     drone2 = chargingstationstatus.drone
-                            charginestationstatus_drone = ChargingStationStatus.objects.get(drone=drone2,station=nearest_stationungeocode,status=True)
-                            charginestationstatus_drone.status = False
-                            charginestationstatus_drone.save()
-                            order_general_object = Order_General.objects.get(order_id=order_general_id)
-                            order_general_object.drone = drone2
-                            order_general_object.save()
-                            first_distance = geodesic((nearest_station2.latitude, nearest_station2.longitude), (location_restaurant.latitude, location_restaurant.longitude)).kilometers
-                            second_distance = geodesic((location_restaurant.latitude, location_restaurant.longitude), (location_customer.latitude, location_customer.longitude)).kilometers
-                            total_distance = first_distance + second_distance
-                            third_distance = geodesic((location_customer.latitude, location_customer.longitude), (nearest_station2.latitude, nearest_station2.longitude)).kilometers
-                            total_batteryused = (total_distance + third_distance) * 0.5
-                            if drone2.battery_level > total_batteryused:
-                                drone2.battery_level -= total_batteryused
-                                drone2.save()
-                            else:
-                                # In reality we will wait them to charge the drone
-                                drone2.battery_level = 100
-                                drone2.save()
-                            flighpath = FlightPath.objects.create(start_location = address_restaurant,end_location = address_customer,drone = drone2,battery_usage = total_batteryused)
-                            flighpath.save()
-                            # end drone
-                            order_general_status = None
-                            if (order_general_object.status == 'New order') or (order_general_object.status == 'Preparing'):
-                                # Geocode the customer and restaurant addresses
-                                # Create the map and add the markers
-                                m = folium.Map(location=[location_restaurant.latitude, location_restaurant.longitude], zoom_start=14)
-                                print("*"*80)
-                                print(nearest_station.latitude, nearest_station.longitude)
-                                folium.Marker([nearest_station.latitude, nearest_station.longitude], popup='Charging Station').add_to(m)
-                                folium.Marker([nearest_station2.latitude, nearest_station2.longitude], popup='Charging Station2').add_to(m)
-                                folium.Marker([location_restaurant.latitude, location_restaurant.longitude], popup='Restaurant').add_to(m)
-                                folium.Marker([location_customer.latitude, location_customer.longitude], popup='Customer').add_to(m)
-                                # Calculate the route and add it to the map
-                                client = openrouteservice.Client(key='5b3ce3597851110001cf62481f738855150c49b3b8e6addabb1c3f67')
-                                coords1 = ((nearest_station.longitude, nearest_station.latitude), (location_restaurant.longitude, location_restaurant.latitude))
-                                route = client.directions(coordinates=coords1, profile='foot-hiking', format='geojson')
-                                coords2 = ((nearest_station2.longitude, nearest_station2.latitude), (location_restaurant.longitude, location_restaurant.latitude))
-                                route = client.directions(coordinates=coords2, profile='foot-hiking', format='geojson')
-                                folium.plugins.AntPath(locations=[(coord[1], coord[0]) for coord in route['features'][0]['geometry']['coordinates']]).add_to(m)
-                                m = m._repr_html_()
-                                if order_general_object.status == 'New order':
-                                    order_general_status = 'New order'
-                                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,'order_general_id':order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
-                                elif order_general_object.status == 'Preparing':
-                                    order_general_status = 'Preparing'
-                                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,'order_general_id':order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
-                                elif order_general_object.status == "Delivering":
-                                    order_general_status = 'Delivering'
-                                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,'order_general_id':order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
-                            else:
-                                # Create the map and add the markers
-                                m = folium.Map(location=[nearest_station.latitude, nearest_station.longitude], zoom_start=14)
-                                folium.Marker([location_customer.latitude, location_customer.longitude], popup='Customer').add_to(m)
-                                folium.Marker([nearest_station.latitude, nearest_station.longitude], popup='Charging Station').add_to(m)
-                                folium.Marker([location_restaurant.latitude, location_restaurant.longitude], popup='Restaurant').add_to(m)
-                                # Calculate the route and add it to the map
-                                client = openrouteservice.Client(key='5b3ce3597851110001cf62481f738855150c49b3b8e6addabb1c3f67')
-                                coords = ((location_customer.longitude, location_customer.latitude), (location_restaurant.longitude, location_restaurant.latitude))
-                                route = client.directions(coordinates=coords, profile='foot-hiking', format='geojson')
-                                folium.plugins.AntPath(locations=[(coord[1], coord[0]) for coord in route['features'][0]['geometry']['coordinates']]).add_to(m)
-                                m = m._repr_html_() 
-                                if order_general_object.status == "Ready":
-                                    order_general_status = 'Ready'
-                                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,"order_general_id":order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
-                                elif order_general_object.status == "Delivering":
-                                    order_general_status = 'Delivering'
-                                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,"order_general_id":order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
-                                else:
-                                    order_general_status = 'Delivered'
-                                    # drone 1
-                                    chargingstations = ChargingStation.objects.all()
-                                    min_distance = float('inf')
-                                    nearest_station = None
-                                    for chargingstation in chargingstations:
-                                        numberdrone = ChargingStationStatus.objects.filter(station=chargingstation,status = True).count()
-                                        if numberdrone < 10:
-                                            # Geocode the charging station location
-                                            location_charging = geolocator.geocode(chargingstation.location)
-                                            # Calculate the distance to the restaurant
-                                            distance = geodesic((location_charging.latitude, location_charging.longitude), (location_customer.latitude, location_customer.longitude)).kilometers
-                                            if distance < min_distance:
-                                                min_distance = distance
-                                                nearest_station = chargingstation
-                                    chargingstationstatus = ChargingStationStatus.objects.create(drone=drone,station=nearest_station,status=True)
-                                    chargingstationstatus.save()
-                                    flighpath = FlightPath.objects.create(start_location = address_customer,end_location = nearest_station.location,drone = drone,battery_usage = third_distance*0.5)
-                                    flighpath.save()
-                                    drone.battery_level = 100
-                                    drone.save()  
-                                    # drone 2
-                                    chargingstations = ChargingStation.objects.all()
-                                    min_distance = float('inf')
-                                    nearest_station = None
-                                    for chargingstation in chargingstations:
-                                        numberdrone = ChargingStationStatus.objects.filter(station=chargingstation,status = True).count()
-                                        if numberdrone < 10:
-                                            # Geocode the charging station location
-                                            location_charging = geolocator.geocode(chargingstation.location)
-                                            # Calculate the distance to the restaurant
-                                            distance = geodesic((location_charging.latitude, location_charging.longitude), (location_customer.latitude, location_customer.longitude)).kilometers
-                                            if distance < min_distance:
-                                                min_distance = distance
-                                                nearest_station = chargingstation
-                                    chargingstationstatus = ChargingStationStatus.objects.create(drone=drone2,station=nearest_station,status=True)
-                                    chargingstationstatus.save()
-                                    flighpath = FlightPath.objects.create(start_location = address_customer,end_location = nearest_station.location,drone = drone2,battery_usage = third_distance*0.5)
-                                    flighpath.save()
-                                    drone2.battery_level = 100
-                                    drone2.save()                  
-                                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,'order_general_id':order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
+                                    request.session['drone2id'] = drone2.drone_id
+                        break
+                else:
+                    charginestationstatus_drone = ChargingStationStatus.objects.get(pk=request.session['chargingstationstatus_2id'])
+                    charginestationstatus_drone.status = True
+                    charginestationstatus_drone.save()
+            charginestationstatus_drone = ChargingStationStatus.objects.get(drone=Drone.objects.get(pk=request.session['drone2id']),station=ChargingStation.objects.get(pk=request.session['nearest_stationungeocodeid2']),status=True)
+            request.session['chargingstationstatus_2id'] = charginestationstatus_drone.checking_station_id
+            charginestationstatus_drone.status = False
+            charginestationstatus_drone.save()
+            print('*'*80)
+            order_general_object = Order_General.objects.get(order_id=order_general_id)
+            order_general_object.drone = Drone.objects.get(pk=request.session['drone2id'])
+            order_general_object.save()
+            first_distance = geodesic((geolocator.geocode(request.session['nearest_station2']).latitude, geolocator.geocode(request.session['nearest_station2']).longitude), (location_restaurant.latitude, location_restaurant.longitude)).kilometers
+            second_distance = geodesic((location_restaurant.latitude, location_restaurant.longitude), (location_customer.latitude, location_customer.longitude)).kilometers
+            total_distance = first_distance + second_distance
+            third_distance = geodesic((location_customer.latitude, location_customer.longitude), (geolocator.geocode(request.session['nearest_station2']).latitude, geolocator.geocode(request.session['nearest_station2']).longitude)).kilometers
+            total_batteryused = (total_distance + third_distance) * 0.5
+            if Drone.objects.get(pk=request.session['drone2id']).battery_level > total_batteryused:
+                Drone.objects.get(pk=request.session['drone2id']).battery_level -= total_batteryused
+                Drone.objects.get(pk=request.session['drone2id']).save()
+            else:
+                # In reality we will wait them to charge the drone
+                Drone.objects.get(pk=request.session['drone2id']).battery_level = 100
+                Drone.objects.get(pk=request.session['drone2id']).save()
+                # end drone
+            order_general_status = None
+            if (order_general_object.status == 'New order') or (order_general_object.status == 'Preparing'):
+                # Geocode the customer and restaurant addresses
+                # Create the map and add the markers
+                m = folium.Map(location=[location_restaurant.latitude, location_restaurant.longitude], zoom_start=14)
+                folium.Marker([geolocator.geocode(request.session['nearest_station1']).latitude, geolocator.geocode(request.session['nearest_station1']).longitude], popup='Charging Station').add_to(m)
+                folium.Marker([geolocator.geocode(request.session['nearest_station2']).latitude, geolocator.geocode(request.session['nearest_station2']).longitude], popup='Charging Station2').add_to(m)
+                folium.Marker([location_restaurant.latitude, location_restaurant.longitude], popup='Restaurant').add_to(m)
+                folium.Marker([location_customer.latitude, location_customer.longitude], popup='Customer').add_to(m)
+                # Calculate the route and add it to the map
+                client = openrouteservice.Client(key='5b3ce3597851110001cf62481f738855150c49b3b8e6addabb1c3f67')
+                coords1 = ((geolocator.geocode(request.session['nearest_station1']).longitude, geolocator.geocode(request.session['nearest_station1']).latitude), (location_restaurant.longitude, location_restaurant.latitude))
+                route = client.directions(coordinates=coords1, profile='foot-hiking', format='geojson')
+                coords2 = ((geolocator.geocode(request.session['nearest_station2']).longitude, geolocator.geocode(request.session['nearest_station2']).latitude), (location_restaurant.longitude, location_restaurant.latitude))
+                route = client.directions(coordinates=coords2, profile='foot-hiking', format='geojson')
+                folium.plugins.AntPath(locations=[(coord[1], coord[0]) for coord in route['features'][0]['geometry']['coordinates']]).add_to(m)
+                m = m._repr_html_()
+                if order_general_object.status == 'New order':
+                    flighpath1 = FlightPath.objects.create(start_location = ChargingStation.objects.get(pk=request.session['nearest_stationungeocodeid1']).location,end_location = address_restaurant,drone = Drone.objects.get(pk=request.session['drone1id']),battery_usage = total_batteryused,status=False)
+                    request.session['flighpath1_id'] = flighpath1.path_id
+                    flighpath1.save()
+                    flighpath2 = FlightPath.objects.create(start_location = ChargingStation.objects.get(pk=request.session['nearest_stationungeocodeid2']).location,end_location = address_restaurant,drone = Drone.objects.get(pk=request.session['drone2id']),battery_usage = total_batteryused,status=False)
+                    request.session['flighpath2_id'] = flighpath2.path_id
+                    flighpath2.save()
+                    order_general_status = 'New order'
+                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,'order_general_id':order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
+                elif order_general_object.status == 'Preparing':
+                    order_general_status = 'Preparing'
+                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,'order_general_id':order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
+                elif order_general_object.status == "Delivering":
+                    order_general_status = 'Delivering'
+                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,'order_general_id':order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
+            else:
+                # Create the map and add the markers
+                m = folium.Map(location=[location_restaurant.latitude, location_restaurant.longitude], zoom_start=14)
+                folium.Marker([location_customer.latitude, location_customer.longitude], popup='Customer').add_to(m)
+                folium.Marker([location_restaurant.latitude, location_restaurant.longitude], popup='Restaurant').add_to(m)
+                # Calculate the route and add it to the map
+                client = openrouteservice.Client(key='5b3ce3597851110001cf62481f738855150c49b3b8e6addabb1c3f67')
+                coords = ((location_customer.longitude, location_customer.latitude), (location_restaurant.longitude, location_restaurant.latitude))
+                route = client.directions(coordinates=coords, profile='foot-hiking', format='geojson')
+                folium.plugins.AntPath(locations=[(coord[1], coord[0]) for coord in route['features'][0]['geometry']['coordinates']]).add_to(m)
+                m = m._repr_html_() 
+                if order_general_object.status == "Ready":
+                    order_general_status = 'Ready'
+                    flighpath1 = FlightPath.objects.get(pk=request.session['flighpath1_id'])
+                    flighpath1.status=True
+                    flighpath1.save()
+                    flightpath_customer1 = FlightPath.objects.create(start_location = address_restaurant,end_location = address_customer,drone = Drone.objects.get(pk=request.session['drone1id']),battery_usage = second_distance*0.5,status=False)
+                    request.session['flighpath1_id'] = flightpath_customer1.path_id
+                    flightpath_customer1.save()
+                    flighpath2 = FlightPath.objects.get(pk=request.session['flighpath2_id'])
+                    flighpath2.status=True
+                    flighpath2.save()
+                    flightpath_customer2 = FlightPath.objects.create(start_location = address_restaurant,end_location = address_customer,drone = Drone.objects.get(pk=request.session['drone2id']),battery_usage = second_distance*0.5,status=False)
+                    request.session['flighpath2_id'] = flightpath_customer2.path_id
+                    flightpath_customer2.save()
+                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,"order_general_id":order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
+                elif order_general_object.status == "Delivering":
+                    order_general_status = 'Delivering'
+                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,"order_general_id":order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
+                else:
+                    order_general_status = 'Delivered'
+                    # drone 1
+                    chargingstations = ChargingStation.objects.all()
+                    min_distance = float('inf')
+                    nearest_station = None
+                    for chargingstation in chargingstations:
+                        numberdrone = ChargingStationStatus.objects.filter(station=chargingstation,status = True).count()
+                        if numberdrone < 10:
+                            # Geocode the charging station location
+                            location_charging = geolocator.geocode(chargingstation.location)
+                            # Calculate the distance to the restaurant
+                            distance = geodesic((location_charging.latitude, location_charging.longitude), (location_customer.latitude, location_customer.longitude)).kilometers
+                            if distance < min_distance:
+                                min_distance = distance
+                                nearest_station = chargingstation
+                    chargingstationstatus = ChargingStationStatus.objects.create(drone=Drone.objects.get(pk=request.session['drone1id']),station=nearest_station,status=True)
+                    chargingstationstatus.save()
+                    flighpath_customer1= FlightPath.objects.get(pk=request.session['flighpath1_id'])
+                    flighpath_customer1.status=True
+                    flighpath_customer1.save()
+                    flighpath_charging1 = FlightPath.objects.create(start_location = address_customer,end_location = nearest_station.location,drone = Drone.objects.get(pk=request.session['drone1id']),battery_usage = third_distance*0.5,status=False)
+                    flighpath_charging1.save()
+                    Drone.objects.get(pk=request.session['drone1id']).battery_level = 100
+                    Drone.objects.get(pk=request.session['drone1id']).save()  
+                    # drone 2
+                    chargingstations = ChargingStation.objects.all()
+                    min_distance = float('inf')
+                    nearest_station2 = None
+                    for chargingstation in chargingstations:
+                        numberdrone = ChargingStationStatus.objects.filter(station=chargingstation,status = True).count()
+                        if numberdrone < 10:
+                            # Geocode the charging station location
+                            location_charging = geolocator.geocode(chargingstation.location)
+                            # Calculate the distance to the restaurant
+                            distance = geodesic((location_charging.latitude, location_charging.longitude), (location_customer.latitude, location_customer.longitude)).kilometers
+                            if distance < min_distance:
+                                min_distance = distance
+                                nearest_station2 = chargingstation
+                    chargingstationstatus = ChargingStationStatus.objects.create(drone=Drone.objects.get(pk=request.session['drone2id']),station=nearest_station2,status=True)
+                    chargingstationstatus.save()
+                    flightpath_customer2= FlightPath.objects.get(pk=request.session['flighpath2_id'])
+                    flightpath_customer2.status=True
+                    flightpath_customer2.save()
+                    flighpath_charging2 = FlightPath.objects.create(start_location = address_customer,end_location = nearest_station2.location,drone = Drone.objects.get(pk=request.session['drone2id']),battery_usage = third_distance*0.5,status=False)
+                    flighpath_charging2.save()
+                    Drone.objects.get(pk=request.session['drone2id']).battery_level = 100
+                    Drone.objects.get(pk=request.session['drone2id']).save()
+                    request.session.clear()                  
+                    return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,'order_general_id':order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
         else:
             numberdrone_status = False
             m = folium.Map(location=[-37.8136, 144.9631], zoom_start=14)
@@ -969,3 +1045,55 @@ def rordertracking(request, id):
     }
 
     return render(request, 'Res-order-tracking.html', {'id': id, 'number': number, 'order_tracking': order_tracking})
+def adminsignin(request):
+    if request.method == "POST":
+        username = request.POST.get('email')
+        password = request.POST.get('password')
+        admin = Admin.objects.filter(username=username).first()
+        if admin is not None:
+            if admin.password == password:
+                return redirect('Admin-dashboard')
+            else:
+                messages.info(request,"Invalid credentials")
+                return redirect('Admin-signin')
+        else:
+            messages.info(request,"Invalid credentials")
+            return redirect('Admin-signin')        
+    else:
+        return render(request, 'Admin-signin.html')
+
+def admindashboard(request):
+    if request.method == 'POST':
+        flightpath_id = request.POST.get('flightpath_id')
+        print('*'*80)
+        print(flightpath_id)
+        flightpath = FlightPath.objects.get(path_id=flightpath_id)
+        flightpath.status = True
+        flightpath.save()
+        drone = flightpath.drone
+        drone.battery_level = 100
+        drone.save()
+    geolocator = Nominatim(user_agent="YourAppName")
+    flightpaths = FlightPath.objects.filter(status=False)
+    m = folium.Map(location=[-37.8086,145.0539], zoom_start=14)
+    dashboard_list={}
+    for flightpath in flightpaths:
+        flightpath_id = flightpath.path_id
+        start_location = flightpath.start_location
+        end_location = flightpath.end_location
+        battery_usage = flightpath.battery_usage
+        droneid = flightpath.drone.drone_id
+        encoded_startlocation = geolocator.geocode(start_location)
+        encoded_endlocation = geolocator.geocode(end_location)
+        if flightpath_id in dashboard_list:
+            dashboard_list[flightpath_id].append({'start_location':start_location,'end_location':end_location,'battery_usage':battery_usage,'droneid':droneid})
+        else:
+            dashboard_list[flightpath_id] = [{'start_location':start_location,'end_location':end_location,'battery_usage':battery_usage,'droneid':droneid}]
+        folium.Marker([encoded_startlocation.latitude, encoded_startlocation.longitude], popup=start_location).add_to(m)
+        folium.Marker([encoded_endlocation.latitude, encoded_endlocation.longitude], popup=end_location).add_to(m)
+        client = openrouteservice.Client(key='5b3ce3597851110001cf62481f738855150c49b3b8e6addabb1c3f67')
+        coords = ((encoded_startlocation.longitude, encoded_startlocation.latitude), (encoded_endlocation.longitude, encoded_endlocation.latitude))
+        route = client.directions(coordinates=coords, profile='foot-hiking', format='geojson')
+        folium.plugins.AntPath(locations=[(coord[1], coord[0]) for coord in route['features'][0]['geometry']['coordinates']]).add_to(m)
+    m = m._repr_html_()
+    return render(request, 'Admin-dashboard.html', {'map': m,'dashboard_list':dashboard_list})

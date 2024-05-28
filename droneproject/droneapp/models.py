@@ -3,6 +3,9 @@ from django.db import models
 # Add the missing import statement for DecimalField
 from django.db.models import DecimalField
 
+class Admin(models.Model):
+    username = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
 class ChargingStation(models.Model):
     station_id = models.AutoField(primary_key=True)
     location = models.CharField(max_length=255)
@@ -17,6 +20,7 @@ class FlightPath(models.Model):
     end_location = models.CharField(max_length=255)
     battery_usage = models.IntegerField()
     drone = models.ForeignKey(Drone, on_delete=models.DO_NOTHING)
+    status = models.BooleanField(default=True)
 
 
 class ChargingStationStatus(models.Model):
