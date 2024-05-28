@@ -73,37 +73,32 @@
                 </div>
             </div>
             </div>
+
     <!-- Payment Info -->
     {% for payment in payments %}
-    <div class="bg-orange-200 p-4 rounded-lg mx-10">
-         <div class="my-2 mx-2 flex items-center justify-between">
-             <div>
-             <span class="text-xl">Credit &amp; Debit Cards</span>
-             </div>
-             <div class="flex items-center space-x-4">
-                 <img class="h-5" src="{% static 'img/logo-visa.png' %}" alt="Visa Logo">
-                 <img class="h-8" src="{% static 'img/logo-mastercard.png' %}" alt="Mastercard Logo">
-             </div>
-         </div>
-         <section class="bg-gray-100 p-6 shadow-md mx-10">
-          <div class="flex items-center justify-between mb-4">
-              <div class="flex items-center space-x-4">
-                  <div class="mr-10">
-                  <img alt="Placeholder image for a credit card" class="rounded-lg" height="300" src="{% static 'img/card.png' %}" width="200"/>>
-                      <div class="font-semibold text-gray-900">
-                          Master Card
-                      </div>
-                          <div class="text-sm text-gray-500">
-                              <p>{{ payment.card_number }}</p>
-                          </div>
-                          <div class="flex justify-between items-center">
-                          </div>
-                  </div>
-              </div>
-          </div>
-          </section>
-     </div>
-     {% endfor %}
+    <div class="w-3/4 pl-4">
+        <!-- Card -->
+        <section class="bg-orange-200 p-6 rounded-lg mt-10 mx-10">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-4">
+                    <div class="mr-10">
+                    <img alt="Placeholder image for a credit card" class="rounded-lg" height="300" src="{% static 'img/card.png' %}" width="200"/>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-gray-900">
+                            Master Card
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <p>{{ payment.card_number }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    </div>
+    </div>
+    {% endfor %}
 
 </body>
 <script src="{% static 'UserNavigation.js' %}"></script>
