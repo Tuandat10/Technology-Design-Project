@@ -1,22 +1,31 @@
-How can our project work
-Our project is using drone to diliver food from restaurant to customer address.
-At first, you will need to clone source code from github to your local machine. Then open the visual studio code, and drag the folder technology-design-project to visual studio code. Then open Terminal and cd droneproject.
-At that time, you are standing at droneproject. run the command: python manage.py runserver. After you run server, access this url: http://localhost:8000/
-After that, you will create your account (or we can use the default account: trangeupadi123@gmail.com with the password is 123123). After you create your account, your information will be saved in the database
-After that, you will access the home page, you can walk around and see what our page can do
-Main function:
-For prototype, we will use: customer_username: trangeupadi123@gmail.com, password: 123123, restaurant_username: taco@gmail.com, password: 123456
-In each food, you will see the plus icon, click to them to choose a food. REMEMBER THE CONSTRAINT OF OUR PROJECT IS WE JUST CHOOSE THE FOOD FROM ONE CUSTOMER PER ORDER (idealy, choose food from taco). So you should go to restaurant to choose the food.
-After you finish choosing food, click to cart, to go to further steps
-After you finish in payment success, click to track order, to view the map. The map will update based on the restaurant side. REMEMBER YOU MUST ONLY CLICK REFRESH OR F5 TO UPDATE THE MAP, DO NOT CLICK TO THE URL AND PRESS ENTER SINCE THE MAP PAGE IS SHOWING 
-THANKS TO THE FORM SEND IN PAYMENT SUCCESS
-Moving to restaurant sites, you must choose sign in to the restaurant you have order (taco). Then after you click confirm the order to ready, you can move to the map page in customer side and press refresh or f5 to see the update of the map. Then click to delivering
-the map will update. And after you click delivered in restaurant side, the map page in customer side will updated to successfully ordered. 
-SOME LOGIC IN THIS PROJECT:
-1. when customer successfully order, the system will find the nearest charging station of restaurant, and then it will find the available drone in this charging station (the drone which has the highest battery), if there is no drone in the nearest station, it will
-change the station, to find suitable drones.
-2. After the restaurant make the food ready to deliver, the drone will head to the restaurant, and in the customer side, the map will be updated (the process and the flight path)
-3. After the food is delivered, the drone will find the nearest charging location and check whether this charging station has available slot, if there is no any slot, it will find the second - nearest charging station and check whether these charging station has available slot, and it will repeat after drone find the suitable one
-4. The maximum weight of food that one drone can take is 10 kg. If the weight of food is between 10 and 20, there are two drones will take the food. If the weight of food is larger than 20, the error will show.
-5. The drone uses 1% of their battery for 2 km they travel.
-6. After the drone finish delivering, and finding the charging station, the battery will be charge to be 100 again.
+# Short Introduction
+This project is created to meet the Technological Design Project Unit in Sem 1 2024. Our project group has four members, with Ha Trang Nguyen is a team leader. The project is how to create the food web application focusing on the logic to generate routing from places to places. 
+# How to deploy the code
+## The environment need to be deployed
+1. Folium (pip install folium)
+2. Geopy (pip install Geopy)
+3. Openrouteservice (pip install openrouteservice)
+
+## Step by step to deploy code
+1. Open the folder droneproject in Technology-Design-Project in Visual Studio Code
+2. Open Terminal
+3. Run the command: python manage.py runserver
+
+### Customer side
+1. Access the Customer UI by this url: localhost:8000. The user will access to the login page. At this stage the user can create a new account or you the existing one that team has created before (username: trangeupadi123@gmail.com password: 123123)
+2. After login, user will access home page, at this stage, the user can click the food they want, or they can click to restaurant and choose food from restaurant page. At this stage we recommend the tutor to choose food from taco restaurant since in the restaurant side we will provide you an account of taco restaurant. PAY ATTENTION because of project's limitation so the user just only choose food from one restaurant each order otherwise, the user will get error in further steps.
+3. After choosing all food, user can click to the basket on the top right of the screen, and user will access to the Cart page, and at this stage user just need to confirm and click next to further steps.
+4. At the final step, when user click to track order, user will access to track page. Because all the logic is in this page so in further steps when the restaurant update any status of the order, we need to refresh the page so the logic will be run. PAY ATTENTION the user must need to click refresh (f5) instead of enter the url again because it will cause errors.
+
+### Restaurant side
+1. Access the the Restaurant UI by this url: http://localhost:8000/rsignin/ . The user will access to the login page. At this stage the user can create a new account but we do not recommend this, instead using this account to sign in: username: taco@gmail.com, password: 123456
+2. After login, user will access dashboard restaurant page, and we just need to focus on the bar in the middle top of the page including 5 sections: New Order, Preparing, Ready, Delivering, Tracking order. After finish step 3 in Customer side, the New Order section in Restaurant UI will appear (changing from 0 to 1).
+3. Restaurant user should go to each section and click the button in each section. But remember after clicking button in each section, tutor need to get back to track order page in customer side (do not close the track page since if the user close it, they cannot access the track page anymore but need to create a new order) and click refresh (f5) so the code in this page can run and it will update the tracking progress in Customer UI.
+4. In Ready section, when Restaurant user go to this section, the path in Customer UI will change the route from restaurant to customer delivery address.
+5. There is Tracking order section that helps Restaurant user track all the orders they get from customers.
+
+### Admin side
+1. Access the Admin UI by this url: http://localhost:8000/adminsignin/ . The user will access to the admin login page. At this stage, the user just only have an option to sign in by this account: username: admin, password: admin123
+2. After loging, Admin user will access to admindashboard page, and in this page, admin can observer every drone on their way to destinations, admin have a permission to cancel any drone and make them to go to the charge station immediately.
+
+ 

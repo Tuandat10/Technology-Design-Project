@@ -120,7 +120,7 @@ def PaymentSuccess(request,id):
         return render(request,"Payment-success.html",{'id':id})
 def Delivery(request,id):
     if request.method == "POST":
-        request.session.clear()             
+        # request.session.clear()            
         geolocator = Nominatim(user_agent="YourAppName",timeout=5)
         address_customer = request.POST.get('address_customer')
         address_restaurant = request.POST.get('address_restaurant')
@@ -242,6 +242,8 @@ def Delivery(request,id):
                 m = m._repr_html_() 
                 if order_general_object.status == "Ready":
                     order_general_status = 'Ready'
+                    print('*'*80)
+                    print(request.session['flighpath_id'])
                     flighpath = FlightPath.objects.get(pk=request.session['flighpath_id'])
                     flighpath.status=True
                     flighpath.save()
@@ -279,7 +281,7 @@ def Delivery(request,id):
                     request.session.clear()             
                     return render(request,"Delivery.html",{'id':id, 'map': m,'order_general_status':order_general_status,'order_general_id':order_general_id,'total_weight':total_weight,"numberdrone_status":numberdrone_status,"number_drone":number_drone})
         elif float(total_weight) > max_weight_perdrone and float(total_weight) <= 2*max_weight_perdrone:
-            request.session.clear()              
+            # request.session.clear()              
             number_drone = 2
             numberdrone_status = True
             # drone 1
