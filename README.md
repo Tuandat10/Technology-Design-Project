@@ -1,5 +1,5 @@
 # Short Introduction
-This project is created to meet the Technological Design Project Unit in Sem 1 2024. Our project group has four members, with Ha Trang Nguyen is a team leader. The project is how to create the food web application focusing on the logic to generate routing from places to places. 
+This project is created to meet the Technological Design Project Unit in Sem 1 2024. Our project group has four members, with Ha Trang Nguyen is the team leader. The project is how to create the food web application focusing on the logic to generate routing from places to places. 
 # How to deploy the code
 ## The environment need to be deployed
 1. Folium (pip install folium)
